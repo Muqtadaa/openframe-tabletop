@@ -14,3 +14,6 @@ tools/bench/fixtures/
 apps/web/.impeccable/
 # Local capture and measurement specs, excluded from git (see .git/info/exclude).
 **/zz-*
+
+# The project brief is kept exactly as supplied.
+docs/plans/openframe-tabletop-project-plan.md

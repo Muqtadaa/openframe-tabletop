@@ -33,6 +33,27 @@ Format: Status · Context · Decision · Alternatives considered · Consequences
 | [0021](0021-links-in-text.md)                           | **A link is a span's target, not a mark**                           | Accepted           |
 | [0022](0022-ai-summaries.md)                            | **An AI summary is a text box that cites its notes**                | Accepted           |
 
+## Tabletop decisions
+
+Records written for OpenFrame Tabletop. The numbered records above remain the OpenFrame record
+and still bind where Tabletop has not superseded them. Direction records fix the decision and name
+the phase that finalises it.
+
+| #                                                     | Decision                                                               | Status                   |
+| ----------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------ |
+| [T001](T001-game-to-scene-persistence.md)             | A Game is a catalogue; each Scene is its own document                  | Accepted (direction)     |
+| [T002](T002-actor-and-token.md)                       | An Actor is persistent data; a Token points at one                     | Accepted (direction)     |
+| [T003](T003-game-system-contract.md)                  | A Game System is the smallest contract the first system needs          | Accepted (direction)     |
+| [T004](T004-player-secrecy-and-state-filtering.md)    | Secrecy is a data boundary: partition by audience                      | Accepted (direction)     |
+| [T005](T005-grid-and-measurement.md)                  | One grid abstraction in core geometry                                  | Accepted (direction)     |
+| [T006](T006-vision-architecture.md)                   | Vision: vocabulary now, representation in Phases 5 and 6               | Accepted (scoped stub)   |
+| [T007](T007-extension-isolation.md)                   | Extensions: a boundary not to foreclose                                | Accepted (boundary note) |
+| [T008](T008-package-boundaries.md)                    | `tabletop` and `system-srd5e` earn packages, later                     | Accepted                 |
+| [T009](T009-play-and-prep-shell.md)                   | Play and Prep are two postures of one application                      | Proposed (after `shape`) |
+| [T010](T010-application-theme-and-scene-content.md)   | Application theme and Scene content are separate token spaces          | Accepted                 |
+| [T011](T011-game-and-scene-collaboration-topology.md) | One room per audience tier, admitted by ticket                         | Accepted (direction)     |
+| [T012](T012-system-and-content-provenance.md)         | Rules code and content are separate; every content file has provenance | Accepted                 |
+
 ## Writing a new one
 
 Copy the structure of an existing record. Keep it short — an ADR that is not read

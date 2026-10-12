@@ -245,6 +245,10 @@ states), in that order, fixed in one batch. `polish` only if the concept is alre
 
 ## Actuals
 
-<!-- ACTUALS -->
-
-_Not yet updated._
+| WP          | Status      | Notes                                                                                            |
+| ----------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| 0.1         | Done (G0)   | `main` = `8eb19c5`, 782 commits, pushed without force                                            |
+| 0.2         | Done (G1)   | `verify` green; two sandbox-environmental e2e failures, triaged in [00 · §P](00-source-audit.md) |
+| 0.3         | Done (G2a)  | brief, audit and this document committed                                                         |
+| 0.4         | Done (G2)   | T001 – T012 written; T009 stays Proposed until WP 0.12                                           |
+| 0.5 onwards | Not started |                                                                                                  |

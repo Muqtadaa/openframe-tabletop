@@ -290,10 +290,60 @@ pnpm bench:fixtures && pnpm bench:cull && pnpm bench:mcp && pnpm test:bench
 pnpm bench:bundle --check
 ```
 
-Measured baseline: see the table at the end of this section, filled in from the run at
-`8eb19c5`.
+### Measured baseline at `8eb19c5` (2026-10-12)
 
-<!-- BASELINE-TABLE -->
+Environment: Linux x86_64 sandbox, node v22.22.0, pnpm 10.33.0, TypeScript 6.0.3. Playwright was
+pointed at the pre-installed Chromium 1194 with `OPENFRAME_CHROMIUM_PATH=/opt/pw-browsers/chromium`
+(its own managed build, 1243, is not installed). Firefox and WebKit are **not installed** here.
+
+| Check                                 | Result                                                                                                |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `pnpm install --frozen-lockfile`      | 10.7 s                                                                                                |
+| `pnpm verify`                         | **green**, 3 m 53 s                                                                                   |
+| Unit and integration tests            | core 1,342 (58 files) · collab 128 (16) · rooms 219 (15) · mcp 125 (13) · web 1,954 (138) = **3,768** |
+| `bench:bundle --check` (gzip, budget) | front door 164.2 kB (170) · board 265.8 kB (270) · shared board 294.4 kB (300)                        |
+| `pnpm test:bench` (renderer probe)    | passed; DOM nodes stay flat from 100 to 10,000 objects (35 → 54 sticky-only, 18 → 66 mixed)           |
+| Rooms suite (`pnpm test:rooms`)       | 67 of 68 passed (8.9 min). The one failure is a load-sensitive timeout, see below                     |
+| Chromium end-to-end (`pnpm test:e2e`) | 911 of 912 passed (22 min). One failure, see below                                                    |
+
+`pnpm bench:cull` (cull pass, ms):
+
+| Board             | Objects | Cull | Without groups | 200 lookups |
+| ----------------- | ------- | ---- | -------------- | ----------- |
+| board-1000        | 1,000   | 0.12 | 0.06           | 0.24        |
+| board-10000       | 10,000  | 0.34 | 0.40           | 0.40        |
+| board-mixed-1000  | 1,225   | 0.94 | 0.43           | 0.23        |
+| board-mixed-10000 | 12,250  | 5.24 | 3.81           | 0.80        |
+
+`pnpm bench:mcp` on `board-mixed-10000` (ms, map copies). These are the figures WP 0.7's replacement
+bench must reproduce for the copy counts:
+
+| Case                                    | ms                 | Map copies |
+| --------------------------------------- | ------------------ | ---------- |
+| 200 commands, one transaction           | 30.84              | 3          |
+| One command of 200 (control)            | 5.44               | 3          |
+| That batch arriving remotely (peer)     | 6.66               | 4          |
+| Reads (first page, cursor page, 50 ids) | 1.51 / 1.04 / 0.11 | 0          |
+| Search (common word, no match)          | 3.10 / 2.70        | 0          |
+
+**Failures, triaged**
+
+1. `e2e-rooms/shared-board.spec.ts:393` ("will not let two people edit the same note at once"):
+   60 s timeout opening a note editor while other work was running on the machine. **Passes alone in
+   5.4 s.** Load-sensitive, environmental.
+2. `e2e/home.spec.ts:145` ("sits at the end of the head, clear of the account, at phone width too"):
+   the theme toggle's box overlaps the account control at phone width. **Reproduces alone,** so it
+   is not load. Upstream CI succeeded on this exact commit (run 767 of `ci.yml`), so it passes
+   there. The interface uses system fonts only, and this sandbox resolves the system face to Inter,
+   so text widths very likely differ from CI's. That explanation is likely but **not proven**.
+   Left as is; revisit when the front door is rebuilt (WP 0.13), where this spec is replaced or
+   rewritten.
+
+**Not run in this environment:** Firefox and WebKit (`pnpm test:e2e:smoke`, not installed); the
+visual-golden project; the nightly full three-engine matrix. These stay CI concerns.
+
+Test counts here are higher than the earlier inspection's file-based estimates (for example core
+1,342 against about 856), because those counted `it` calls by pattern.
 
 ## Q. Risks and unresolved decisions
 

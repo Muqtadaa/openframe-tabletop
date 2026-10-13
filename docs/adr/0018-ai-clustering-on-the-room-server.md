@@ -1,5 +1,10 @@
 # ADR 0018 · AI clustering runs on the room server, and proposes copies
 
+**Superseded for OpenFrame Tabletop** · 2026-10-12 (Phase 0, WP 0.6). The code this
+record describes was removed: AI is not part of the Tabletop product
+(`docs/plans/openframe-tabletop-project-plan.md`, section 6). The record stays as
+the OpenFrame history.
+
 **Status:** Accepted · 2026-10-05 · built in PR E (#67). The owner accepted it,
 including that the selected notes' text is sent to Anthropic. Cites ADR 0016.
 Switching it on: [enabling facilitation](../operations/enabling-facilitation.md).

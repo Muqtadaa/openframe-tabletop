@@ -13,7 +13,6 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.131.0",
     "@openframe/collab": "workspace:*",
     "@openframe/core": "workspace:*"
   },

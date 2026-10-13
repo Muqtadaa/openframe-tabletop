@@ -9,7 +9,6 @@ import {
 } from 'react'
 
 import { inVoteScope, type VoteScope } from '@openframe/core'
-import { MIN_CLUSTER_NOTES, MIN_SUMMARY_NOTES } from '@openframe/core/ai'
 
 import { AnchoredSurface } from '../controls/AnchoredSurface.js'
 import { useEscapeToClose } from '../controls/escape-stack.js'
@@ -21,10 +20,7 @@ import { useCommands, type PasteAs } from '../hooks/use-commands.js'
 import { useExport } from '../hooks/use-export.js'
 import { useMe } from '../hooks/use-me.js'
 import { useVoteRound } from '../hooks/use-voting.js'
-import { clusterableCount } from '../app/ai-cluster.js'
-import { summarisableCount } from '../app/ai-summary.js'
 import { useOpenFrame } from '../runtime/context.js'
-import { useServices } from '../runtime/services.js'
 import { useInteractionStore, type ContextMenuAt } from '../interaction/interaction-store.js'
 import { writeSystemClipboard, type ClipboardPayload } from '../interaction/clipboard-format.js'
 import { ariaKeys, formatKeys } from '../interaction/keymap.js'
@@ -97,7 +93,6 @@ export function ContextMenu() {
   const me = useMe()
   const round = useVoteRound()
   const canEdit = useCanEdit()
-  const ai = useServices().ai
   const { runtime } = useOpenFrame()
   /*
    * Followed while the menu is open, since another person can hide or show
@@ -452,39 +447,6 @@ export function ContextMenu() {
     ...(startVoting.length === 0 ? [] : [startVoting]),
   ]
 
-  /*
-   * Clustering and summarising with AI: offered where they can act — a room
-   * server that has the AI, a board this person may change, and enough notes
-   * with something to say. Whether they are signed in is said by the panel
-   * each opens, which can also say why AI needs an account; a greyed row could
-   * say neither. A summary also takes a frame, standing for what is in it.
-   */
-  const aiReady = ai.enabled && canEdit
-  const clusterItems =
-    aiReady &&
-    clusterableCount(runtime.store.getDocument(), runtime.registry, selected) >= MIN_CLUSTER_NOTES
-      ? [
-          {
-            label: 'Cluster with AI…',
-            run: () => {
-              useInteractionStore.getState().openClusterReview(selected)
-            },
-          },
-        ]
-      : []
-  const summaryItems =
-    aiReady &&
-    summarisableCount(runtime.store.getDocument(), runtime.registry, selected) >= MIN_SUMMARY_NOTES
-      ? [
-          {
-            label: 'Summarise with AI…',
-            run: () => {
-              useInteractionStore.getState().openSummaryReview(selected)
-            },
-          },
-        ]
-      : []
-
   const selectionGroups: Group[] = [
     /*
      * FIRST, because they are what this product is for: turning a note into
@@ -503,8 +465,6 @@ export function ContextMenu() {
           commands.derive(derivation.type, derivation.predicate)
         },
       })),
-      ...clusterItems,
-      ...summaryItems,
       /*
        * "Promote", not "Convert": the note turns out to have BEEN evidence.
        * One entry however many a type offers — flat, the third target pushed

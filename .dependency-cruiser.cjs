@@ -72,14 +72,20 @@ module.exports = {
       to: { path: '^@supabase($|/)|node_modules/@supabase/' },
     },
     {
-      name: 'anthropic-sdk-lives-only-in-rooms',
+      name: 'no-llm-sdk',
       severity: 'error',
       comment:
-        'The Claude API key is a worker secret and must never reach a browser (ADR 0018). The ' +
-        'SDK lives in the rooms worker’s AI folder, so a component that imports it cannot be ' +
-        'written, and the web build cannot bundle a client that would want a key.',
-      from: { pathNot: '^apps/rooms/src/ai/' },
-      to: { path: '^@anthropic-ai($|/)|node_modules/@anthropic-ai/' },
+        'AI is not part of OpenFrame Tabletop, and no code asks a language model for anything ' +
+        '(docs/plans/00-source-audit.md, section G). The rule is broad on purpose: the structure ' +
+        'stays friendly to future automation, but an SDK arriving before a product needs one ' +
+        'is the infrastructure the brief rules out. Matching the specifier as well as ' +
+        'node_modules, because an SDK nobody installed leaves the import unresolved.',
+      from: {},
+      to: {
+        path:
+          '^(@anthropic-ai|openai|@google/generative-ai|@google/genai|@mistralai|cohere-ai|ollama|@langchain|langchain|ai)($|/)' +
+          '|node_modules/(@anthropic-ai|openai|@google/generative-ai|@google/genai|@mistralai|cohere-ai|ollama|@langchain|langchain|ai)/',
+      },
     },
     {
       name: 'collab-does-not-depend-on-apps',

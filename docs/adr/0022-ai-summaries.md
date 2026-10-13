@@ -1,5 +1,10 @@
 # ADR 0022 · An AI summary is a text box that cites its notes
 
+**Superseded for OpenFrame Tabletop** · 2026-10-12 (Phase 0, WP 0.6). The code this
+record describes was removed: AI is not part of the Tabletop product
+(`docs/plans/openframe-tabletop-project-plan.md`, section 6). The record stays as
+the OpenFrame history.
+
 **Status:** Accepted · 2026-10-09. The owner chose the scope (a selection or a
 frame), the output (a text box with a heading) and the citations (linked on
 the board). Builds on ADR 0018 and answers its "a second AI feature arrives"

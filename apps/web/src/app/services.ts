@@ -2,7 +2,6 @@ import type { BoardId, BoardRepository } from '@openframe/core'
 
 import { forgetCrdt } from '../adapters/indexeddb/crdt-store.js'
 import { indexedDbVersionStore } from '../adapters/indexeddb/version-store.js'
-import { createAiClient } from '../adapters/room/ai-client.js'
 import { createMusicClient } from '../adapters/room/music-client.js'
 import { createRoomClient } from '../adapters/room/room-client.js'
 import {
@@ -11,7 +10,7 @@ import {
   supabaseRemoteBoards,
   supabaseWorkspaces,
 } from '../adapters/supabase/services.js'
-import type { AiService, MusicService, RoomService, Services } from '../runtime/services.js'
+import type { MusicService, RoomService, Services } from '../runtime/services.js'
 import {
   deleteBoardEverywhere,
   forgetDeletedBoard,
@@ -51,13 +50,6 @@ const NO_MUSIC: MusicService = {
   trackUrl: () => '',
 }
 
-/** No room server, no AI: nothing offers to cluster or summarise. */
-const NO_AI: AiService = {
-  enabled: false,
-  cluster: () => Promise.resolve({ kind: 'refused', why: 'unconfigured' }),
-  summarise: () => Promise.resolve({ kind: 'refused', why: 'unconfigured' }),
-}
-
 /**
  * Wires the services the interface is given. The one place that knows which
  * adapter backs which port — built once in `main.tsx` and provided around
@@ -86,13 +78,6 @@ export function createServices(options: {
           base,
           fetch: options.fetch ?? ((input, init) => globalThis.fetch(input, init)),
         })
-  const ai =
-    base === null
-      ? NO_AI
-      : createAiClient({
-          base,
-          fetch: options.fetch ?? ((input, init) => globalThis.fetch(input, init)),
-        })
   const accounts = supabaseAccounts()
   const remoteBoards = supabaseRemoteBoards()
   const origin = options.origin ?? (() => window.location.origin)
@@ -115,7 +100,6 @@ export function createServices(options: {
     repository,
     rooms,
     music,
-    ai,
     accounts,
     remoteBoards,
     discussion: supabaseDiscussion(),

@@ -44,11 +44,6 @@ const VERSION_PATH = /^\/room\/([^/]+)\/versions\/([0-9]{16}-[0-9a-f]{8})\/?$/
 const CATALOGUE_PATH = /^\/music\/catalogue\/?$/
 const TRACK_PATH = /^\/music\/track\/([a-z0-9-]{1,48})\/?$/
 
-/** Themes for a set of notes, from Claude (ADR 0018). Names no board. */
-const AI_CLUSTER_PATH = /^\/ai\/cluster\/?$/
-/** A summary of a set of notes, from Claude (ADR 0022). Names no board. */
-const AI_SUMMARY_PATH = /^\/ai\/summary\/?$/
-
 /**
  * What an older client put in a socket's address: the link, the password
  * token and the owner's key. They travel in the connection's first message now
@@ -58,8 +53,6 @@ const CREDENTIAL_PARAMS = ['k', 't', 'o'] as const
 
 export type Route =
   | { readonly kind: 'health' }
-  | { readonly kind: 'ai-cluster' }
-  | { readonly kind: 'ai-summary' }
   /** A socket. Who it is comes in its first message, never its address. */
   | { readonly kind: 'room'; readonly boardId: string }
   /** Minting a board's keys — its two links and its owner key — once. */
@@ -143,18 +136,6 @@ export function routeRequest(url: URL, upgradeHeader: string | null, method = 'G
     if (method === 'OPTIONS') return { kind: 'preflight' }
     if (method !== 'POST') return { kind: 'refuse', status: 405, reason: `${name} is a POST` }
     return { kind, boardId }
-  }
-
-  if (AI_CLUSTER_PATH.test(url.pathname)) {
-    if (method === 'OPTIONS') return { kind: 'preflight' }
-    if (method !== 'POST') return { kind: 'refuse', status: 405, reason: 'Clustering is a POST' }
-    return { kind: 'ai-cluster' }
-  }
-
-  if (AI_SUMMARY_PATH.test(url.pathname)) {
-    if (method === 'OPTIONS') return { kind: 'preflight' }
-    if (method !== 'POST') return { kind: 'refuse', status: 405, reason: 'Summarising is a POST' }
-    return { kind: 'ai-summary' }
   }
 
   if (CATALOGUE_PATH.test(url.pathname)) {

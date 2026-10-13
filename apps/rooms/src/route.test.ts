@@ -299,36 +299,3 @@ describe('the music library', () => {
     expect(music('/music/track/UPPER')).toMatchObject({ kind: 'refuse', status: 404 })
   })
 })
-
-describe('asking the AI to cluster notes', () => {
-  const ai = (method: string, path = '/ai/cluster') =>
-    routeRequest(new URL(`https://r.dev${path}`), null, method)
-
-  it('is a POST, with or without a trailing slash, and names no room', () => {
-    expect(ai('POST')).toEqual({ kind: 'ai-cluster' })
-    expect(ai('POST', '/ai/cluster/')).toEqual({ kind: 'ai-cluster' })
-  })
-
-  it('answers the preflight the bearer header forces', () => {
-    expect(ai('OPTIONS')).toEqual({ kind: 'preflight' })
-  })
-
-  it('refuses any other method', () => {
-    expect(ai('GET')).toEqual({ kind: 'refuse', status: 405, reason: 'Clustering is a POST' })
-  })
-})
-
-describe('asking the AI to summarise notes', () => {
-  const ai = (method: string, path = '/ai/summary') =>
-    routeRequest(new URL(`https://r.dev${path}`), null, method)
-
-  it('is a POST, with or without a trailing slash, and names no room', () => {
-    expect(ai('POST')).toEqual({ kind: 'ai-summary' })
-    expect(ai('POST', '/ai/summary/')).toEqual({ kind: 'ai-summary' })
-  })
-
-  it('answers the preflight and refuses any other method', () => {
-    expect(ai('OPTIONS')).toEqual({ kind: 'preflight' })
-    expect(ai('GET')).toEqual({ kind: 'refuse', status: 405, reason: 'Summarising is a POST' })
-  })
-})

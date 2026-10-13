@@ -232,6 +232,9 @@ record for each in its own storage.
 
 ## AI clustering and summaries (`/ai/cluster`, `/ai/summary`)
 
+> **Removed in OpenFrame Tabletop (WP 0.6).** The routes, the quota object and the
+> SDK are gone; this section describes OpenFrame at `8eb19c5`.
+
 [ADR 0018](../adr/0018-ai-clustering-on-the-room-server.md),
 [ADR 0022](../adr/0022-ai-summaries.md). Both routes run one handler,
 generalised over the feature, so everything below holds for each.

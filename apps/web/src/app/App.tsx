@@ -37,12 +37,6 @@ import { versionPreview } from './version-preview.js'
  * (audit 2026-10-08). Gated here on the store, so a closed one costs neither
  * a download nor, for the overview, a subscription to the whole document.
  */
-const ClusterReview = lazy(() =>
-  import('../ui/ClusterReview.js').then((module) => ({ default: module.ClusterReview })),
-)
-const SummaryReview = lazy(() =>
-  import('../ui/SummaryReview.js').then((module) => ({ default: module.SummaryReview })),
-)
 const BoardOverview = lazy(() =>
   import('../ui/BoardOverview.js').then((module) => ({ default: module.BoardOverview })),
 )
@@ -51,8 +45,6 @@ export function App() {
   const { runtime } = useOpenFrame()
   const context = useContext(OpenFrameContext)
   const preview = useSyncExternalStore(versionPreview.subscribe, versionPreview.get)
-  const clusterOpen = useInteractionStore((state) => state.clusterReview !== null)
-  const summaryOpen = useInteractionStore((state) => state.summaryReview !== null)
   const overviewOpen = useInteractionStore((state) => state.overviewOpen)
   /*
    * A board this build could not read has nothing on it to work on, so it
@@ -147,16 +139,6 @@ export function App() {
           <NoticeBanner notices={runtime.notices} />
           <FollowingBar />
           <VotingBanner />
-          {clusterOpen && (
-            <Suspense fallback={null}>
-              <ClusterReview />
-            </Suspense>
-          )}
-          {summaryOpen && (
-            <Suspense fallback={null}>
-              <SummaryReview />
-            </Suspense>
-          )}
           <Toast />
         </div>
 

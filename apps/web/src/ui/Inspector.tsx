@@ -171,10 +171,6 @@ export function Inspector() {
   const dragKind = useInteractionStore((state) => state.drag.kind)
   const editingId = useInteractionStore((state) => state.editingId)
   const croppingId = useInteractionStore((state) => state.croppingId)
-  // Either AI sheet sits where the panel would, and is about the same notes.
-  const clustering = useInteractionStore(
-    (state) => state.clusterReview !== null || state.summaryReview !== null,
-  )
   const setCropping = useInteractionStore((state) => state.setCropping)
   const commands = useCommands()
   /*
@@ -474,9 +470,6 @@ export function Inspector() {
   // pointer is worse than no panel.
   if (objects.length === 0 || bounds === null) return null
   if (dragKind !== 'idle' || editingId !== null) return null
-  // Clustering has the selection: the panel would describe notes being
-  // grouped elsewhere, and lie over them.
-  if (clustering) return null
   if (objects.some((object) => object.locked)) return null
   // A type with fields or a trail but no style properties still has a panel
   // worth showing; one with none of the three has nothing to say.

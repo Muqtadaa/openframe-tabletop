@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { createTestHarness, type TestHarness } from '../testing.js'
+import { createFixtureHarness, type TestHarness } from '../testing.js'
 import { richFromPlain } from './rich-text.js'
 import { parseQuery, searchBoard } from './search.js'
 
@@ -25,8 +25,8 @@ describe('parsing a query', () => {
   })
 
   it('reads the two structured filters', () => {
-    expect(parseQuery('type:evidence tag:pricing')).toEqual([
-      { kind: 'type', value: 'evidence' },
+    expect(parseQuery('type:fixture-source tag:pricing')).toEqual([
+      { kind: 'type', value: 'fixture-source' },
       { kind: 'tag', value: 'pricing' },
     ])
   })
@@ -54,15 +54,15 @@ describe('parsing a query', () => {
 describe('searching a board', () => {
   let h: TestHarness
   beforeEach(() => {
-    h = createTestHarness()
+    h = createFixtureHarness()
     make(h, 'sticky', { text: richFromPlain('Customers do not understand pricing') })
-    make(h, 'evidence', {
+    make(h, 'fixture-source', {
       text: richFromPlain('Could not find the price'),
       source: 'September usability study',
       participant: 'P07',
       tags: ['pricing', 'comprehension'],
     })
-    make(h, 'insight', {
+    make(h, 'fixture-claim', {
       text: richFromPlain('Pricing is not discoverable'),
       confidence: 'high',
     })
@@ -92,8 +92,8 @@ describe('searching a board', () => {
   })
 
   it('filters by type', () => {
-    expect(find(h, 'type:evidence')).toEqual(['Could not find the price'])
-    expect(find(h, 'type:insight pricing')).toEqual(['Pricing is not discoverable'])
+    expect(find(h, 'type:fixture-source')).toEqual(['Could not find the price'])
+    expect(find(h, 'type:fixture-claim pricing')).toEqual(['Pricing is not discoverable'])
   })
 
   it('filters by tag, and only on a real tag', () => {
@@ -115,7 +115,7 @@ describe('searching a board', () => {
 
   it('skips hidden objects', () => {
     const doc = h.store.getDocument()
-    const id = [...doc.objects.values()].find((o) => o.type === 'insight')?.id
+    const id = [...doc.objects.values()].find((o) => o.type === 'fixture-claim')?.id
     expect(id).toBeDefined()
     if (id === undefined) return
     h.dispatcher.dispatch({ kind: 'SetHidden', ids: [id], hidden: true })

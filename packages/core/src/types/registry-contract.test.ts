@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { asObjectId, asOrderKey } from '../domain/ids.js'
 import type { AnyOpenFrameObject } from '../domain/object.js'
 import { COLOR_TOKENS, STYLE_PROPS } from '../domain/object.js'
+import { createFixtureRegistry } from '../testing-fixtures.js'
 import { createDefaultRegistry } from './index.js'
 
 /**
@@ -17,6 +18,9 @@ import { createDefaultRegistry } from './index.js'
 describe('object type registry contract', () => {
   const registry = createDefaultRegistry()
   const definitions = registry.list()
+  // The test-only types that exercise promotion, derivation and record fields.
+  const fixtures = createFixtureRegistry()
+  const everything = [...definitions, ...fixtures.list()]
 
   it('registers exactly the expected set', () => {
     // Asserted explicitly rather than loosely: a type appearing or vanishing
@@ -24,24 +28,16 @@ describe('object type registry contract', () => {
     expect(definitions.map((d) => d.type).sort()).toEqual([
       'code',
       'connector',
-      'decision',
-      'evidence',
-      'experiment',
       'frame',
       'group',
-      'hypothesis',
       'image',
-      'insight',
-      'journey-stage',
       'poll',
       'poll-answer',
       'reaction',
       'relation',
-      'requirement',
       'shape',
       'sticky',
       'table',
-      'task',
       'text',
       'unknown',
       'vote',
@@ -60,12 +56,18 @@ describe('object type registry contract', () => {
    * trusted (rule 23), so this asserts a known declaration survives erasure.
    */
   it("carries a type's field declarations through erasure", () => {
-    const evidence = registry.get('evidence')
-    expect(evidence?.fields?.map((f) => f.key)).toEqual(['source', 'participant', 'tags'])
+    const source = fixtures.get('fixture-source')
+    expect(source?.fields?.map((f) => f.key)).toEqual(['source', 'participant', 'tags'])
     // Same trap, same guard: every optional member is copied one at a time in
     // `defineObjectType`, and forgetting one type checks perfectly.
-    expect(registry.get('sticky')?.promotions).toEqual(['evidence', 'insight', 'journey-stage'])
-    expect(registry.get('evidence')?.derivations).toEqual([{ type: 'insight', predicate: 'cites' }])
+    expect(fixtures.get('sticky')?.promotions).toEqual(['fixture-source', 'fixture-claim'])
+    expect(fixtures.get('fixture-source')?.derivations).toEqual([
+      { type: 'fixture-claim', predicate: 'cites' },
+    ])
+    // The product itself declares neither for a sticky note: the research types
+    // that used them are not shipped, and an empty menu is the honest answer.
+    expect(registry.get('sticky')?.promotions).toBeUndefined()
+    expect(registry.get('sticky')?.derivations).toBeUndefined()
     // A copy that lost these would paste lines attached to nothing and
     // pictures without their bytes, and every paste test would still pass on
     // the types that declare neither.
@@ -87,9 +89,9 @@ describe('object type registry contract', () => {
    * means nothing, which is worse than no relation.
    */
   it('derives only to types that exist, with a predicate that says something', () => {
-    for (const definition of definitions) {
+    for (const definition of everything) {
       for (const derivation of definition.derivations ?? []) {
-        const destination = registry.get(derivation.type)
+        const destination = fixtures.get(derivation.type)
         expect(
           destination,
           `${definition.type} derives to unregistered "${derivation.type}"`,
@@ -101,24 +103,23 @@ describe('object type registry contract', () => {
   })
 
   /**
-   * The synthesis spine the phase is defined by, asserted as a path rather than
-   * as six separate declarations: evidence → insight → hypothesis → experiment
-   * → decision → task. If a link is dropped, the story stops working and this
-   * is where it shows.
+   * A chain of derivations asserted as a path rather than as separate
+   * declarations. It used to be the research product's synthesis spine; the
+   * fixtures keep the same shape, so a dropped link still shows here.
    */
-  it('connects the whole synthesis spine', () => {
-    const spine = ['evidence', 'insight', 'hypothesis', 'experiment', 'decision', 'task']
+  it('connects a chain of derivations', () => {
+    const spine = ['fixture-source', 'fixture-claim', 'fixture-followup']
     for (const [index, from] of spine.slice(0, -1).entries()) {
       const next = spine[index + 1]
-      const offered = registry.get(from)?.derivations?.map((d) => d.type) ?? []
+      const offered = fixtures.get(from)?.derivations?.map((d) => d.type) ?? []
       expect(offered, `${from} cannot derive a ${String(next)}`).toContain(next)
     }
   })
 
   it('offers promotions only to types that exist and can be on the board', () => {
-    for (const definition of definitions) {
+    for (const definition of everything) {
       for (const target of definition.promotions ?? []) {
-        const destination = registry.get(target)
+        const destination = fixtures.get(target)
         expect(destination, `${definition.type} promotes to unregistered "${target}"`).toBeDefined()
         expect(destination?.capabilities.spatial).toBe(true)
       }

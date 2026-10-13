@@ -1052,8 +1052,8 @@ describe.each(THEMES.filter((theme) => theme.name !== 'default'))(
       const ring = /--of-slip-ring:([^;]*);/.exec(block)?.[1] ?? ''
       const edge = /0 0 0 1px var\(--of-([\w-]+)\)/.exec(ring)?.[1]
       expect(edge, 'the night slip ring names its hairline as a token').toBeDefined()
-      // And the ring is actually worn, by the note and by every typed slip.
-      for (const slip of ['of-sticky', 'of-slip']) {
+      // And the ring is actually worn, by the note.
+      for (const slip of ['of-sticky']) {
         const body = new RegExp(`\\.${slip}\\s*\\{([^}]*)\\}`).exec(CSS)?.[1] ?? ''
         expect(body, slip).toMatch(/box-shadow:[^;]*var\(--of-slip-ring\)/)
       }

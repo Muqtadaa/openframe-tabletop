@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { childrenOf } from '../domain/document.js'
 import { asObjectId, type ObjectId } from '../domain/ids.js'
-import { createTestHarness, type TestHarness } from '../testing.js'
+import { createFixtureHarness, type TestHarness } from '../testing.js'
 import type { Command } from './types.js'
 
 /**
@@ -41,7 +41,7 @@ const frameOf = (h: TestHarness, id: ObjectId) => h.store.getObject(id)?.frame
 
 describe('GroupObjects', () => {
   it('wraps the objects in a new group, as one undo step', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky', 0, 0)
     const b = create(h, 'sticky', 300, 0)
     const id = asObjectId('obj_group')
@@ -59,7 +59,7 @@ describe('GroupObjects', () => {
   })
 
   it('puts the group where its members were, inside their frame', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const frame = create(h, 'frame', 0, 0, { width: 800, height: 600 })
     const a = create(h, 'sticky', 10, 10, { parentId: frame })
     const b = create(h, 'sticky', 300, 10, { parentId: frame })
@@ -70,7 +70,7 @@ describe('GroupObjects', () => {
   })
 
   it('refuses one object, which is already a unit', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky')
     const result = run(h, { kind: 'GroupObjects', ids: [a] })
     expect(result.ok).toBe(false)
@@ -79,7 +79,7 @@ describe('GroupObjects', () => {
 
   /** Grouping must not lift an object out of its frame as a side effect. */
   it('refuses objects with different parents', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const frame = create(h, 'frame', 0, 0, { width: 400, height: 400 })
     const inside = create(h, 'sticky', 10, 10, { parentId: frame })
     const outside = create(h, 'sticky', 600, 0)
@@ -90,7 +90,7 @@ describe('GroupObjects', () => {
   })
 
   it('refuses a locked member, leaving the board as it was', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky')
     const b = create(h, 'sticky', 300, 0)
     run(h, { kind: 'SetLocked', ids: [b], locked: true })
@@ -103,7 +103,7 @@ describe('GroupObjects', () => {
 
 describe('UngroupObjects', () => {
   function grouped() {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const frame = create(h, 'frame', 0, 0, { width: 800, height: 600 })
     const a = create(h, 'sticky', 10, 10, { parentId: frame })
     const b = create(h, 'sticky', 300, 10, { parentId: frame })
@@ -163,7 +163,7 @@ describe('AlignObjects', () => {
    * selection's own box could produce.
    */
   it('lines everything up on the selection’s own edge, labelled for the edge', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky', 37, 0)
     const b = create(h, 'sticky', 213, 300)
     const result = run(h, { kind: 'AlignObjects', ids: [a, b], edge: 'left' })
@@ -179,7 +179,7 @@ describe('AlignObjects', () => {
    * it just does not move to it.
    */
   it('lines up TO a locked object without moving it', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const pinned = create(h, 'sticky', 37, 0)
     const free = create(h, 'sticky', 213, 300)
     run(h, { kind: 'SetLocked', ids: [pinned], locked: true })
@@ -189,7 +189,7 @@ describe('AlignObjects', () => {
 
   /** A connector is wherever its ends are; lining it up would change nothing. */
   it('leaves out a type whose shape is its ends', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky', 37, 0)
     const b = create(h, 'sticky', 213, 300)
     const line = h.dispatcher.dispatch({
@@ -213,7 +213,7 @@ describe('AlignObjects', () => {
   })
 
   it('costs no undo step when everything is already in line', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky', 37, 0)
     const b = create(h, 'sticky', 37, 300)
     const result = run(h, { kind: 'AlignObjects', ids: [a, b], edge: 'left' })
@@ -227,7 +227,7 @@ describe('AlignObjects', () => {
 
 describe('DistributeObjects', () => {
   it('evens out the gaps, keeping the outer two where they are', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky', 0, 0, { width: 100, height: 100 })
     const b = create(h, 'sticky', 137, 0, { width: 100, height: 100 })
     const c = create(h, 'sticky', 500, 0, { width: 100, height: 100 })
@@ -243,7 +243,7 @@ describe('DistributeObjects', () => {
 
 describe('DuplicateObjects', () => {
   it('copies geometry, style and data under new ids, offset so it reads as a copy', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const note = create(h, 'sticky', 40, 40)
     run(h, { kind: 'UpdateStyle', ids: [note], style: { color: 'blue' } })
     run(h, { kind: 'UpdateObjectData', id: note, patch: { text: 'Keep me' } })
@@ -264,7 +264,7 @@ describe('DuplicateObjects', () => {
   })
 
   it('refuses an object that is not there', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const result = run(h, {
       kind: 'DuplicateObjects',
       ids: [asObjectId('obj_gone')],
@@ -284,14 +284,14 @@ describe('DeriveObject', () => {
    * must not contain.
    */
   it('creates the object and one relation to each source, all undone together', () => {
-    const h = createTestHarness()
-    const a = create(h, 'evidence', 0, 0)
-    const b = create(h, 'evidence', 300, 0)
+    const h = createFixtureHarness()
+    const a = create(h, 'fixture-source', 0, 0)
+    const b = create(h, 'fixture-source', 300, 0)
     const id = asObjectId('obj_insight')
 
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'insight',
+      toType: 'fixture-claim',
       from: [a, b],
       predicate: 'cites',
       x: 120,
@@ -300,7 +300,7 @@ describe('DeriveObject', () => {
     })
     expect(result.ok).toBe(true)
     if (!result.ok) return
-    expect(result.label).toBe('Derive insight')
+    expect(result.label).toBe('Derive fixture-claim')
     expect(h.store.getObject(id)?.frame.x).toBe(120)
 
     const relations = [...h.store.getDocument().objects.values()].filter(
@@ -316,9 +316,9 @@ describe('DeriveObject', () => {
   })
 
   it('refuses sources with no place on the board', () => {
-    const h = createTestHarness()
-    const a = create(h, 'evidence', 0, 0)
-    const insight = create(h, 'insight', 0, -200)
+    const h = createFixtureHarness()
+    const a = create(h, 'fixture-source', 0, 0)
+    const insight = create(h, 'fixture-claim', 0, -200)
     const cited = h.dispatcher.dispatch({
       kind: 'CreateObjects',
       objects: [
@@ -331,7 +331,7 @@ describe('DeriveObject', () => {
 
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'hypothesis',
+      toType: 'fixture-followup',
       from: [relation],
       predicate: 'derives-from',
       x: 0,
@@ -342,8 +342,8 @@ describe('DeriveObject', () => {
   })
 
   it('refuses a type nobody registered', () => {
-    const h = createTestHarness()
-    const a = create(h, 'evidence')
+    const h = createFixtureHarness()
+    const a = create(h, 'fixture-source')
     const result = run(h, {
       kind: 'DeriveObject',
       toType: 'prophecy',
@@ -365,11 +365,11 @@ describe('DeriveObject', () => {
  */
 describe('DeriveObject, against what the sources declare', () => {
   it('refuses a type the source does not derive', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const note = create(h, 'sticky')
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'task',
+      toType: 'fixture-followup',
       from: [note],
       predicate: 'implements',
       x: 0,
@@ -381,11 +381,11 @@ describe('DeriveObject, against what the sources declare', () => {
   })
 
   it('refuses a declared type under a predicate it was not declared with', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const note = create(h, 'sticky')
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'insight',
+      toType: 'fixture-claim',
       from: [note],
       predicate: 'refutes',
       x: 0,
@@ -396,12 +396,12 @@ describe('DeriveObject, against what the sources declare', () => {
   })
 
   it('refuses a mixed selection when one source cannot derive it', () => {
-    const h = createTestHarness()
-    const evidence = create(h, 'evidence')
-    const task = create(h, 'task', 300, 0)
+    const h = createFixtureHarness()
+    const evidence = create(h, 'fixture-source')
+    const task = create(h, 'fixture-followup', 300, 0)
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'insight',
+      toType: 'fixture-claim',
       from: [evidence, task],
       predicate: 'cites',
       x: 0,
@@ -412,12 +412,12 @@ describe('DeriveObject, against what the sources declare', () => {
   })
 
   it('allows what every source declares', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const note = create(h, 'sticky')
-    const evidence = create(h, 'evidence', 300, 0)
+    const evidence = create(h, 'fixture-source', 300, 0)
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'insight',
+      toType: 'fixture-claim',
       from: [note, evidence],
       predicate: 'cites',
       x: 0,
@@ -434,7 +434,7 @@ describe('DeriveObject, against what the sources declare', () => {
  */
 describe('an object named twice', () => {
   it('does not count twice toward a group', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const a = create(h, 'sticky')
     const result = run(h, { kind: 'GroupObjects', ids: [a, a] })
     expect(result.ok).toBe(false)
@@ -442,11 +442,11 @@ describe('an object named twice', () => {
   })
 
   it('is cited once', () => {
-    const h = createTestHarness()
-    const a = create(h, 'evidence')
+    const h = createFixtureHarness()
+    const a = create(h, 'fixture-source')
     const result = run(h, {
       kind: 'DeriveObject',
-      toType: 'insight',
+      toType: 'fixture-claim',
       from: [a, a],
       predicate: 'cites',
       x: 0,

@@ -95,37 +95,14 @@ test.describe('the board overview', () => {
     await expect(page.locator(CANVAS)).toBeFocused()
   })
 
-  test('tells a quote from a note that says the same words', async ({ page }) => {
+  test('tells a text from a note that says the same words', async ({ page }) => {
     await seed(page, (board) => {
-      board.add('evidence', { x: 400, y: 300 }, { text: richFromPlain('Too expensive') })
+      board.add('text', { x: 400, y: 300 }, { text: richFromPlain('Too expensive') })
       board.note('Too expensive', { x: 800, y: 300 })
     })
     await openOverview(page)
-    await expect(item(page, 'Evidence: Too expensive')).toHaveCount(1)
+    await expect(item(page, 'Text: Too expensive')).toHaveCount(1)
     await expect(item(page, 'Sticky: Too expensive')).toHaveCount(1)
-  })
-
-  test('says what is claimed without grounds, until it cites something', async ({ page }) => {
-    await seed(page, (board) => {
-      const quote = board.add(
-        'evidence',
-        { x: 400, y: 300 },
-        { text: richFromPlain('Too expensive') },
-      )
-      board.add('insight', { x: 800, y: 300 }, { text: richFromPlain('Price is the barrier') })
-      const grounded = board.add(
-        'insight',
-        { x: 800, y: 600 },
-        { text: richFromPlain('Trust matters') },
-      )
-      board.add('relation', { x: 0, y: 0 }, { from: grounded, to: quote, predicate: 'cites' })
-    })
-    await openOverview(page)
-
-    await expect(page.getByTestId('overview-grounds')).toHaveText('Citing nothing: 1 insight.')
-    await expect(item(page, 'Citing nothing, 1')).toHaveCount(1)
-    await page.keyboard.press('ArrowRight')
-    await expect(item(page, 'Insight: Price is the barrier')).toHaveCount(2)
   })
 
   test('lists a crowded board in part, and finds the rest by search', async ({ page }) => {

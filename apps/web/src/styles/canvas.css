@@ -295,7 +295,6 @@
  * the height to the text, the right handle to fit the width.
  */
 .of-sticky:not(.of-sticky__editor) .of-sticky__text,
-.of-slip__text,
 .of-text__body,
 .of-shape__label-text,
 .of-table__cell-text {

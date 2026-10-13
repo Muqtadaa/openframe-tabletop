@@ -1,3 +1,4 @@
+import { richFromPlain } from '@openframe/core'
 import type { Page } from '@playwright/test'
 
 import { CANVAS, expect, test, seedBoard } from './fixtures.js'
@@ -24,21 +25,6 @@ test.use({ board: 'fresh' })
  */
 async function seed(page: Page, make: (board: BoardBuilder) => void): Promise<void> {
   await seedBoard(page, buildBoard(make))
-}
-
-/** A piece of evidence, as promoting a note and filling in its record leaves it. */
-function evidence(
-  board: BoardBuilder,
-  at: { x: number; y: number },
-  text: string,
-  record: { source?: string; tags?: string[] },
-): void {
-  board.add('evidence', at, {
-    text: [{ text }],
-    source: record.source ?? '',
-    participant: '',
-    tags: record.tags ?? [],
-  })
 }
 
 async function openSearch(page: Page): Promise<void> {
@@ -88,40 +74,19 @@ test.describe('finding things on a board', () => {
     await expect(page.getByTestId('search-summary')).toContainText('Customers do not')
   })
 
-  /**
-   * The point of the whole phase. A sticky and a piece of evidence can say the
-   * same words; only one of them has a source, and only one is found by it.
-   */
-  test('finds evidence by a field that is not its text', async ({ page }) => {
+  test('filters by type', async ({ page }) => {
     await seed(page, (board) => {
-      evidence(board, AT, 'Could not find the price', {
-        source: 'September usability study',
-        tags: ['pricing', 'comprehension'],
-      })
-    })
-
-    await openSearch(page)
-    await page.getByTestId('search-input').fill('September')
-    await expect(page.getByTestId('search-count')).toHaveText('1 found')
-    await expect(page.getByTestId('search-type')).toHaveText('evidence')
-  })
-
-  test('filters by type and by tag', async ({ page }) => {
-    await seed(page, (board) => {
-      evidence(board, AT, 'A plain note about pricing', { tags: ['pricing'] })
-      board.note('Another note about pricing', { x: 340, y: 500 })
+      board.add('text', AT, { text: richFromPlain('A line about pricing') })
+      board.note('A note about pricing', { x: 340, y: 500 })
     })
 
     await openSearch(page)
     await page.getByTestId('search-input').fill('pricing')
     await expect(page.getByTestId('search-count')).toHaveText('2 found')
 
-    await page.getByTestId('search-input').fill('type:evidence pricing')
+    await page.getByTestId('search-input').fill('type:sticky pricing')
     await expect(page.getByTestId('search-count')).toHaveText('1 found')
-
-    // The word is in both, but a TAG on only one.
-    await page.getByTestId('search-input').fill('#pricing')
-    await expect(page.getByTestId('search-count')).toHaveText('1 found')
+    await expect(page.getByTestId('search-type')).toHaveText('sticky')
   })
 
   test('says so when nothing matches', async ({ page }) => {

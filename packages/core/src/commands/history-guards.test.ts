@@ -4,7 +4,7 @@ import { asObjectId, type ObjectId } from '../domain/ids.js'
 import type { Patch } from '../domain/patch.js'
 import { richFromPlain } from '../domain/rich-text.js'
 import type { BoardAction, Capabilities } from '../ports/capabilities.js'
-import { createTestHarness } from '../testing.js'
+import { createFixtureHarness } from '../testing.js'
 
 /**
  * Undo and redo pass the same guards as any other change (tracks A-1).
@@ -19,7 +19,7 @@ import { createTestHarness } from '../testing.js'
 const id = (name: string): ObjectId => asObjectId(`obj_${name}`)
 
 function harness(capabilities?: Capabilities) {
-  const h = createTestHarness(capabilities === undefined ? {} : { capabilities })
+  const h = createFixtureHarness(capabilities === undefined ? {} : { capabilities })
   const created = h.dispatcher.dispatch({
     kind: 'CreateObjects',
     objects: ['a', 'b'].map((name, index) => ({
@@ -233,7 +233,7 @@ describe('undo after somebody else changed the board', () => {
     const converted = h.dispatcher.dispatch({
       kind: 'ConvertObjects',
       ids: [id('a')],
-      toType: 'evidence',
+      toType: 'fixture-source',
     })
     expect(converted.ok).toBe(true)
     const data = h.store.getObject(id('a'))?.data as Record<string, unknown>
@@ -241,7 +241,7 @@ describe('undo after somebody else changed the board', () => {
 
     expect(h.dispatcher.undo()).toMatchObject({ ok: false, error: { code: 'stale-history' } })
     const after = h.store.getObject(id('a'))
-    expect(after?.type).toBe('evidence')
+    expect(after?.type).toBe('fixture-source')
     expect((after?.data as Record<string, unknown>).source).toBe('P07')
   })
 

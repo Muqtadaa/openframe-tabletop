@@ -412,8 +412,8 @@ test.describe('continuous controls write once', () => {
 /**
  * The panel floats beside the selection, which is also where people reach
  * next. It painted over an open context menu — whichever of the two mounted
- * later won, and "Promote to evidence" was clipped out of the only place it
- * lives — and it swallowed the shift-click aimed at the object beside the
+ * later won, and the menu's first rows were clipped out of the only place they
+ * live — and it swallowed the shift-click aimed at the object beside the
  * first one, so a selection could not be built by hand.
  */
 test.describe('the panel is not in the way', () => {

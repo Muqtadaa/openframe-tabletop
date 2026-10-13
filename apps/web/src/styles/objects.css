@@ -43,27 +43,6 @@
 }
 
 /*
- * A structured slip: the same physical object as a sticky note, carrying a
- * record.
- *
- * Deliberately the same stock, padding, radius and elevation. PRODUCT.md's
- * claim is that a sticky and a piece of evidence are the SAME kind of thing
- * differing only in payload, so a different-looking card would contradict the
- * thesis the type exists to prove. What distinguishes it is the record line,
- * and only when there is a record to show.
- */
-.of-slip {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: var(--of-space-12);
-  overflow: hidden;
-  border-radius: var(--of-radius-slip);
-  box-shadow: var(--of-slip-ring), var(--of-slip-shadow);
-}
-
-/*
  * A poll: the slip's stock and corner, with its options as rows a press
  * answers. A row's bar is the share of the most-picked option, drawn behind
  * the label in the accent's wash so the words stay readable on top of it.
@@ -264,84 +243,6 @@
   accent-color: var(--of-accent);
 }
 
-.of-slip__body {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  font-size: var(--of-type-ui);
-  line-height: 1.35;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-
-/*
- * A COLUMN, for the same reason the sticky is one: the view sets
- * `justify-content` here from the vertical-alignment control, and a block box
- * does nothing with it. Eight types share this element, so vertical alignment
- * did nothing on eight of them.
- */
-.of-slip:not(.of-slip__editor) .of-slip__body {
-  display: flex;
-  flex-direction: column;
-  container-type: size;
-}
-
-/*
- * The record line: mono, because mono marks records and measurement. It sits
- * under a hairline in the slip's own ink at low alpha rather than a token
- * colour — the slip's stock varies with the colour token, so a fixed rule
- * colour would be invisible on some of the seven and heavy on others.
- */
-.of-slip__record {
-  display: flex;
-  /*
-   * A column of single-line rows, never a wrapping row. Wrapping put a source
-   * and two tags on three separate lines and gave 11px mono most of a 180px
-   * card — the quote it was describing had been squeezed into a corner.
-   * Bounded at one line each, the record stays subordinate to the content.
-   */
-  flex-direction: column;
-  gap: var(--of-space-2);
-  padding-top: var(--of-space-6);
-  margin-top: var(--of-space-8);
-  font-family: var(--of-mono);
-  /* The twelve pixel floor: this is functional text, not decoration. */
-  font-size: var(--of-type-record);
-  line-height: 1.3;
-  letter-spacing: 0.02em;
-  /*
-   * currentcolor rather than a rule token: the slip's stock changes with its
-   * colour token, so one fixed hairline would be invisible on some of the seven
-   * and heavy on others. Mixed toward transparent so it separates without
-   * competing with the quote above it.
-   */
-  border-top: 1px solid color-mix(in srgb, currentcolor 16%, transparent);
-}
-
-/*
- * One row of the record, bounded to a single line.
- *
- * There used to be a second class here for an evidence card's tags, a shade
- * fainter than the provenance above them — and only the evidence card, which
- * drew its own slip, ever rendered it. The record line is already subordinate
- * to the body; a second level of subordination inside it did not survive being
- * glanced at, and the `#` on a tag says what it is.
- */
-.of-slip__trail {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/*
- * What the slip IS, leading its record. Weight rather than size or colour: the
- * band is already the smallest functional text on the board, and the slip's
- * own ink is the one colour guaranteed to read on whatever stock it is given.
- */
-.of-slip__type {
-  font-weight: var(--of-weight-semibold);
-}
-
 /*
  * Every in-place editor inherits the object's own type and drops its border,
  * carrying an accent outline instead. The rich editors are `contenteditable`
@@ -349,7 +250,6 @@
  * also need the wrapping behaviour a textarea had for free.
  */
 .of-sticky__editor,
-.of-slip__editor,
 .of-text__editor,
 .of-shape__editor {
   overflow-wrap: anywhere;

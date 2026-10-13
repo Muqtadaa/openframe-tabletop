@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import type { NewObjectSpec } from '../commands/types.js'
-import { createTestHarness, type TestHarness } from '../testing.js'
+import { createFixtureHarness, type TestHarness } from '../testing.js'
 import { outlineBoard, type OutlineEntry } from './board-outline.js'
 import type { ObjectId } from './ids.js'
 import { richFromPlain } from './rich-text.js'
@@ -13,7 +13,7 @@ import { richFromPlain } from './rich-text.js'
 let h: TestHarness
 
 beforeEach(() => {
-  h = createTestHarness()
+  h = createFixtureHarness()
 })
 
 function create(spec: NewObjectSpec): ObjectId {
@@ -37,14 +37,14 @@ describe('what is on the board', () => {
   it('counts what is on it, most numerous first, and nothing hidden or placeless', () => {
     const a = of('sticky')
     const b = of('sticky')
-    of('evidence')
+    of('fixture-source')
     of('sticky', null, { hidden: true })
     relate(a, b)
 
     const { counts, total } = outline()
     expect(counts).toEqual([
       { type: 'sticky', count: 2 },
-      { type: 'evidence', count: 1 },
+      { type: 'fixture-source', count: 1 },
     ])
     expect(total).toBe(3)
   })
@@ -104,28 +104,28 @@ describe('what is on the board', () => {
 
 describe('what the board claims without grounds', () => {
   it('names a claim that cites nothing, and not one that cites evidence', () => {
-    const evidence = of('evidence')
-    const grounded = of('insight')
-    const bare = of('insight')
+    const evidence = of('fixture-source')
+    const grounded = of('fixture-claim')
+    const bare = of('fixture-claim')
     relate(grounded, evidence)
 
-    expect(outline().unsupported).toEqual([{ type: 'insight', ids: [bare] }])
+    expect(outline().unsupported).toEqual([{ type: 'fixture-claim', ids: [bare] }])
   })
 
   it('names every bare claim of a type, in one list', () => {
-    const bare = [of('insight'), of('insight'), of('insight')]
-    expect(outline().unsupported).toEqual([{ type: 'insight', ids: bare }])
+    const bare = [of('fixture-claim'), of('fixture-claim'), of('fixture-claim')]
+    expect(outline().unsupported).toEqual([{ type: 'fixture-claim', ids: bare }])
   })
 
   it('never names what nothing is derived into — a note is not a claim', () => {
     of('sticky')
-    of('evidence')
+    of('fixture-source')
     expect(outline().unsupported).toEqual([])
   })
 
   it('finds a bare claim inside a group, which the list shows as one thing', () => {
     const group = create({ type: 'group', x: 0, y: 0, data: {} })
-    const bare = of('insight', group)
-    expect(outline().unsupported).toEqual([{ type: 'insight', ids: [bare] }])
+    const bare = of('fixture-claim', group)
+    expect(outline().unsupported).toEqual([{ type: 'fixture-claim', ids: [bare] }])
   })
 })

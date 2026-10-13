@@ -14,6 +14,12 @@ import { buildBoard } from './boards.js'
 const NOTE = { x: 340, y: 260 }
 
 /**
+ * Where the keyboard lands on a note's menu. It used to be "Derive insight":
+ * promoting and deriving led the menu while the product had types to make.
+ */
+const FIRST = 'React'
+
+/**
  * A board holding one note, nothing selected. Seeded: every test here is about
  * the menu that opens on it, and placing a note is not what any of them is
  * checking.
@@ -41,11 +47,8 @@ test(
   async ({ page }) => {
     await page.locator(CANVAS).click({ position: NOTE, button: 'right' })
     await expect(menu(page)).toBeVisible()
-    await expect(item(page, 'Derive insight')).toBeFocused()
+    await expect(item(page, FIRST)).toBeFocused()
 
-    await page.keyboard.press('ArrowDown')
-    await page.keyboard.press('ArrowDown')
-    await expect(item(page, 'React')).toBeFocused()
     await page.keyboard.press('ArrowDown')
     await expect(item(page, 'Cut')).toBeFocused()
     await page.keyboard.press('ArrowDown')
@@ -60,11 +63,11 @@ test(
     await page.keyboard.press('End')
     await expect(item(page, 'Delete')).toBeFocused()
     await page.keyboard.press('ArrowDown')
-    await expect(item(page, 'Derive insight')).toBeFocused()
+    await expect(item(page, FIRST)).toBeFocused()
     await page.keyboard.press('ArrowUp')
     await expect(item(page, 'Delete')).toBeFocused()
     await page.keyboard.press('Home')
-    await expect(item(page, 'Derive insight')).toBeFocused()
+    await expect(item(page, FIRST)).toBeFocused()
     await page.keyboard.press('d')
     await expect(item(page, 'Duplicate')).toBeFocused()
   },
@@ -82,7 +85,7 @@ test('arrows move through the menu, not the object under it', async ({ page }) =
 
 test('Escape closes the menu and keeps the selection', async ({ page }) => {
   await page.locator(CANVAS).click({ position: NOTE, button: 'right' })
-  await expect(item(page, 'Derive insight')).toBeFocused()
+  await expect(item(page, FIRST)).toBeFocused()
   await page.keyboard.press('Escape')
   await expect(menu(page)).toHaveCount(0)
   await expect(page.getByTestId('selection-count')).toContainText('1')
@@ -94,7 +97,7 @@ test('Escape closes the menu and keeps the selection', async ({ page }) => {
  */
 test('Tab closes the menu and moves focus on', async ({ page }) => {
   await page.locator(CANVAS).click({ position: NOTE, button: 'right' })
-  await expect(item(page, 'Derive insight')).toBeFocused()
+  await expect(item(page, FIRST)).toBeFocused()
   await page.keyboard.press('Tab')
   await expect(menu(page)).toHaveCount(0)
   const landed = await page.evaluate(() => document.activeElement?.tagName ?? 'BODY')
@@ -105,7 +108,7 @@ test('Shift+F10 opens it on the selection, not in the corner', async ({ page }) 
   await page.locator(CANVAS).click({ position: NOTE })
   await page.keyboard.press('Shift+F10')
   await expect(menu(page)).toBeVisible()
-  await expect(item(page, 'Derive insight')).toBeFocused()
+  await expect(item(page, FIRST)).toBeFocused()
 
   const note = await boxOf(page.locator('[data-object-type="sticky"]'))
   const box = await boxOf(menu(page))
@@ -138,7 +141,7 @@ for (const [name, init] of [
       )
     }, init)
     await expect(menu(page)).toBeVisible()
-    await expect(item(page, 'Derive insight')).toBeFocused()
+    await expect(item(page, FIRST)).toBeFocused()
   })
 }
 
@@ -146,7 +149,7 @@ test('a real Shift+F10 opens one menu, not one per path', async ({ page }) => {
   await page.locator(CANVAS).click({ position: NOTE })
   await page.keyboard.press('Shift+F10')
   await expect(menu(page)).toHaveCount(1)
-  await expect(item(page, 'Derive insight')).toBeFocused()
+  await expect(item(page, FIRST)).toBeFocused()
 })
 
 test('names an item by its label, with the shortcut declared rather than read out', async ({
@@ -163,21 +166,6 @@ test('names an item by its label, with the shortcut declared rather than read ou
 })
 
 test.describe('what it offers', () => {
-  /*
-   * Deriving and promoting are the synthesis motion the product exists for.
-   * They sat fourth, in a flat list, weighing what "Bring forward" weighed.
-   */
-  test('leads with what the selection can become', async ({ page }) => {
-    await page.locator(CANVAS).click({ position: NOTE, button: 'right' })
-    const names = await menu(page).locator('[role="menuitem"] > span:first-child').allTextContents()
-    expect(names.slice(0, 2)).toEqual(['Derive insight', 'Promote to'])
-    // One entry, whatever the type can become: flat, they pushed the menu off the window.
-    await item(page, 'Promote to').click()
-    await expect(
-      page.getByTestId('context-submenu').locator('[role="menuitem"] > span:first-child'),
-    ).toHaveText(['Evidence', 'Insight', 'Journey stage'])
-  })
-
   test('folds the stacking order into one Arrange submenu', async ({ page }) => {
     await page.locator(CANVAS).click({ position: NOTE, button: 'right' })
     await expect(item(page, 'Bring to front')).toHaveCount(0)

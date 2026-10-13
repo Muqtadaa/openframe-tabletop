@@ -1,11 +1,9 @@
 /**
  * What a person calls an object's type.
  *
- * Type ids are written for the registry — `journey-stage`, `evidence` — and
- * the record panel used to show them as its subject, in the smallest, faintest
- * text it had. The panel's head is the one place the product's thesis is
- * visible (a note and a piece of evidence are the same thing with a different
- * payload), so it names the thing in words.
+ * Type ids are written for the registry — `map-layer`, `sticky` — and the
+ * record panel used to show them as its subject, in the smallest, faintest
+ * text it had. The panel's head names the thing, so it says it in words.
  *
  * Derived rather than declared: every type would otherwise have to state a
  * label, and adding a required field to every definition is a breaking change
@@ -49,13 +47,10 @@ export function typeLabel(type: string): string {
   return noun.charAt(0).toUpperCase() + noun.slice(1)
 }
 
-/** Nouns a person does not count with an s: "3 evidence", as "3 pieces of". */
-const UNCOUNTED = new Set(['evidence'])
-
-/** How many of a type, as said: "1 frame", "2 sticky notes", "3 evidence". */
+/** How many of a type, as said: "1 frame", "2 sticky notes". */
 export function countOfType(type: string, count: number): string {
   const noun = SPOKEN[type] ?? typeNoun(type)
-  if (count === 1 || UNCOUNTED.has(noun)) return `${String(count)} ${noun}`
+  if (count === 1) return `${String(count)} ${noun}`
   const plural = /[^aeiou]y$/.test(noun)
     ? `${noun.slice(0, -1)}ies`
     : /(s|x|ch|sh)$/.test(noun)

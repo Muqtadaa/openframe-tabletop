@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 
-import { CANVAS, expect, openBoard, test, undo, boxOf, viewOf } from './fixtures.js'
+import { CANVAS, expect, openBoard, test, undo, boxOf } from './fixtures.js'
 
 /**
  * What text does when there is more of it than there is room.
@@ -217,36 +217,4 @@ test('double-clicking the right handle fits a shape to its widest line', async (
       return Math.round(el.getBoundingClientRect().height / lineHeight)
     })
   expect(lines).toBe(1)
-})
-
-/**
- * The eight structured types share one body element, and it had the same
- * defect: the view sets `justify-content` on it and it was a block box.
- * Covered once here rather than eight times, because one element is what they
- * all render through.
- */
-test('a structured slip aligns its text down', async ({ page }) => {
-  await openBoard(page)
-  await write(page, 'sticky', { x: 500, y: 300 }, 'short')
-
-  await page.locator(CANVAS).click({ position: { x: 500, y: 300 } })
-  await page.locator(CANVAS).click({ position: { x: 500, y: 300 }, button: 'right' })
-  await expect(page.getByTestId('context-menu')).toBeVisible()
-  await page.getByTestId('menu-promote-to').click()
-  await page.getByTestId('menu-evidence').click()
-  await expect(viewOf(page, 'evidence')).toHaveCount(1)
-
-  const top = async (): Promise<number> =>
-    await page
-      .getByTestId('slip-text')
-      .first()
-      .evaluate((el) => (el as HTMLElement).getBoundingClientRect().top)
-
-  await page.locator('[data-object-id]').first().click()
-  const atTop = await top()
-
-  // A slip carries a record, so its appearance starts folded away.
-  await page.getByTestId('inspector-appearance').click()
-  await page.getByTestId('verticalAlign-bottom').click()
-  expect(await top()).toBeGreaterThan(atTop + 40)
 })

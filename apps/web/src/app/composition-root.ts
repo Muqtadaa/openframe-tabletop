@@ -16,6 +16,7 @@ import {
   type AssetStore,
   type DocumentStore,
   type IdGenerator,
+  type ObjectTypeRegistry,
 } from '@openframe/core'
 
 import { IndexedDbAssetStore } from '../adapters/indexeddb/indexeddb-asset-store.js'
@@ -54,6 +55,12 @@ export interface CreateRuntimeOptions {
   readonly repository?: BoardRepository
   readonly assetStore?: AssetStore
   readonly autosaveDelayMs?: number
+  /**
+   * The object types to run with. Only a test passes one: it is how the
+   * test-only fixture types reach the generic promotion and derivation paths
+   * without being registered in the product.
+   */
+  readonly registry?: ObjectTypeRegistry
 }
 
 export const DEFAULT_BOARD_ID = asBoardId('board_local')
@@ -91,7 +98,7 @@ function defaultAssets(boardId: BoardId, ids: IdGenerator): AssetService {
 export async function createRuntime(options: CreateRuntimeOptions = {}): Promise<OpenFrameRuntime> {
   const boardId = options.boardId ?? DEFAULT_BOARD_ID
   const repository = options.repository ?? new IndexedDbBoardRepository()
-  const registry = createDefaultRegistry()
+  const registry = options.registry ?? createDefaultRegistry()
   const ids = createIdGenerator()
   const assets =
     options.assetStore === undefined

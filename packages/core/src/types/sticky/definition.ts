@@ -55,28 +55,16 @@ export const stickyType = defineObjectType<typeof STICKY_TYPE, StickyData>({
   },
 
   /*
-   * A note becomes evidence once the user knows what it was. This is the
-   * "structure is earned, never demanded" principle in one line: nothing asks
-   * for a classification up front, and the promotion keeps the object's
-   * identity, so anything already citing it still does. A journey stage is
-   * the same discovery about a different note — "this is where they gave up"
-   * — and without it here the type could not be made from the interface.
-   */
-  promotions: ['evidence', 'insight', 'journey-stage'],
-
-  /*
    * Plain text is DERIVED here, never stored (ADR 0012). Keeping a flattened
    * copy beside the spans would be two sources of truth about the same
    * characters, and they would diverge the first time one path was updated and
    * the other was not.
+   *
+   * A sticky note declares no promotions and no derivations. It used to be
+   * promoted to, and to derive, the research types; Tabletop ships none of
+   * them, and the generic mechanism is exercised by the test-only types in
+   * `testing-fixtures.ts`.
    */
-  /*
-   * A cluster of plain notes becoming a claim is the most common synthesis
-   * motion there is — people cluster stickies long before they classify any of
-   * them. Requiring evidence first would be demanding the structure this
-   * product says is earned.
-   */
-  derivations: [{ type: 'insight', predicate: 'cites' }],
 
   describe: (object) => {
     const text = plainTextOf(object.data.text)

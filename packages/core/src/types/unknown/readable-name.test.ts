@@ -7,7 +7,7 @@ describe('a type from a newer version, named in words', () => {
     ['kanban-card', 'Kanban card'],
     ['kanban_card', 'Kanban card'],
     ['kanbanCard', 'Kanban card'],
-    ['evidence', 'Evidence'],
+    ['journey-stage', 'Journey stage'],
     ['', 'Object'],
     ['--', 'Object'],
   ])('%j reads as %j', (type, name) => {

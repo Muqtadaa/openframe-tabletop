@@ -5,6 +5,7 @@ import { IndexedDbBoardRepository } from './adapters/indexeddb/indexeddb-board-r
 import { createRuntime } from './app/composition-root.js'
 import { createServices } from './app/services.js'
 import type { BoardConnection } from '@openframe/collab'
+import type { ObjectTypeRegistry } from '@openframe/core'
 
 import type { BoardHistory } from './runtime/board-history.js'
 
@@ -50,10 +51,16 @@ export async function mountOnBoard(
     readonly collaboration?: BoardConnection
     /** The board's earlier versions, for a component that lists them. */
     readonly history?: BoardHistory
+    /** Object types to run with: the test-only fixtures, for a control that needs them. */
+    readonly registry?: ObjectTypeRegistry
   } = {},
 ): Promise<Mounted> {
   const repository = new IndexedDbBoardRepository()
-  const runtime = await createRuntime({ repository, autosaveDelayMs: 0 })
+  const runtime = await createRuntime({
+    repository,
+    autosaveDelayMs: 0,
+    ...(options.registry === undefined ? {} : { registry: options.registry }),
+  })
   // The services the app builds, with a network that answers nobody: a test
   // of a control must never reach a real room server or account.
   const built = createServices({

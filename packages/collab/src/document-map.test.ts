@@ -12,7 +12,7 @@ import {
  * dispatcher with a frozen clock and sequential ids, which is exactly what this
  * test wants and exactly what an application must never import.
  */
-import { createTestHarness } from '@openframe/core/testing'
+import { createFixtureHarness } from '@openframe/core/testing'
 import { describe, expect, it } from 'vitest'
 import * as Y from 'yjs'
 
@@ -20,7 +20,7 @@ import { applyPatchesToDoc, objectsFromDoc, seedDoc } from './document-map.js'
 
 /** A board built through the real command layer, so the patches are real ones. */
 function board(): { doc: BoardDocument; patches: Patch[] } {
-  const h = createTestHarness()
+  const h = createFixtureHarness()
   const patches: Patch[] = []
   const record = (result: { ok: boolean; patches?: readonly Patch[] }): void => {
     if (result.ok && result.patches !== undefined) patches.push(...result.patches)
@@ -32,7 +32,7 @@ function board(): { doc: BoardDocument; patches: Patch[] } {
       { type: 'sticky', x: 0, y: 0, data: { text: richFromPlain('one') } },
       { type: 'sticky', x: 200, y: 0, data: { text: richFromPlain('two') } },
       {
-        type: 'evidence',
+        type: 'fixture-source',
         x: 400,
         y: 0,
         data: {
@@ -53,7 +53,7 @@ function board(): { doc: BoardDocument; patches: Patch[] } {
   record(h.dispatcher.dispatch({ kind: 'MoveObjects', moves: [{ id: a, dx: 30, dy: 40 }] }))
   record(h.dispatcher.dispatch({ kind: 'UpdateStyle', ids: [a, b], style: { color: 'blue' } }))
   record(h.dispatcher.dispatch({ kind: 'SetLocked', ids: [b], locked: true }))
-  record(h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [a], toType: 'insight' }))
+  record(h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [a], toType: 'fixture-claim' }))
 
   return { doc: h.store.getDocument(), patches }
 }
@@ -89,7 +89,7 @@ describe('a board inside a Y.Doc', () => {
    * documents would stop comparing equal.
    */
   it('deletes a key rather than storing undefined', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const created = h.dispatcher.dispatch({
       kind: 'CreateObjects',
       objects: [{ type: 'sticky', x: 0, y: 0, data: { text: richFromPlain('x') } }],
@@ -113,12 +113,12 @@ describe('a board inside a Y.Doc', () => {
    * nothing, and invisible until somebody's tags stopped rendering.
    */
   it('keeps an array an array when writing through it', () => {
-    const h = createTestHarness()
+    const h = createFixtureHarness()
     const created = h.dispatcher.dispatch({
       kind: 'CreateObjects',
       objects: [
         {
-          type: 'evidence',
+          type: 'fixture-source',
           x: 0,
           y: 0,
           data: { text: richFromPlain('e'), source: '', participant: '', tags: ['a', 'b'] },
@@ -176,9 +176,9 @@ describe('two people editing at once', () => {
     const { a, b, sync } = pair()
     const insight = asObjectId('obj_insight')
     const seed: Patch[] = [
-      { op: 'add', id: insight, object: stub(insight, 'insight') },
-      { op: 'add', id: asObjectId('obj_e1'), object: stub(asObjectId('obj_e1'), 'evidence') },
-      { op: 'add', id: asObjectId('obj_e2'), object: stub(asObjectId('obj_e2'), 'evidence') },
+      { op: 'add', id: insight, object: stub(insight, 'fixture-claim') },
+      { op: 'add', id: asObjectId('obj_e1'), object: stub(asObjectId('obj_e1'), 'fixture-source') },
+      { op: 'add', id: asObjectId('obj_e2'), object: stub(asObjectId('obj_e2'), 'fixture-source') },
     ]
     applyPatchesToDoc(a, seed)
     sync()

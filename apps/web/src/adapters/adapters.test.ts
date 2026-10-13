@@ -201,7 +201,7 @@ describe('runtime composition', () => {
         objects: [
           {
             id: 'obj_future',
-            type: 'evidence',
+            type: 'kanban-card',
             dataVersion: 1,
             frame: { x: 0, y: 0, width: 10, height: 10, rotation: 0 },
             parentId: null,

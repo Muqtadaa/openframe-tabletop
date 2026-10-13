@@ -1,16 +1,8 @@
 import { ObjectViewRegistry } from './registry.js'
 import { connectorView } from './ConnectorView.js'
-import { evidenceView } from './EvidenceView.js'
 import { frameView } from './FrameView.js'
 import { groupView } from './GroupView.js'
 import { imageView } from './ImageView.js'
-import { insightView } from './InsightView.js'
-import { hypothesisView } from './HypothesisView.js'
-import { experimentView } from './ExperimentView.js'
-import { decisionView } from './DecisionView.js'
-import { taskView } from './TaskView.js'
-import { journeyStageView } from './JourneyStageView.js'
-import { requirementView } from './RequirementView.js'
 import { shapeView } from './ShapeView.js'
 import { codeView } from './CodeView.js'
 import { pollView } from './PollView.js'
@@ -40,14 +32,6 @@ export function createDefaultViewRegistry(): ObjectViewRegistry {
     connectorView,
     imageView,
     groupView,
-    evidenceView,
-    insightView,
-    hypothesisView,
-    experimentView,
-    decisionView,
-    taskView,
-    journeyStageView,
-    requirementView,
     unknownView,
   ])
 }

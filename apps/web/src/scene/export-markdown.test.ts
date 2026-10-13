@@ -1,5 +1,5 @@
 import { asObjectId, richFromPlain, type ObjectId } from '@openframe/core'
-import { createTestHarness, type TestHarness } from '@openframe/core/testing'
+import { createFixtureHarness, type TestHarness } from '@openframe/core/testing'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { exportMarkdown } from './export-markdown.js'
@@ -13,7 +13,7 @@ let h: TestHarness
 let made = 0
 
 beforeEach(() => {
-  h = createTestHarness()
+  h = createFixtureHarness()
   made = 0
 })
 
@@ -115,7 +115,7 @@ describe('a board as Markdown', () => {
 
   it('writes a record with the labels its type declares', () => {
     make(
-      'evidence',
+      'fixture-source',
       { x: 0, y: 0 },
       {
         ...words('Three of five could not find the price'),
@@ -125,7 +125,7 @@ describe('a board as Markdown', () => {
       },
     )
     expect(exportAll()).toContain(
-      '- **Evidence:** Three of five could not find the price\n' +
+      '- **Fixture source:** Three of five could not find the price\n' +
         '  - Source: September study\n' +
         '  - Participant: P07\n' +
         '  - Tags: pricing, navigation',
@@ -156,23 +156,23 @@ describe('a board as Markdown', () => {
   })
 
   it('names what a claim stands on, and what stands on it', () => {
-    const evidence = make('evidence', { x: 0, y: 0 }, words('Price hidden below the fold'))
-    const insight = make('insight', { x: 300, y: 0 }, words('People cannot find the price'))
+    const evidence = make('fixture-source', { x: 0, y: 0 }, words('Price hidden below the fold'))
+    const insight = make('fixture-claim', { x: 300, y: 0 }, words('People cannot find the price'))
     cite(insight, evidence)
     const text = exportAll()
     expect(text).toContain(
-      '- **Insight:** People cannot find the price\n' +
+      '- **Fixture claim:** People cannot find the price\n' +
         '  - Confidence: unstated\n' +
-        '  - Cites: Evidence: Price hidden below the fold',
+        '  - Cites: Fixture source: Price hidden below the fold',
     )
-    expect(text).toContain('  - Insight that cites this: People cannot find the price')
+    expect(text).toContain('  - Fixture claim that cites this: People cannot find the price')
     // A relation is shown by what it joins, never as an item of its own.
     expect(text).not.toContain('**Relation')
   })
 
   it('ends a board with the claims that cite nothing', () => {
-    make('insight', { x: 0, y: 0 }, words('Unfounded'))
-    expect(exportAll()).toMatch(/## Citing nothing\n\n- Insight: Unfounded\n$/)
+    make('fixture-claim', { x: 0, y: 0 }, words('Unfounded'))
+    expect(exportAll()).toMatch(/## Citing nothing\n\n- Fixture claim: Unfounded\n$/)
   })
 
   it('leaves out what has no words and no record, and counts it all the same', () => {
@@ -214,14 +214,14 @@ describe('part of a board as Markdown', () => {
   })
 
   it('names grounds outside the export, and says they are', () => {
-    const evidence = make('evidence', { x: 0, y: 0 }, words('Elsewhere'))
-    const insight = make('insight', { x: 300, y: 0 }, words('Here'))
+    const evidence = make('fixture-source', { x: 0, y: 0 }, words('Elsewhere'))
+    const insight = make('fixture-claim', { x: 300, y: 0 }, words('Here'))
     cite(insight, evidence)
     const text = exportMarkdown(h.store.getDocument(), h.registry, {
       scope: { kind: 'objects', ids: [insight] },
       exportedOn: '8 Oct 2026',
     })
-    expect(text).toContain('  - Cites: Evidence: Elsewhere (not in this export)')
+    expect(text).toContain('  - Cites: Fixture source: Elsewhere (not in this export)')
   })
 })
 

@@ -5,8 +5,7 @@ import { z } from 'zod'
 import type { ObjectId } from '../domain/ids.js'
 import { defineObjectType, ObjectTypeRegistry } from '../domain/registry.js'
 import { richFromPlain } from '../domain/rich-text.js'
-import { createTestHarness, type TestHarness } from '../testing.js'
-import { createDefaultRegistry } from '../types/index.js'
+import { createFixtureHarness, createFixtureRegistry, type TestHarness } from '../testing.js'
 
 /** `text` is a span list now (ADR 0012); tests say what they mean in plain text. */
 function create(h: TestHarness, type: string, data?: Record<string, unknown>): ObjectId {
@@ -26,14 +25,18 @@ function create(h: TestHarness, type: string, data?: Record<string, unknown>): O
 describe('promoting an object to another type', () => {
   let h: TestHarness
   beforeEach(() => {
-    h = createTestHarness()
+    h = createFixtureHarness()
   })
 
   it('changes the type in place', () => {
     const id = create(h, 'sticky', { text: 'Customers do not understand pricing' })
-    const result = h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
+    const result = h.dispatcher.dispatch({
+      kind: 'ConvertObjects',
+      ids: [id],
+      toType: 'fixture-source',
+    })
     expect(result.ok).toBe(true)
-    expect(h.store.getObject(id)?.type).toBe('evidence')
+    expect(h.store.getObject(id)?.type).toBe('fixture-source')
   })
 
   /**
@@ -49,7 +52,7 @@ describe('promoting an object to another type', () => {
     const insight = create(h, 'sticky', { text: 'Pricing is not discoverable' })
     create(h, 'relation', { from: insight, to: note, predicate: 'cites' })
 
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [note], toType: 'evidence' })
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [note], toType: 'fixture-source' })
 
     expect(h.registry.relationsTo(h.store.getDocument(), note)).toHaveLength(1)
   })
@@ -59,7 +62,7 @@ describe('promoting an object to another type', () => {
     h.dispatcher.dispatch({ kind: 'UpdateStyle', ids: [id], style: { color: 'blue' } })
     const before = h.store.getObject(id)
 
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' })
     const after = h.store.getObject(id)
 
     expect(after?.frame).toEqual(before?.frame)
@@ -71,7 +74,7 @@ describe('promoting an object to another type', () => {
 
   it('carries the text across and fills the rest from the target defaults', () => {
     const id = create(h, 'sticky', { text: 'Participants skipped the pricing page' })
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' })
     expect(h.store.getObject(id)?.data).toEqual({
       text: richFromPlain('Participants skipped the pricing page'),
       source: '',
@@ -82,22 +85,24 @@ describe('promoting an object to another type', () => {
 
   it('produces data its new type accepts', () => {
     const id = create(h, 'sticky', { text: 'x' })
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' })
     const object = h.store.getObject(id)
     expect(object).toBeDefined()
     if (object === undefined) return
-    expect(h.registry.get('evidence')?.validate(object.data).ok).toBe(true)
+    expect(h.registry.get('fixture-source')?.validate(object.data).ok).toBe(true)
   })
 
   it("stamps the new type's current data version", () => {
     const id = create(h, 'sticky', { text: 'x' })
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
-    expect(h.store.getObject(id)?.dataVersion).toBe(h.registry.get('evidence')?.currentVersion)
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' })
+    expect(h.store.getObject(id)?.dataVersion).toBe(
+      h.registry.get('fixture-source')?.currentVersion,
+    )
   })
 
   it('is one undo entry that restores the original type and payload', () => {
     const id = create(h, 'sticky', { text: 'a note' })
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' })
     h.dispatcher.undo()
     const object = h.store.getObject(id)
     expect(object?.type).toBe('sticky')
@@ -107,9 +112,9 @@ describe('promoting an object to another type', () => {
   it('promotes a whole selection as one action', () => {
     const a = create(h, 'sticky', { text: 'a' })
     const b = create(h, 'sticky', { text: 'b' })
-    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [a, b], toType: 'evidence' })
-    expect(h.store.getObject(a)?.type).toBe('evidence')
-    expect(h.store.getObject(b)?.type).toBe('evidence')
+    h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [a, b], toType: 'fixture-source' })
+    expect(h.store.getObject(a)?.type).toBe('fixture-source')
+    expect(h.store.getObject(b)?.type).toBe('fixture-source')
 
     h.dispatcher.undo()
     expect(h.store.getObject(a)?.type).toBe('sticky')
@@ -123,7 +128,7 @@ describe('promoting an object to another type', () => {
       const result = h.dispatcher.dispatch({
         kind: 'ConvertObjects',
         ids: [id],
-        toType: 'evidence',
+        toType: 'fixture-source',
       })
       expect(result.ok).toBe(false)
       expect(h.store.getObject(id)?.type).toBe('sticky')
@@ -163,7 +168,7 @@ describe('promoting an object to another type', () => {
       const result = h.dispatcher.dispatch({
         kind: 'ConvertObjects',
         ids: [frame],
-        toType: 'evidence',
+        toType: 'fixture-source',
       })
       expect(result.ok).toBe(false)
       expect(h.store.getObject(frame)?.type).toBe('frame')
@@ -173,17 +178,17 @@ describe('promoting an object to another type', () => {
 
     it('refuses an empty selection, and a no-op conversion', () => {
       expect(
-        h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [], toType: 'evidence' }).ok,
+        h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [], toType: 'fixture-source' }).ok,
       ).toBe(false)
-      const id = create(h, 'evidence')
+      const id = create(h, 'fixture-source')
       expect(
-        h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' }).ok,
+        h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' }).ok,
       ).toBe(false)
     })
 
     it('drops keys the target does not declare', () => {
       const id = create(h, 'shape', { shape: 'rectangle', text: 'Checkout' })
-      h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'evidence' })
+      h.dispatcher.dispatch({ kind: 'ConvertObjects', ids: [id], toType: 'fixture-source' })
       const object = h.store.getObject(id)
       expect(object?.data).toEqual({
         // A shape's label is its text, and it means the same thing here.
@@ -208,7 +213,7 @@ describe('promoting an object to another type', () => {
  * No two shipped types collide this way today, so the collision is built here
  * rather than asserted about a pair that does not exist. Without that, this
  * branch would be a rule that passes vacuously (rule 23) — and it did: a first
- * version of this test used `shape` against `evidence`, where the only shared
+ * version of this test used `shape` against a record type, where the only shared
  * key is `text` and both hold a string, so it proved nothing.
  */
 describe('when two types spell a key the same way and mean different things', () => {
@@ -239,18 +244,18 @@ describe('when two types spell a key the same way and mean different things', ()
   })
 
   it('falls back to the target defaults rather than writing a bad object', () => {
-    const registry = new ObjectTypeRegistry([...createDefaultRegistry().list(), countedType])
-    const h = createTestHarness({ registry })
+    const registry = new ObjectTypeRegistry([...createFixtureRegistry().list(), countedType])
+    const h = createFixtureHarness({ registry })
     const id = create(h, 'counted')
 
     const result = h.dispatcher.dispatch({
       kind: 'ConvertObjects',
       ids: [id],
-      toType: 'evidence',
+      toType: 'fixture-source',
     })
     expect(result.ok).toBe(true)
 
-    // The number did NOT land in evidence's span list.
+    // The number did NOT land in the target's span list.
     expect(h.store.getObject(id)?.data).toEqual({
       text: [{ text: '' }],
       source: '',

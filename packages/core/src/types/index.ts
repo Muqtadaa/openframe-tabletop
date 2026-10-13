@@ -1,17 +1,9 @@
 import { ObjectTypeRegistry } from '../domain/registry.js'
 import { codeType } from './code/definition.js'
 import { connectorType } from './connector/definition.js'
-import { evidenceType } from './evidence/definition.js'
 import { frameType } from './frame/definition.js'
 import { groupType } from './group/definition.js'
 import { imageType } from './image/definition.js'
-import { insightType } from './insight/definition.js'
-import { hypothesisType } from './hypothesis/definition.js'
-import { experimentType } from './experiment/definition.js'
-import { decisionType } from './decision/definition.js'
-import { taskType } from './task/definition.js'
-import { journeystageType } from './journey-stage/definition.js'
-import { requirementType } from './requirement/definition.js'
 import { relationType } from './relation/definition.js'
 import { reactionType } from './reaction/definition.js'
 import { voteRoundType } from './vote-round/definition.js'
@@ -116,8 +108,6 @@ export {
   type RouteNormals,
   type RouteSegment,
 } from './connector/route.js'
-export { EVIDENCE_TYPE, evidenceType } from './evidence/definition.js'
-export { EvidenceDataSchema, type EvidenceData } from './evidence/schema.js'
 export { FRAME_TYPE, frameType } from './frame/definition.js'
 export { GROUP_TYPE, groupType } from './group/definition.js'
 export { RELATION_TYPE, relationType } from './relation/definition.js'
@@ -167,25 +157,6 @@ export {
 } from './vote-round/schema.js'
 export { GroupDataSchema, type GroupData } from './group/schema.js'
 export { IMAGE_TYPE, imageType, placedSize } from './image/definition.js'
-export { INSIGHT_TYPE, insightType } from './insight/definition.js'
-export { HYPOTHESIS_TYPE, hypothesisType } from './hypothesis/definition.js'
-export * from './hypothesis/schema.js'
-export { EXPERIMENT_TYPE, experimentType } from './experiment/definition.js'
-export * from './experiment/schema.js'
-export { DECISION_TYPE, decisionType } from './decision/definition.js'
-export * from './decision/schema.js'
-export { TASK_TYPE, taskType } from './task/definition.js'
-export * from './task/schema.js'
-export { JOURNEY_STAGE_TYPE, journeystageType } from './journey-stage/definition.js'
-export * from './journey-stage/schema.js'
-export { REQUIREMENT_TYPE, requirementType } from './requirement/definition.js'
-export * from './requirement/schema.js'
-export {
-  CONFIDENCE_LEVELS,
-  InsightDataSchema,
-  type Confidence,
-  type InsightData,
-} from './insight/schema.js'
 export { ImageDataSchema, type ImageCrop, type ImageData } from './image/schema.js'
 export {
   cropByHandle,
@@ -224,14 +195,6 @@ export function createDefaultRegistry(): ObjectTypeRegistry {
     tableType,
     codeType,
     groupType,
-    evidenceType,
-    insightType,
-    hypothesisType,
-    experimentType,
-    decisionType,
-    taskType,
-    journeystageType,
-    requirementType,
     relationType,
     reactionType,
     voteRoundType,

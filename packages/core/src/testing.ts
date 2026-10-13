@@ -10,6 +10,7 @@ import {
   type DocumentStore,
   type DocumentWriter,
 } from './store/document-store.js'
+import { createFixtureRegistry } from './testing-fixtures.js'
 import { createDefaultRegistry } from './types/index.js'
 
 export interface TestHarness {
@@ -56,3 +57,16 @@ export function createTestHarness(
   })
   return { store, writer, registry, dispatcher }
 }
+
+/**
+ * `createTestHarness` over the fixture registry: the default types plus the
+ * test-only `fixture-source`, `fixture-claim` and `fixture-followup`, and a
+ * sticky note that can be promoted and derived from them.
+ */
+export function createFixtureHarness(
+  options: Parameters<typeof createTestHarness>[0] = {},
+): TestHarness {
+  return createTestHarness({ registry: createFixtureRegistry(), ...options })
+}
+
+export * from './testing-fixtures.js'

@@ -123,7 +123,7 @@ export function SearchPanel() {
         value={query}
         // The placeholder is the entire grammar. A query language that needs
         // documentation is too big for a box on a canvas.
-        placeholder="Find…  type:evidence  #pricing"
+        placeholder="Find…  type:sticky  #pricing"
         aria-label="Find on board"
         data-testid="search-input"
         onChange={(event) => {
@@ -144,7 +144,7 @@ export function SearchPanel() {
         <div className="of-search__count" data-testid="search-count" aria-live="polite">
           {results.length === 0
             ? // A way forward, not a dead end: the one filter that always narrows.
-              'nothing found — try type:sticky or type:evidence'
+              'nothing found — try type:sticky or type:text'
             : `${String(results.length)} found${results.length > shown.length ? `, showing ${String(shown.length)}` : ''}`}
         </div>
       )}

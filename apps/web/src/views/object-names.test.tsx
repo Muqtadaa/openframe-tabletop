@@ -62,7 +62,7 @@ describe('object names', () => {
 
   const nameOf = (markup: string): string => /aria-label="([^"]*)"/.exec(markup)?.[1] ?? ''
 
-  const texted = ['sticky', 'text', 'shape', 'evidence', 'insight', 'decision', 'task']
+  const texted = ['sticky', 'text', 'shape']
   for (const type of texted) {
     it(`${type} is named without repeating its body`, () => {
       const markup = render(type, { text: rich })

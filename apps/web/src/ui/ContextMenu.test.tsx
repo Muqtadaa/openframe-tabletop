@@ -1,4 +1,5 @@
 import { asObjectId } from '@openframe/core'
+import { createFixtureRegistry } from '@openframe/core/testing'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { useInteractionStore } from '../interaction/interaction-store.js'
@@ -17,7 +18,7 @@ let opener: HTMLButtonElement
 
 beforeEach(async () => {
   useInteractionStore.setState({ contextMenu: null, selection: new Set(), clipboard: null })
-  ui = await mountOnBoard(<ContextMenu />)
+  ui = await mountOnBoard(<ContextMenu />, { registry: createFixtureRegistry() })
   opener = document.createElement('button')
   document.body.append(opener)
   opener.focus()
@@ -134,6 +135,8 @@ describe('the board’s menu, from the keyboard', () => {
 
 describe('a submenu, from the keyboard', () => {
   it('opens with ArrowRight on its item, takes the keyboard, and gives it back on ArrowLeft', () => {
+    // Promotion is a generic path the product has no type to show today, so
+    // the menu runs here over the test-only types a sticky note can become.
     const note = asObjectId('obj_note')
     const made = ui.runtime.dispatcher.dispatch({
       kind: 'CreateObjects',

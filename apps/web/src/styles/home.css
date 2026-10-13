@@ -11,7 +11,7 @@
  * stock rather than desk. Somebody arriving here has already been told what
  * kind of thing they are about to open.
  *
- * The rule stays under the 3:1 non-text ceiling `design-tokens.test.ts`
+ * The rule stays under the 3:1 non-text ceiling `incumbent-world.test.ts`
  * asserts. Ground you cannot ignore is a cage the content has to fight.
  */
 .of-home {
@@ -415,7 +415,7 @@
 
 /*
  * The destructive answer, stated in the one red this world reserves for it.
- * Set on the page rather than as filled red-on-white: `design-tokens.test.ts`
+ * Set on the page rather than as filled red-on-white: `a11y-floor.test.ts`
  * measures every pair against its floor, and a button invented here with a
  * hardcoded white would be a colour the test cannot see.
  */

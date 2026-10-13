@@ -181,7 +181,7 @@
   background: var(--of-accent-soft);
   /*
    * Its own mark: the wash alone is 1.13:1 against the bar, so only the icon's
-   * colour said the toggle was on (design-tokens.test holds it to 3:1 in both
+   * colour said the toggle was on (a11y-floor.test holds it to 3:1 in both
    * worlds). A bar along the foot rather than a ring, because a ring is what
    * FOCUS draws — a pressed toggle read as a focused one, and a focused
    * pressed one wore two rings (audit 2026-09-27).

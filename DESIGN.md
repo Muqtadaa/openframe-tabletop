@@ -240,6 +240,10 @@ components:
 > kept in [`docs/legacy/openframe-whiteboard-design.md`](docs/legacy/openframe-whiteboard-design.md).
 > Generic accessibility rules in it (contrast tiers, the 12px floor, target sizes,
 > reduced motion) are product commitments that carry over; the visual world is not.
+>
+> Test names below predate WP 0.11: `design-tokens.test.ts` is now `a11y-floor.test.ts`
+> and `stylesheet-discipline.test.ts` (any world) plus `incumbent-world.test.ts` (this
+> one), and `brand-splash.test.ts` is `boot-splash.test.ts` plus `incumbent-splash.test.ts`.
 
 # Design System: OpenFrame
 

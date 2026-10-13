@@ -15,7 +15,7 @@
  * Documents store token NAMES, never these values, so a theme can change
  * without touching a single saved board.
  *
- * Contrast is not asserted here, it is tested: `app/design-tokens.test.ts` parses
+ * Contrast is not asserted here, it is tested: `app/a11y-floor.test.ts` parses
  * this block and fails the build if a pair drops below its WCAG 2.2 AA floor.
  */
 :root {
@@ -265,7 +265,7 @@
    * A LINE in black or white: a stroke, an outline, a connector. Each of the
    * two is the page in one world, so there it is drawn in the gray ink
    * instead — a white shape vanished into the notebook at 1.06:1. Held at 3:1
-   * on the page by design-tokens.test.
+   * on the page by a11y-floor.test.ts.
    */
   --of-line-black: #16202b;
   --of-line-white: #3f5163;
@@ -314,7 +314,7 @@
    *
    * A separate family from the content hues on purpose: `--of-c-*` says what
    * something MEANS, and these say only which person. They are checked by
-   * `design-tokens.test.ts` on three counts — visible on the page at the 3:1
+   * `a11y-floor.test.ts` on three counts — visible on the page at the 3:1
    * non-text floor, at least 60 sRGB units apart from one another, and clear of
    * the three hues that carry meaning (accent, guide, danger).
    *
@@ -365,7 +365,7 @@
  * because the ground is doing the glowing, not the chrome.
  *
  * Every pair in here is measured by the same build test as the default world —
- * `design-tokens.test.ts` walks EVERY theme block, not the first one it finds.
+ * `a11y-floor.test.ts` walks EVERY theme block, not the first one it finds.
  * A theme that only looked checked would be worse than an unchecked one.
  *
  * Content hues keep their MEANING across both worlds: a red slip is still red,

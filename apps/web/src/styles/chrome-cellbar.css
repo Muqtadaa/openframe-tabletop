@@ -154,7 +154,7 @@
  * the grid lines, so it read as one more line, and a single cell got no fill
  * at all. Now it is washed, and ringed with a page-coloured halo on both sides
  * so the ring stands clear of the grid and of any cell colour — the same halo
- * the board's own selection carries, measured in design-tokens.test.
+ * the board's own selection carries, measured in a11y-floor.test.ts.
  */
 .of-table-ring {
   position: absolute;

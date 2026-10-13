@@ -66,7 +66,7 @@ const GAP_PX = PANEL_CLEARANCE_PX
 /*
  * Wide enough for a full row of the swatch grid. At 248 the row wrapped 5 + 2,
  * which reads as an accident rather than a grid — and a wrapped swatch row is
- * exactly what this panel exists to stop. `design-tokens.test.ts` does the
+ * exactly what this panel exists to stop. `incumbent-world.test.ts` does the
  * arithmetic against the grid's own column count.
  *
  * Grown from 276 with the label column, which had to widen to stop type-declared

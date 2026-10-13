@@ -1,20 +1,22 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import { readStyles } from '../styles/read-styles.js'
 
 /**
- * The splash is the one place a colour is allowed to be written twice.
+ * The splash's COLOURS, in OpenFrame's own brand and worlds.
  *
- * It has to paint at first paint, before any stylesheet has loaded, so its
- * critical CSS lives inline in `index.html` as literal values — outside the
- * reach of `design-tokens.test.ts`, which only reads the stylesheet. That is a
- * second source of truth for the brand, and a second source of truth drifts.
+ * It is the one place a colour is allowed to be written twice: it has to paint
+ * at first paint, before any stylesheet has loaded, so its critical CSS lives
+ * inline in `index.html` as literal values, outside the reach of the tests that
+ * read the stylesheet. That is a second source of truth for the brand, and a
+ * second source of truth drifts.
  *
- * So it is pinned here instead: every colour in the document's inline style has
- * to BE one of the tokens, and the assets it names have to exist. Changing a
- * brand token now either changes the splash or fails the build.
+ * So it is pinned here instead: every colour in the inline style has to BE one
+ * of the tokens. Changing a brand token now either changes the splash or fails
+ * the build. What must hold of ANY splash is in `boot-splash.test.ts`; this file
+ * goes with the brand.
  */
 const HTML = readFileSync(resolve(process.cwd(), 'index.html'), 'utf8')
 const CSS = readStyles()
@@ -36,12 +38,7 @@ function afterHoursToken(name: string): string {
 
 const inlineStyle = /<style>([\s\S]*?)<\/style>/.exec(HTML)?.[1] ?? ''
 
-describe('the boot splash', () => {
-  it('has inline critical CSS, or it cannot paint before the stylesheet', () => {
-    expect(inlineStyle).not.toBe('')
-    expect(inlineStyle).toContain('#of-splash')
-  })
-
+describe('the incumbent boot splash', () => {
   /*
    * Brand colours, plus each world's page colour for the quiet sheet a tab
    * gets once it has seen the artwork — a handover from the page to the page.
@@ -108,25 +105,6 @@ describe('the boot splash', () => {
     expect(/const FADE_MS = (\d+)/.exec(script)?.[1]).toBe(settle?.replace('ms', ''))
   })
 
-  /*
-   * The label promises a board only where one opens. The inline check cannot
-   * import the router, so its two patterns are held to the router's own.
-   */
-  it('recognises a board link exactly as the router does', () => {
-    const source = (path: string, name: string): string => {
-      const file = readFileSync(resolve(process.cwd(), path), 'utf8')
-      const found = new RegExp(`const ${name} = (/[^\\n]+/)\\n`).exec(file)?.[1]
-      if (found === undefined) throw new Error(`${name} not found in ${path}`)
-      return found
-    }
-    expect(HTML).toContain(
-      `room !== null && ${source('src/app/collab-config.ts', 'SHARED_ID')}.test(room)`,
-    )
-    expect(HTML).toContain(
-      `board !== null && ${source('src/app/route.ts', 'LOCAL_ID')}.test(board)`,
-    )
-  })
-
   /** The label's scrim is the void at 82%, written in channels rather than hex. */
   it('writes the scrim from the same void the background uses', () => {
     const scrim = /rgb\((\d+) (\d+) (\d+) \/ \d+%\)/.exec(inlineStyle)
@@ -140,42 +118,6 @@ describe('the boot splash', () => {
   it('tells the browser chrome the same colour', () => {
     const meta = /<meta name="theme-color" content="(#[0-9a-fA-F]{6})"/.exec(HTML)?.[1]
     expect(meta?.toLowerCase()).toBe(token('brand-void'))
-  })
-
-  /**
-   * Nothing in `public/` — Vite copies that directory into every build, which is
-   * how 4.7MB of benchmark boards nearly shipped. Brand assets go through the
-   * bundler like any other import, so they are hashed and only the referenced
-   * ones survive.
-   */
-  it('references assets that exist, and none of them from public/', () => {
-    /*
-     * `srcset` as well as `src`. The splash ships two widths now, and a reader
-     * that only knew about `src` would have let the 2x file be renamed, moved
-     * or deleted without a word — an unchecked reference is the whole failure
-     * mode this test exists for.
-     */
-    const single = [...HTML.matchAll(/(?:src|href)="(\/src\/assets\/[^"]+)"/g)].map((m) => m[1])
-    const sets = [...HTML.matchAll(/srcset="([^"]+)"/g)].flatMap((m) =>
-      (m[1] ?? '')
-        .split(',')
-        .map((candidate) => candidate.trim().split(/\s+/)[0])
-        .filter((path): path is string => path?.startsWith('/src/assets/') === true),
-    )
-
-    const referenced = [...new Set([...single, ...sets])]
-    expect(referenced.length).toBeGreaterThanOrEqual(4)
-    // The guard above is only worth anything if a srcset was actually read.
-    expect(sets.length).toBeGreaterThan(0)
-
-    for (const path of referenced) {
-      expect(path).not.toContain('/public/')
-      expect(
-        existsSync(resolve(process.cwd(), `.${String(path)}`)),
-        `missing ${String(path)}`,
-      ).toBe(true)
-    }
-    expect(existsSync(resolve(process.cwd(), 'public'))).toBe(false)
   })
 
   /**

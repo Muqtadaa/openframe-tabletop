@@ -94,7 +94,7 @@ export function luminance(hex: string): number {
 /**
  * The WCAG 2.2 contrast ratio between two colours, 1 to 21.
  *
- * The same formula `design-tokens.test.ts` asserts the palette with. A token
+ * The same formula `a11y-floor.test.ts` asserts the palette with. A token
  * pair is proven at build time; a colour somebody picks cannot be, so this is
  * the same question asked live in the picker instead. Duplicated deliberately:
  * the test parses the stylesheet from disk under Node and must not import the

@@ -492,7 +492,7 @@
  * The way out of the palette.
  *
  * Deliberately not another colour square: the palette is what the product
- * recommends and what `design-tokens.test.ts` can prove, and a literal is
+ * recommends and what `a11y-floor.test.ts` can prove, and a literal is
  * available rather than equal. It shows the literal it holds once there is
  * one, because a row of swatches has to be able to answer "what is this set
  * to" even when the answer is not in it.

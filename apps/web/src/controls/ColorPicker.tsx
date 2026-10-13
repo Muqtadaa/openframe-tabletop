@@ -67,7 +67,7 @@ export interface ColorPickerProps {
  * what that costs: a literal does not follow a theme.
  *
  * It also SAYS the contrast, which is the part a palette normally handles
- * silently. A token pair is proven at build time by `design-tokens.test.ts`;
+ * silently. A token pair is proven at build time by `a11y-floor.test.ts`;
  * a colour somebody picks cannot be, so the guarantee becomes a warning at the
  * moment of choosing rather than disappearing.
  */

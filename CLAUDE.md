@@ -360,10 +360,16 @@ direction contract for a surface). They are maintained through the vendored
 
 ### 22. Contrast is tested, not asserted
 
-WCAG 2.2 AA is a product commitment, so `app/design-tokens.test.ts` parses
+WCAG 2.2 AA is a product commitment, so `app/a11y-floor.test.ts` parses
 the stylesheet and fails the build when a pair drops below its floor. It restates
 no hex values: a duplicated palette drifts, and the test then passes against
 colours the app stopped using.
+
+The floors are kept apart from the look. `a11y-floor.test.ts` and
+`stylesheet-discipline.test.ts` hold for ANY world and may not name the incumbent
+one (`design-test-split.test.ts` enforces it); `incumbent-world.test.ts` and
+`incumbent-splash.test.ts` are OpenFrame's inherited look and are retired with it,
+so replacing a world cannot take a floor with it.
 
 The stylesheet is `apps/web/src/styles/`, one part per surface, and
 `styles/index.css` imports them in cascade order — that list IS the order the

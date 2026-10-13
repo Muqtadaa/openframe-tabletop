@@ -8,7 +8,7 @@ import { readStyles } from '../styles/read-styles.js'
  * PRODUCT.md commits to WCAG 2.2 AA, and 2.3.3 is the one that is easy to
  * honour once and then lose: somebody adds a keyframe six months from now and
  * nothing anywhere says it was supposed to have an alternative. This reads the
- * real stylesheet, the same way `design-tokens.test.ts` reads it for contrast.
+ * real stylesheet, the same way `a11y-floor.test.ts` reads it for contrast.
  *
  * Reduced motion means fewer and gentler, not none — so what is asserted is
  * that a moving animation is REPLACED under the preference, never that the
@@ -32,7 +32,7 @@ const CSS = readStyles().replace(/\/\*[\s\S]*?\*\//g, '')
  * older one for the tool tip — so it read that, found no answer for anything
  * on the front door, and would have gone on reading it forever. This is the
  * second time a test here has been written to read only the first of
- * something; `design-tokens.test.ts` has the same note about themes.
+ * something; `a11y-floor.test.ts` has the same note about themes.
  *
  * Braces are matched rather than pattern-guessed, because a media block
  * contains nested rules and `[\s\S]*?\n\}` stops at the first of them.

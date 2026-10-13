@@ -77,7 +77,7 @@
  * outside the token system entirely — invisible to the contrast test, wrong in
  * one of the two palettes, and unfixable without editing a vendored file. The
  * classes are mapped to this product's own content colours instead, and
- * `design-tokens.test.ts` measures every one of them against the code surface.
+ * `a11y-floor.test.ts` measures every one of them against the code surface.
  */
 .hljs-keyword,
 .hljs-built_in,

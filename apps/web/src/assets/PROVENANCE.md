@@ -89,6 +89,6 @@ worth measuring: the next piece of artwork may not be a clean 2x.
 
 ## Checking the result
 
-`pnpm test` — `app/brand-splash.test.ts` fails if the splash stops matching the
+`pnpm test` — `app/incumbent-splash.test.ts` fails if the splash stops matching the
 brand tokens, or names a file that is not here in `src` **or in `srcset`**.
 Look at the cut mark as well; a bad one is obvious at 360px and invisible at 32.

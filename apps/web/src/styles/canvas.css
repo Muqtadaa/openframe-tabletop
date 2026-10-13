@@ -69,7 +69,7 @@
    * follows a reader's text size; what is ON the board — a note's body, a
    * shape's label, a cell — is content, and a board must lay out the same
    * for everybody looking at it (rule 24: inside the world a length is a
-   * world unit). `design-tokens.test.ts` holds each to its rem step at the
+   * world unit). `a11y-floor.test.ts` holds each to its rem step at the
    * default 16px root.
    */
   --of-type-record: 12px;
@@ -204,7 +204,7 @@
    * A HALO in the page's colour, just outside the line. The accent alone was
    * 2.2:1 on a black note and 1.7:1 on a white one After Hours; with the halo
    * there is always one of the two against whatever the selection is over.
-   * Measured in design-tokens.test, both worlds, every slip and ink.
+   * Measured in a11y-floor.test, both worlds, every slip and ink.
    */
   box-shadow: 0 0 0 3px var(--of-page);
   transform-origin: 50% 50%;

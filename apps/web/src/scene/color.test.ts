@@ -60,7 +60,7 @@ describe('contrast', () => {
   })
 
   /**
-   * The pair the palette ships, at the value `design-tokens.test.ts` measures
+   * The pair the palette ships, at the value `a11y-floor.test.ts` measures
    * it at. If these two ever disagree, one of them is wrong about WCAG.
    */
   it('agrees with the palette suite on a real pair', () => {

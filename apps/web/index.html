@@ -14,7 +14,7 @@
       during the wait it exists to cover — React is most of that wait.
 
       The colours below are literals because a stylesheet has not loaded yet at
-      first paint. `app/brand-splash.test.ts` asserts they equal the
+      first paint. `app/incumbent-splash.test.ts` asserts they equal the
       `--of-brand-*` tokens in styles/tokens.css, so there is still one source of truth.
 
       The backdrop is a 146-byte inlined thumbnail of the artwork, so the first
@@ -234,7 +234,7 @@
         screen still pays 67KB and only a 2x screen pays 164KB.
 
         Vite rewrites `srcset` in HTML the same way it rewrites `src`, so both
-        files are hashed and bundled; `brand-splash.test.ts` asserts every path
+        files are hashed and bundled; `boot-splash.test.ts` asserts every path
         named in EITHER attribute exists.
       -->
       <img
@@ -252,7 +252,7 @@
         words are the neutral ones, so a page where this never ran is still
         telling the truth. Mirrors `readRoute()` exactly, validation and all: a
         truncated or mangled link opens the front door, so it must not promise
-        a board. `brand-splash.test.ts` holds these patterns to the ones the
+        a board. `boot-splash.test.ts` holds these patterns to the ones the
         router uses.
       -->
       <script>

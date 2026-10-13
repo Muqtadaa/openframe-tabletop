@@ -16,7 +16,7 @@ import { createDefaultViewRegistry } from './index.js'
  *
  * Black and white are the two colours that mean themselves, and each is the
  * page in one world: a white shape vanished in the notebook and a black line
- * After Hours. Strokes take `--of-line-*`, which `design-tokens.test` holds
+ * After Hours. Strokes take `--of-line-*`, which `a11y-floor.test` holds
  * at 3:1 on the page in both worlds; fills keep the colour that was chosen.
  */
 describe('edges in black and white', () => {

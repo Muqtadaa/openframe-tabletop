@@ -4,7 +4,7 @@
  * THE ONE PLACE LITERAL COLOURS BELONG.
  *
  * Everything else in this file must come from a token, because a literal
- * answers to nothing and a theme cannot move it — `design-tokens.test.ts`
+ * answers to nothing and a theme cannot move it — `stylesheet-discipline.test.ts`
  * enforces that and has caught two real drifts. Three rules below are the
  * exception it names, and only three: they do not paint the product's colour
  * SCHEME, they paint the colour SPACE. The hue ramp is the spectrum, and the

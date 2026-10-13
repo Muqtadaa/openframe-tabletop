@@ -65,6 +65,7 @@
 .of-home__open {
   flex: none;
   align-self: center;
+  justify-self: end;
   padding: var(--of-space-6) var(--of-space-12);
   font-size: var(--of-type-control);
   font-weight: var(--of-weight-medium);

@@ -181,7 +181,9 @@
 }
 
 /*
- * The column letters and row numbers. Set as records — mono, small, muted —
+ * The column letters and row numbers. They are apparatus on the table, so they
+ * are drawn from the scene's tokens and match the selection ring exactly,
+ * whatever the application's theme. Set as records — mono, small, muted —
  * because they are addresses rather than content, and pressed to select what
  * they name.
  */
@@ -196,35 +198,35 @@
   font-family: var(--of-mono);
   font-size: var(--of-type-record);
   font-variant-numeric: tabular-nums;
-  color: var(--of-ink-muted);
-  background: var(--of-panel);
-  border: 1px solid var(--of-panel-border);
+  color: var(--sc-ink-muted);
+  background: var(--sc-panel);
+  border: 1px solid var(--sc-panel-border);
   border-radius: var(--of-radius-apparatus);
   cursor: pointer;
   pointer-events: auto;
 }
 
 .of-table-strip__item:hover {
-  color: var(--of-ink);
-  background: var(--of-hover);
+  color: var(--sc-ink);
+  background: var(--sc-hover);
 }
 
 .of-table-strip__item--within {
   font-weight: var(--of-weight-semibold);
-  color: var(--of-accent);
-  background: var(--of-accent-soft);
-  border-color: var(--of-accent);
+  color: var(--sc-select);
+  background: var(--sc-select-soft);
+  border-color: var(--sc-select);
 }
 
 .of-table-strip__item--on {
-  color: var(--of-page);
-  background: var(--of-accent);
-  border-color: var(--of-accent);
+  color: var(--sc-halo);
+  background: var(--sc-select);
+  border-color: var(--sc-select);
 }
 
 .of-table-strip__item--on:hover {
-  color: var(--of-page);
-  background: var(--of-accent);
+  color: var(--sc-halo);
+  background: var(--sc-select);
 }
 
 /*
@@ -248,7 +250,7 @@
 
 .of-table-strip__grip::after {
   position: absolute;
-  background: var(--of-accent);
+  background: var(--sc-select);
   opacity: 0;
   transition: opacity var(--of-quick) var(--of-ease);
   content: '';

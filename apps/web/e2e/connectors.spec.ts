@@ -688,21 +688,21 @@ test.describe('formatting a connector label', () => {
 
   /*
    * Unplated, a label wears a halo so it reads where it crosses its line. The
-   * halo was the ground BEHIND the page, a shade off the page it sits on, so
+   * halo was the desk BEHIND the ground, a shade off the ground it sits on, so
    * every label wore a faint box of the wrong colour.
    */
-  test('wears a halo the colour of the page', async ({ page }) => {
+  test('wears a halo the colour of the ground', async ({ page }) => {
     await labelled(page, 'depends on')
     await page.locator(CANVAS).click({ position: { x: 1180, y: 120 } })
-    const { halo, pageColour } = await page.getByTestId('connector-label').evaluate((element) => {
+    const { halo, groundColour } = await page.getByTestId('connector-label').evaluate((element) => {
       const probe = document.createElement('div')
-      probe.style.color = 'var(--of-page)'
+      probe.style.color = 'var(--sc-ground)'
       element.appendChild(probe)
-      const pageColour = getComputedStyle(probe).color
+      const groundColour = getComputedStyle(probe).color
       probe.remove()
-      return { halo: getComputedStyle(element).textShadow, pageColour }
+      return { halo: getComputedStyle(element).textShadow, groundColour }
     })
-    expect(halo).toContain(pageColour)
+    expect(halo).toContain(groundColour)
   })
 
   /*

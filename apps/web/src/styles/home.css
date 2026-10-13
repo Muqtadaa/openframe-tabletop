@@ -533,7 +533,7 @@
    * padding); 108px fits the longest time ("11 months ago") WITH the mono's
    * 0.02em tracking, which 96 forgot — "9 minutes ago" wrapped at 1280.
    */
-  grid-template-columns: minmax(0, 1fr) 118px 108px;
+  grid-template-columns: minmax(0, 1fr) 118px 108px auto;
   /* 36px rather than the 24px AA floor: a list row is a large target that costs
      nothing to make comfortable. */
   min-height: var(--of-hit-lg);

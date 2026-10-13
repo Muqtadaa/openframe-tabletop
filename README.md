@@ -1,52 +1,53 @@
-# OpenFrame
+# OpenFrame Tabletop
 
-A **structured visual workspace** on an infinite canvas.
+A browser-based **virtual tabletop** for online tabletop roleplaying games, built
+on the collaborative spatial foundation of [OpenFrame](https://github.com/Muqtadaa/open-frame).
 
-OpenFrame is in the product category of Miro and FigJam, built around a different
-premise: canvas objects carry _meaning_, not just appearance. A sticky note and a
-piece of research evidence are the same kind of thing to the system — they differ
-only in the payload they carry.
+> **Status: Phase 0.** This repository is OpenFrame at commit `8eb19c5`, with its
+> AI, MCP, research-type and session-facilitation features removed, being
+> re-founded as a tabletop. There is **no tabletop yet**: no Game, Scene, Token,
+> grid, role, dice or game system. What exists is the foundation they will be
+> built on, and the plan for building them.
+> [Product truth](PRODUCT.md) · [Source audit](docs/plans/00-source-audit.md) ·
+> [Phase 0 plan and actuals](docs/plans/01-phase-0-execution.md) ·
+> [Decision records](docs/adr/README.md)
 
-```ts
-{ type: 'sticky',   data: { text: 'Customers do not understand pricing' } }
-
-{ type: 'evidence', data: { text: 'Customers do not understand pricing',
-                            source: 'September usability study',
-                            participant: 'P07',
-                            tags: ['pricing', 'comprehension'] } }
-```
-
-Both are spatially manipulable canvas objects. Only one of them can be queried,
-filtered, linked and reasoned about.
+The working name is a working title. The product is not a whiteboard with a token
+tool, and not a greenfield VTT: it keeps what OpenFrame already got right and
+replaces what was about a whiteboard.
 
 ---
 
-## Status
+## What is here
 
-**Phases 1–4 are done.** OpenFrame is a working, shared canvas:
+Inherited from OpenFrame, verified at the baseline, and kept:
 
-- **The canvas.** Sticky notes, text, eight shape kinds, frames, connectors,
-  tables, code blocks, images and groups; selection, resize, rotation, z-order,
-  clipboard and undo; snap-to-grid and alignment guides.
-- **Structured objects.** Evidence, insights, hypotheses, decisions, requirements,
-  experiments, tasks and journey stages, with typed relations between them.
-- **Collaboration.** Boards shared by link, edited live by several people in one
-  room, with presence, comments and mentions, accounts and workspaces.
-- **Agents.** An MCP server lets an agent read and edit a board through the same
-  command layer people use. Every edit it makes to the board is recorded and
-  can be reverted; a comment it leaves is a comment, like anyone's.
-- **Running a session.** A shared timer and music, dot voting, polls,
-  reactions, following someone's view, and AI clustering of notes into themes.
-- **Finding your way back.** Version history with preview and restore, a board
-  overview by frame and type, and one Inbox for mentions and agents' changes.
+- **A canvas.** Infinite pan and zoom, culling, selection, resize, rotation,
+  z-order, snapping, alignment, clipboard, and undo that is local to the person.
+  Typed objects (notes, text, shapes, frames, groups, connectors, tables, code,
+  images) with rich text.
+- **A domain that stays pure.** `packages/core` has no React, DOM, database or
+  CRDT. Every persistent change goes through one command layer. Object behaviour
+  lives in a registry. Documents are versioned and migrated, and one that cannot be
+  read is never written back.
+- **Shared documents.** One room per document on Cloudflare Durable Objects,
+  with presence, reconnection, images in R2, and version history.
+- **Accounts and membership** on Supabase, never holding a document's contents.
+- **Enforced boundaries and measured performance.** Dependency rules, guard tests,
+  accessibility tests that read the stylesheet, and benchmarks held to budgets.
 
-[ADR 0002](docs/adr/0002-canvas-engine-custom-dom-svg.md) asked whether a custom
-DOM/SVG renderer could carry this. It can: DOM node count stays flat from 100 to
-10,000 objects, and a cull pass on a 10,000-object mixed board costs about 3ms.
+Not here, by decision: AI of any kind, the MCP server, the research object types,
+dot voting, and the session timer and music. Polls and reactions are written and
+tested but hidden. [The audit](docs/plans/00-source-audit.md) says why for each.
 
-[Phase 5 · AI and MCP](docs/phases/phase-5-ai-and-mcp.md) is in progress: the
-MCP server ([Phase 5a](docs/phases/phase-5a-mcp-server.md)) has finished stages
-1–4 and AI clustering is built; stage 5, a remote transport, is next.
+## Where it is going
+
+Games above Scenes. A Scene reuses the board document; a Game is a catalogue of
+members, roles, a game system and Scenes. Actors and Tokens are separate. The
+platform knows nothing of any rules system; the first bundled one is based on the
+[System Reference Document 5.2.1](https://www.dndbeyond.com/srd) under CC-BY-4.0.
+Secrets are an authorization boundary, not a styling one. The plan, the phases and
+the open questions are in [the brief](docs/plans/openframe-tabletop-project-plan.md).
 
 ---
 
@@ -55,47 +56,41 @@ MCP server ([Phase 5a](docs/phases/phase-5a-mcp-server.md)) has finished stages
 ```bash
 pnpm install
 pnpm dev        # http://localhost:5173
-pnpm verify     # typecheck + lint + boundaries + tests + build
+pnpm verify     # format + typecheck + lint + boundaries + tests + build + budgets
 ```
 
-Requires Node 22+ and pnpm 10+.
-
----
+Requires Node 22+ and pnpm 10+. There is no backend yet: the committed
+configuration points at placeholder hosts that cannot resolve, so accounts and
+shared documents are inert until Phase 1 provisions real ones.
 
 ## Structure
 
 ```
-packages/core     Domain, commands, schema, ports. Pure TypeScript —
-                  no React, no DOM, no database, no CRDT. Two dependencies.
+packages/core     Domain, commands, schema, ports. Pure TypeScript — no React,
+                  no DOM, no database, no CRDT. Two dependencies.
 
 packages/collab   The shared document: how a board maps onto Yjs, the room
-                  protocol, and the change log agents write to.
+                  protocol, presence and the change log.
 
 apps/web          Canvas renderer, interaction layer, UI, storage adapters.
 
 apps/rooms        The room server: a Cloudflare Worker routing to one Durable
-                  Object per board, with images in R2.
+                  Object per document, with images in R2.
 
-apps/mcp          The MCP server, a separate process an agent talks to over
-                  stdio.
+supabase/         Migrations: accounts, the board list, membership, workspaces
+                  and comments. Never a document's contents.
 
-supabase/         Database migrations: accounts, the board list, membership,
-                  workspaces and comments. Never a board's contents.
-
-docs/             Architecture, decision records, roadmap, appendices.
+docs/             Architecture, decision records, the Tabletop plans, and the
+                  OpenFrame history in docs/legacy.
 ```
 
----
-
-## The five ideas
+## The ideas that carry over
 
 1. **The domain is pure.** Enforced in CI, not merely intended.
-2. **One mutation path.** Everything persistent goes through the command layer,
-   whether it comes from a person, a collaborator's edit or an agent over MCP.
-3. **Nothing is written during a drag.** One rule that fixes undo granularity,
-   multiplayer semantics and performance at once.
-4. **Object behaviour lives in a registry.** Adding a semantic type is two
-   one-line registrations plus its own folder.
+2. **One mutation path.** Everything persistent goes through the command layer.
+3. **Nothing is written during a drag.** Undo granularity, multiplayer semantics and
+   performance all depend on it.
+4. **Object behaviour lives in a registry.**
 5. **Never write back a document you could not read.**
 
 ---
@@ -104,31 +99,27 @@ docs/             Architecture, decision records, roadmap, appendices.
 
 **[Start here →](docs/README.md)**
 
+- [`PRODUCT.md`](PRODUCT.md) — who this is for and what is settled
 - [Architecture overview](docs/architecture/01-overview.md) — the system in ten minutes
-- [Decision records](docs/adr/README.md) — why things are the way they are
-- [Roadmap](docs/phases/README.md) — what is built and what is next
+- [Decision records](docs/adr/README.md) — OpenFrame's, and the Tabletop `T001`–`T012`
 - [`CLAUDE.md`](CLAUDE.md) — engineering rules for working in this repo
 
 ---
 
-## Licence
+## Licence and provenance
 
-[GNU Affero General Public License v3.0](LICENSE) — see [`LICENSE`](LICENSE) for
-the full text.
+[GNU Affero General Public License v3.0](LICENSE).
 
 Copyright (C) 2026 Muqtadaa.
 
-The AGPL is the GPL plus one clause that matters for software like this:
-**section 13**. If you modify OpenFrame and let people use it over a network,
-you have to offer those users the source of your modified version. Running it
-privately, or using it unmodified, carries no such obligation.
+OpenFrame Tabletop is a derivative of OpenFrame, taken at commit
+`8eb19c53f6ab9aa5a852909a94436fa23f776b66` with its history preserved. It is
+licensed on the same terms. The AGPL's section 13 means that if you modify this and
+let people use it over a network, you must offer those users the source of your
+modified version. Whether a hosted Tabletop carries a source link is an owner
+decision not yet taken; **if you fork and host it, section 13 binds you.**
 
-That is the point of choosing it. A canvas app's natural failure mode is someone
-hosting it as their own product while contributing nothing back; the AGPL does
-not prevent that, it just requires the improvements to be published too. As sole
-copyright holder I can also grant commercial licences on different terms, which
-a permissive licence would have given away for free.
-
-As the copyright holder I am not bound by my own licence, so this deployment
-carries no source link. **If you fork and host it, section 13 binds you: offer
-your users the source of your version — a link in the app is the usual way.**
+Rules content from the SRD 5.2.1, when it ships, is separately licensed data under
+CC-BY-4.0 with its own provenance and attribution (ADR T012). Nothing from the
+Player's Handbook, Dungeon Master's Guide, Monster Manual, D&D Beyond Basic Rules or
+any other book or site is assumed to be redistributable.

@@ -231,6 +231,16 @@ components:
     rounded: '{rounded.slip}'
 ---
 
+> **Historical for OpenFrame Tabletop (2026-10-13).** This is the design contract of
+> **OpenFrame**, the whiteboard Tabletop was derived from: "The Notebook" and its
+> second world, After Hours. It is **not** the Tabletop design contract. It stays in
+> place only as the incumbent evidence the Impeccable replacement-world process reads
+> (WP 0.12), and is replaced by a new `DESIGN.md` when that process has been run and
+> a shell has been built from it (WP 0.13). A copy with a plain historical banner is
+> kept in [`docs/legacy/openframe-whiteboard-design.md`](docs/legacy/openframe-whiteboard-design.md).
+> Generic accessibility rules in it (contrast tiers, the 12px floor, target sizes,
+> reduced motion) are product commitments that carry over; the visual world is not.
+
 # Design System: OpenFrame
 
 ## Overview

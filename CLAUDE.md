@@ -1,4 +1,11 @@
-# CLAUDE.md — engineering rules for OpenFrame
+# CLAUDE.md — engineering rules for OpenFrame Tabletop
+
+This repository is OpenFrame Tabletop, derived from OpenFrame (commit `8eb19c5`).
+The rules below were written for OpenFrame and still bind; where one names a
+feature that was removed, it describes the lesson the feature taught. Product
+truth is in [`PRODUCT.md`](PRODUCT.md); the plan is in
+[`docs/plans/`](docs/plans/00-source-audit.md); the Tabletop decisions are
+`docs/adr/T001`–`T012`.
 
 Durable rules only. Product context lives in [`docs/`](docs/README.md); start at
 [architecture/01-overview.md](docs/architecture/01-overview.md).
@@ -17,6 +24,8 @@ pnpm test:e2e:smoke   # the @smoke core loop in Firefox and WebKit (every PR)
 pnpm test:e2e:all     # the whole suite in all three engines (nightly)
 pnpm test:rooms       # shared boards against a real Durable Object (wrangler --local)
 pnpm bench:fixtures   # generate 100/1k/5k/10k boards into tools/bench/fixtures/
+pnpm bench:cull       # the cost of one cull pass, measured directly (rule 10)
+pnpm bench:transaction   # a many-command transaction and a remote batch: time and map copies (rule 10)
 pnpm test:bench       # renderer scaling probe (needs the fixtures above)
 pnpm build:bench      # deployable build WITH the bench panel and fixtures
 pnpm bench:check <results.json…>   # hold bench results to tools/bench/budgets.ts (nightly)
@@ -87,7 +96,7 @@ been verified to fail when violated.
 ### 3. All persistent mutation goes through `CommandDispatcher.dispatch`
 
 There is no second path. Not from a component, not from a hook, not from an
-adapter, and later not from AI, the API or MCP.
+adapter, and not from any future automation or API.
 
 `DocumentWriter` is held **only** by the composition root. If you find yourself
 wanting it elsewhere, the change belongs in a command handler.
@@ -122,7 +131,7 @@ user's work is the one unacceptable failure.
 
 ### 8. Validate at boundaries, not in hot paths
 
-Load, import, API, MCP, AI output, and arbitrary payloads such as
+Load, import, API, any future automation, and arbitrary payloads such as
 `UpdateObjectData`. Never in the render path; never on trusted internal objects.
 
 ### 9. Zustand selectors must return primitives or stable references

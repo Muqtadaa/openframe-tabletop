@@ -30,6 +30,11 @@ People who play tabletop roleplaying games together online, in groups that
 The roles are not symmetrical, and what each may see differs: a GM holds
 information players must not receive.
 
+**The shared screen.** Groups who are all online are often also in one room, with a
+"players only" view cast to a TV or projector for the physical table. It shows what
+every player may see and nothing a GM holds back, and it is read at a distance by
+people who are not operating it. (Stated by the owner, 2026-10-13; not yet designed.)
+
 ## Product Purpose
 
 A browser-based virtual tabletop: a **structured collaborative game environment
@@ -76,6 +81,19 @@ connectors, tables, code and images; rich text; undo that is local to the person
 real-time shared documents, one room per document, with presence; accounts,
 membership and image storage; versioned, migratable documents; version history.
 
+**Intent stated by the owner, not yet designed or built (Phase 0 shape round):**
+
+- Players control their own tokens, measure distances and areas with rulers, draw
+  an area of effect, and add status symbols to their tokens.
+- The GM has all of that and also manages the Scene's layers (background,
+  mid-ground, foreground, a token layer for NPCs, and a GM-only layer for secrets),
+  moves tokens between layers, and uses tools such as an initiative tracker and
+  hit-point counters.
+- Because the GM's live toolset is much larger than a player's, the density of the
+  GM's surface is a central design problem: controls appear by selection, token
+  state, role and posture rather than all at once. A GM-only layer is a partition
+  of what is sent, not a hidden flag (T004, T011).
+
 **Not built yet:** everything that makes it a tabletop. There is no Game, no Scene,
 no Token, no grid, no map, no roles, no dice, no Actor and no game system today.
 The shell is being redesigned (Phase 0) before any of that is built.
@@ -118,6 +136,18 @@ link (an owner decision, see Brand Commitments).
 - Where SRD 5.2.1 content ships, the attribution statement from the SRD itself
   ships with it (ADR T012). Nothing from a book or site that is not in the SRD is
   assumed redistributable.
+- **It must not look like** a fantasy costume (the platform assumes no genre), enterprise
+  admin software (dense grey panels, form-first screens), or a chat application with a map
+  attached (the table is the product, not a pane beside a feed). Stated by the owner,
+  2026-10-13.
+- **Standing visual preference (owner, 2026-10-13):** the category standard, executed at full
+  craft and without irony or a smuggled quirk: a quiet dark workspace, a tool rail, a docked
+  sidebar, scene tabs. The craft bar is Owlbear Rodeo for restraint, Roll20 for familiarity and
+  Figma or Linear for the finish of dense work software. It was chosen over two distinct
+  directions the Impeccable replacement-world process offered (a cartographic one and a
+  game-table one); the roll service was unreachable from the build sandbox, so that round ran
+  degraded with no challengers. The standing preference binds the layout conventions; the
+  constraints in this file (two postures, minimal chrome in Play, chat not leading) bind it.
 - **No Tabletop identity exists yet:** no logo, wordmark, palette or type. OpenFrame's
   neon artwork and its two visual worlds belong to OpenFrame, are kept as history,
   and are not the Tabletop identity. The replacement is decided in the Impeccable

@@ -49,7 +49,7 @@ the phase that finalises it.
 | [T006](T006-vision-architecture.md)                   | Vision: vocabulary now, representation in Phases 5 and 6               | Accepted (scoped stub)   |
 | [T007](T007-extension-isolation.md)                   | Extensions: a boundary not to foreclose                                | Accepted (boundary note) |
 | [T008](T008-package-boundaries.md)                    | `tabletop` and `system-srd5e` earn packages, later                     | Accepted                 |
-| [T009](T009-play-and-prep-shell.md)                   | Play and Prep are two postures of one application                      | Proposed (after `shape`) |
+| [T009](T009-play-and-prep-shell.md)                   | Play and Prep are two postures of one application                      | Accepted                 |
 | [T010](T010-application-theme-and-scene-content.md)   | Application theme and Scene content are separate token spaces          | Accepted                 |
 | [T011](T011-game-and-scene-collaboration-topology.md) | One room per audience tier, admitted by ticket                         | Accepted (direction)     |
 | [T012](T012-system-and-content-provenance.md)         | Rules code and content are separate; every content file has provenance | Accepted                 |

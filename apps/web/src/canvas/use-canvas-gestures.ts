@@ -3,7 +3,6 @@ import {
   unionAll,
   worldRectToScreen,
   type AnyOpenFrameObject,
-  type MarkAuthor,
   type ObjectId,
   type Point,
 } from '@openframe/core'
@@ -78,12 +77,6 @@ export function useCanvasGestures(containerRef: RefObject<HTMLElement | null>) {
   // every handler below.
   const me = useMe()
   const meRef = useRef(me)
-  /** The dot a press is about to cast, handed from its intent to its gesture. */
-  const pendingVote = useRef<{
-    readonly on: ObjectId
-    readonly remove: boolean
-    readonly by: MarkAuthor
-  } | null>(null)
   useEffect(() => {
     meRef.current = me
   }, [me])
@@ -284,13 +277,6 @@ export function useCanvasGestures(containerRef: RefObject<HTMLElement | null>) {
         case 'begin-marquee':
           store.beginMarquee(worldPoint)
           return 'marquee'
-        case 'begin-vote': {
-          // Cast on release, by the vote gesture, unless the press moves.
-          const by = meRef.current
-          if (by === null) return null
-          pendingVote.current = { on: intent.on, remove: intent.remove, by }
-          return 'vote'
-        }
         case 'begin-draw':
           store.beginDraw(intent.objectType, intent.at, intent.data)
           return 'draw'
@@ -427,15 +413,7 @@ export function useCanvasGestures(containerRef: RefObject<HTMLElement | null>) {
        */
       if (!panning) event.currentTarget.focus({ preventScroll: true })
 
-      /*
-       * Voting reaches past everything a press would otherwise grab: the
-       * selection's handles (a dot near a selected note's edge resized it)
-       * and a group around the note (rule 18: `hitTestRaw`, as a double-click
-       * does, or a grouped note could never be voted on).
-       */
-      const voting = store.tool === 'dot'
-      pendingVote.current = null
-      const grabbed = voting || panning ? null : handleUnderPointer(event.target)
+      const grabbed = panning ? null : handleUnderPointer(event.target)
       /*
        * Remembered for the `dblclick` that may follow this press: by then the
        * handle can have moved out from under the pointer, and a double-click
@@ -469,19 +447,16 @@ export function useCanvasGestures(containerRef: RefObject<HTMLElement | null>) {
 
       const worldPoint = toWorld(event.clientX, event.clientY)
       const document = runtime.store.getDocument()
-      const hitId = voting
-        ? hitTestRaw(document, runtime.registry, worldPoint)
-        : (hollowChromeUnderPointer([event.target], isHollow) ??
-          hitTest(document, runtime.registry, worldPoint) ??
-          objectChromeUnderPointer(event.target))
+      const hitId =
+        hollowChromeUnderPointer([event.target], isHollow) ??
+        hitTest(document, runtime.registry, worldPoint) ??
+        objectChromeUnderPointer(event.target)
       const intents = decidePointerDown({
         tool: store.tool,
         worldPoint,
         hitId,
         selection: store.selection,
         shiftKey: event.shiftKey,
-        altKey: event.altKey,
-        takingBack: store.takingBack,
         button: event.button,
         contextClick: IS_MAC && event.ctrlKey,
         spaceHeld: spaceHeld.current,
@@ -533,7 +508,6 @@ export function useCanvasGestures(containerRef: RefObject<HTMLElement | null>) {
         endpointId: null,
         startAngle: 0,
         moved: false,
-        ...(pendingVote.current === null ? {} : { vote: pendingVote.current }),
       }
     },
     [abandon, applyIntent, beginPinch, canvasPoint, context, isHollow, me, runtime, toWorld, views],

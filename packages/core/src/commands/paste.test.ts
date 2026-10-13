@@ -180,10 +180,10 @@ describe('what a paste will not put down, whatever the copy says', () => {
   /*
    * A copy made here never holds these, but a paste reads content that came
    * through the system clipboard and may have been made by anything. A mark
-   * points at an object it was made on, and a vote round at a board's
-   * session; neither is something a copy of a note carries.
+   * points at an object it was made on; it is not something a copy of a note
+   * carries.
    */
-  it('leaves out marks and sessions written into a copy by hand', () => {
+  it('leaves out marks written into a copy by hand', () => {
     const a = note('a')
     h.dispatcher.dispatch({
       kind: 'ToggleReaction',
@@ -191,20 +191,11 @@ describe('what a paste will not put down, whatever the copy says', () => {
       glyph: 'plus-one',
       by: { key: 'g_otter', name: 'Otter', hue: 30 },
     })
-    const started = h.dispatcher.dispatch({
-      kind: 'StartVoteRound',
-      title: 'Which matters most?',
-      scope: { kind: 'board' },
-      perPerson: 3,
-      hidden: false,
-      by: { key: 'g_otter', name: 'Otter', hue: 30 },
-    })
-    if (!started.ok) throw started.error
     const doc = h.store.getDocument()
     const extras = [...doc.objects.values()]
-      .filter((object) => object.type === 'reaction' || object.type === 'vote-round')
+      .filter((object) => object.type === 'reaction')
       .map(serializeObject)
-    expect(extras).toHaveLength(2)
+    expect(extras).toHaveLength(1)
 
     const content = copy([a])
     const pasted = paste({ ...content, objects: [...content.objects, ...extras] })

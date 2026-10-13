@@ -82,18 +82,6 @@
   background: var(--of-accent-soft);
 }
 
-/* A line that says what the menu is about, above its entries; never pressed. */
-.of-menu__label {
-  max-width: 28ch;
-  padding: var(--of-space-4) var(--of-step);
-  margin: 0;
-  overflow: hidden;
-  font-size: var(--of-type-record);
-  color: var(--of-ink-muted);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 /* An entry that is a mode, while it is on. */
 .of-menu__item[aria-checked='true'] {
   font-weight: var(--of-weight-semibold);

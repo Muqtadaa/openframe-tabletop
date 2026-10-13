@@ -224,7 +224,6 @@ test.describe('what it offers', () => {
       'Select all',
       'Zoom to fit',
       'Board overview',
-      'Start dot voting…',
     ])
     await expect(item(page, 'Paste here')).toHaveAttribute('aria-disabled', 'true')
     // Focus skips to the first thing that can actually be done.

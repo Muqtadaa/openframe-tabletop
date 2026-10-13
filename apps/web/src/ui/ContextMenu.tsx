@@ -8,8 +8,6 @@ import {
   type RefObject,
 } from 'react'
 
-import { inVoteScope, type VoteScope } from '@openframe/core'
-
 import { AnchoredSurface } from '../controls/AnchoredSurface.js'
 import { useEscapeToClose } from '../controls/escape-stack.js'
 import { DisclosureIcon } from '../controls/icons.js'
@@ -19,7 +17,6 @@ import { useCanEdit } from '../hooks/use-can-edit.js'
 import { useCommands, type PasteAs } from '../hooks/use-commands.js'
 import { useExport } from '../hooks/use-export.js'
 import { useMe } from '../hooks/use-me.js'
-import { useVoteRound } from '../hooks/use-voting.js'
 import { useOpenFrame } from '../runtime/context.js'
 import { useInteractionStore, type ContextMenuAt } from '../interaction/interaction-store.js'
 import { writeSystemClipboard, type ClipboardPayload } from '../interaction/clipboard-format.js'
@@ -91,7 +88,6 @@ export function ContextMenu() {
   const commands = useCommands()
   const exportAs = useExport()
   const me = useMe()
-  const round = useVoteRound()
   const canEdit = useCanEdit()
   const { runtime } = useOpenFrame()
   /*
@@ -285,75 +281,6 @@ export function ContextMenu() {
       return type !== undefined && runtime.registry.get(type)?.capabilities.markable === true
     })
 
-  /*
-   * Dot voting. A round is started on the whole board from empty canvas, or
-   * on what one frame holds from the frame's menu. A note's menu already
-   * fills a laptop window, and one more row hung it up over the note it is
-   * about, so a note's menu gains one row — "Dot voting", holding Add and
-   * Remove — and only while a round is open: that is when the keyboard needs
-   * it, as the pointer needs the tool.
-   */
-  const roundOpen = round?.data.status === 'open'
-  const startable = canEdit && me !== null && !roundOpen
-  const only = selected.length === 1 ? runtime.store.getObject(selected[0]!) : undefined
-  /*
-   * A FRAME's round, asked of the capability that makes a frame a frame —
-   * `hollow` — and never of "can hold children": a group holds children too,
-   * and a round started on one was titled "this frame" and could take no
-   * votes at all, its notes resolving to the group (rule 18).
-   */
-  const frame = only !== undefined && runtime.registry.get(only.type)?.capabilities.hollow === true
-  const votingScope: VoteScope | null = !hasSelection
-    ? { kind: 'board' }
-    : frame && only !== undefined
-      ? { kind: 'frame', frame: only.id }
-      : // Several notes, chosen on purpose. Not one: a single note's menu
-        // already fills a laptop window, and a round of one note is no vote.
-        reactable && selected.length > 1
-        ? { kind: 'objects', ids: [...selected] }
-        : null
-  const startVoting =
-    startable && votingScope !== null
-      ? [
-          {
-            label: 'Start dot voting…',
-            run: () => {
-              useInteractionStore.getState().openVotingSetup(votingScope)
-            },
-          },
-        ]
-      : []
-  // Only where the round's votes may go, so the menu never offers a refusal.
-  const doc = runtime.store.getDocument()
-  const votable =
-    round !== null &&
-    selected.every((id) => {
-      const object = doc.objects.get(id)
-      return object !== undefined && inVoteScope(doc, round.data, object)
-    })
-  const voteItems =
-    roundOpen && reactable && votable && me !== null
-      ? [
-          {
-            label: 'Dot voting',
-            submenu: [
-              {
-                label: 'Add vote',
-                run: () => {
-                  commands.vote(selected, me)
-                },
-              },
-              {
-                label: 'Remove vote',
-                run: () => {
-                  commands.vote(selected, me, true)
-                },
-              },
-            ],
-          },
-        ]
-      : []
-
   const promotions = selected
     .map((id) => {
       const type = runtime.store.getObject(id)?.type
@@ -444,7 +371,6 @@ export function ContextMenu() {
         },
       },
     ],
-    ...(startVoting.length === 0 ? [] : [startVoting]),
   ]
 
   const selectionGroups: Group[] = [
@@ -523,8 +449,6 @@ export function ContextMenu() {
               ],
             },
           ]),
-      ...voteItems,
-      ...startVoting,
     ],
     [
       { label: 'Cut', shortcut: 'Mod+X', run: () => toSystem(commands.cutSelection()) },

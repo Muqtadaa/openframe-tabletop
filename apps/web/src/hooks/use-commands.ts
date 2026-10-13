@@ -13,7 +13,6 @@ import type {
   Placement,
   Point,
   Rect,
-  VoteScope,
 } from '@openframe/core'
 import {
   assetsToCarry,
@@ -26,7 +25,6 @@ import {
   readClipboard,
   richFromPlain,
   screenToWorld,
-  currentVoteRound,
   groupByParent,
   uncrop,
   unionAll,
@@ -55,13 +53,6 @@ import { panToReveal } from '../scene/zoom.js'
 import { counted } from '../controls/counted.js'
 
 /** What a round of dot voting is started with. */
-export interface VotingOptions {
-  readonly title: string
-  readonly scope: VoteScope
-  readonly perPerson: number
-  readonly hidden: boolean
-}
-
 /** What Paste special makes of the clipboard. */
 export type PasteAs = 'notes' | 'text' | 'table' | 'plain'
 
@@ -199,18 +190,6 @@ export interface BoardCommands {
   setColor(ids: readonly ObjectId[], color: ColorToken): void
   /** This person's reaction of this kind, on or off, on each of `targets`. */
   toggleReaction(targets: readonly ObjectId[], glyph: string, by: MarkAuthor): void
-  /** Starts the board's round of dot voting. */
-  startVoting(round: VotingOptions, by: MarkAuthor): boolean
-  /**
-   * One of this person's dots on each note, or back off it, as ONE change —
-   * one undo step, and all or nothing, so running out of dots halfway through
-   * a selection takes none rather than some. Says why when it cannot.
-   */
-  vote(targets: ObjectId | readonly ObjectId[], by: MarkAuthor, remove?: boolean): void
-  /** Reveals the counts, or ends the round. */
-  setVoting(change: { readonly hidden?: boolean; readonly status?: 'open' | 'closed' }): void
-  /** Takes the round off the board with every vote in it. */
-  clearVoting(): void
   /**
    * Sets any style properties at once. `setColor` is the one-property case kept
    * for its call sites; this is what the inspector uses, because a type's
@@ -1043,40 +1022,6 @@ export function useCommands(): BoardCommands {
           .announce(
             added && removed ? `${name} changed` : added ? `${name} added` : `${name} taken back`,
           )
-      },
-
-      startVoting(round, by) {
-        const result = dispatcher.dispatch({ kind: 'StartVoteRound', ...round, by })
-        sayWhyNot(result)
-        return result.ok
-      },
-
-      vote(targets, by, remove = false) {
-        const round = currentVoteRound(runtime.store.getDocument())
-        if (round === null) return
-        const kind = remove ? 'RemoveDotVote' : 'CastDotVote'
-        const each = (typeof targets === 'string' ? [targets] : [...targets]).map(
-          (target) => ({ kind, round: round.id, target, by }) as const,
-        )
-        const [only] = each
-        if (only === undefined) return
-        sayWhyNot(
-          each.length === 1
-            ? dispatcher.dispatch(only)
-            : dispatcher.transact(remove ? 'Remove votes' : 'Add votes', each),
-        )
-      },
-
-      setVoting(change) {
-        const round = currentVoteRound(runtime.store.getDocument())
-        if (round === null) return
-        sayWhyNot(dispatcher.dispatch({ kind: 'SetVoteRound', round: round.id, ...change }))
-      },
-
-      clearVoting() {
-        const round = currentVoteRound(runtime.store.getDocument())
-        if (round === null) return
-        sayWhyNot(dispatcher.dispatch({ kind: 'DeleteObjects', ids: [round.id] }))
       },
 
       setStyle(ids, style) {

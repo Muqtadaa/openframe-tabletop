@@ -40,8 +40,6 @@ describe('object type registry contract', () => {
       'table',
       'text',
       'unknown',
-      'vote',
-      'vote-round',
     ])
   })
 

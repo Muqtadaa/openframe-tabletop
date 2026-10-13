@@ -1,11 +1,4 @@
-import type {
-  AnyOpenFrameObject,
-  MarkAuthor,
-  ObjectId,
-  Point,
-  Rect,
-  Viewport,
-} from '@openframe/core'
+import type { AnyOpenFrameObject, Point, Rect, Viewport } from '@openframe/core'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 
 import type { BoardCommands } from '../../hooks/use-commands.js'
@@ -31,8 +24,6 @@ export const GESTURE_MODES = [
   /** Dragging a division INSIDE one — a table's column or row boundary. */
   'divider',
   'crop',
-  /** A dot pressed onto an object, cast on release unless the press moved. */
-  'vote',
 ] as const
 
 export type ActiveMode = (typeof GESTURE_MODES)[number]
@@ -62,12 +53,6 @@ export interface Gesture {
   endpointId: string | null
   readonly startAngle: number
   moved: boolean
-  /** What a `vote` gesture casts on release, and as whom. */
-  readonly vote?: {
-    readonly on: ObjectId
-    readonly remove: boolean
-    readonly by: MarkAuthor
-  }
 }
 
 export type InteractionSnapshot = ReturnType<typeof useInteractionStore.getState>

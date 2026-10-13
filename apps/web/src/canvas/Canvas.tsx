@@ -1,4 +1,3 @@
-import { VotingProvider } from './VotingProvider.js'
 import { memo, useEffect, useMemo, useRef, type CSSProperties } from 'react'
 
 import { useInteractionStore } from '../interaction/interaction-store.js'
@@ -194,9 +193,7 @@ export function Canvas() {
           transform: `scale(${String(viewport.zoom)}) translate(${String(-viewport.x)}px, ${String(-viewport.y)}px)`,
         }}
       >
-        <VotingProvider>
-          <ObjectLayer width={width} height={height} />
-        </VotingProvider>
+        <ObjectLayer width={width} height={height} />
       </div>
 
       <BoardAnnouncer />

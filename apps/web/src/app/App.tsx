@@ -5,7 +5,6 @@ import { BoardLocked } from '../ui/BoardLocked.js'
 import { BoardUnreadable } from '../ui/BoardUnreadable.js'
 import { ContextMenu } from '../ui/ContextMenu.js'
 import { Inspector } from '../ui/Inspector.js'
-import { VotingBanner } from '../ui/VotingBanner.js'
 import { NoticeBanner } from '../ui/NoticeBanner.js'
 import { FollowingBar } from '../ui/FollowingBar.js'
 import { SearchPanel } from '../ui/SearchPanel.js'
@@ -138,7 +137,6 @@ export function App() {
         <div className="of-overlay of-overlay--top" data-keep-clear="top">
           <NoticeBanner notices={runtime.notices} />
           <FollowingBar />
-          <VotingBanner />
           <Toast />
         </div>
 

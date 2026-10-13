@@ -10,7 +10,6 @@ import { useRemoteDrag } from '../interaction/remote-drags.js'
 import { translateOffset } from '../interaction/drag-offset.js'
 import { ObjectErrorBoundary } from './ObjectErrorBoundary.js'
 import { MarkedRenderer } from './MarkedRenderer.js'
-import { VoteDots } from './VoteDots.js'
 import { ReactionChips } from './ReactionChips.js'
 import { EditorChrome, EditorOverlay } from './EditorChrome.js'
 import { FallbackView } from '../views/FallbackView.js'
@@ -349,7 +348,6 @@ function ObjectViewInner({ id, views }: Props) {
         )}
       </ObjectErrorBoundary>
       {markable && <ReactionChips id={id} />}
-      {markable && <VoteDots id={id} />}
     </div>
   )
 }

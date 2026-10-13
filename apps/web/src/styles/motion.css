@@ -188,10 +188,6 @@
   }
 }
 
-.of-votes__dot[data-fresh='true'] {
-  animation: of-ink var(--of-settle) var(--of-ease) backwards;
-}
-
 .of-reaction[data-fresh='true'],
 .of-reaction__count[data-fresh='true'] {
   animation: of-ink var(--of-quick) var(--of-ease) backwards;
@@ -201,8 +197,7 @@
  * A count's share is drawn by scaling the bar rather than sizing it, so an
  * answer that arrives moves the bar along without laying the card out again.
  */
-.of-poll__bar,
-.of-voting__bar {
+.of-poll__bar {
   transition: transform var(--of-settle) var(--of-ease);
 }
 
@@ -215,16 +210,6 @@
   from {
     scale: 0 1;
   }
-}
-
-.of-voting__list li {
-  animation: of-settle var(--of-settle) var(--of-ease) backwards;
-  animation-delay: calc(var(--of-row, 0) * var(--of-stagger));
-}
-
-.of-voting__list .of-voting__bar {
-  animation: of-draw var(--of-settle) var(--of-ease) backwards;
-  animation-delay: calc(var(--of-row, 0) * var(--of-stagger) + var(--of-quick));
 }
 
 /*
@@ -241,11 +226,8 @@
   .of-notice,
   .of-toast,
   .of-overview,
-  .of-votes__dot,
   .of-reaction,
-  .of-reaction__count,
-  .of-voting__list li,
-  .of-voting__list .of-voting__bar {
+  .of-reaction__count {
     animation-name: of-fade;
   }
 
@@ -254,7 +236,6 @@
    * has turned: what they say is unchanged, only the travel goes.
    */
   .of-poll__bar,
-  .of-voting__bar,
   .of-inspector__disclosure svg,
   .of-status__exit svg {
     transition: none;

@@ -6,10 +6,8 @@ import { groupType } from './group/definition.js'
 import { imageType } from './image/definition.js'
 import { relationType } from './relation/definition.js'
 import { reactionType } from './reaction/definition.js'
-import { voteRoundType } from './vote-round/definition.js'
 import { pollType } from './poll/definition.js'
 import { pollAnswerType } from './poll-answer/definition.js'
-import { voteType } from './vote/definition.js'
 import { shapeType } from './shape/definition.js'
 import { stickyType } from './sticky/definition.js'
 import { tableType } from './table/definition.js'
@@ -137,24 +135,6 @@ export {
   pollAnswerType,
 } from './poll-answer/definition.js'
 export { PollAnswerDataSchema, type PollAnswerData } from './poll-answer/schema.js'
-export { VOTE_MARK, VOTE_TYPE, voteId, voteType } from './vote/definition.js'
-export { VoteDataSchema, type VoteData } from './vote/schema.js'
-export {
-  VOTE_ROUND_TYPE,
-  currentVoteRound,
-  inVoteScope,
-  voteRoundId,
-  voteRoundType,
-  type VoteRoundObject,
-} from './vote-round/definition.js'
-export {
-  MAX_SCOPE_IDS,
-  MAX_VOTES_PER_PERSON,
-  VoteRoundDataSchema,
-  type VoteRoundData,
-  type VoteRoundStatus,
-  type VoteScope,
-} from './vote-round/schema.js'
 export { GroupDataSchema, type GroupData } from './group/schema.js'
 export { IMAGE_TYPE, imageType, placedSize } from './image/definition.js'
 export { ImageDataSchema, type ImageCrop, type ImageData } from './image/schema.js'
@@ -197,8 +177,6 @@ export function createDefaultRegistry(): ObjectTypeRegistry {
     groupType,
     relationType,
     reactionType,
-    voteRoundType,
-    voteType,
     pollType,
     pollAnswerType,
     unknownType,

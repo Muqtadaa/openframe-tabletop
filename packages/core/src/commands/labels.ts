@@ -75,18 +75,6 @@ export function describeCommand(command: Command): string {
       return `Merge ${plural(command.patches.length, 'remote change')}`
     case 'ToggleReaction':
       return 'React'
-    case 'StartVoteRound':
-      return 'Start dot voting'
-    case 'CastDotVote':
-      return 'Vote'
-    case 'RemoveDotVote':
-      return 'Take back a vote'
-    case 'SetVoteRound':
-      return command.status === 'closed'
-        ? 'End voting'
-        : command.status === 'open'
-          ? 'Reopen voting'
-          : 'Reveal votes'
     case 'AnswerPoll':
       return 'Answer poll'
     case 'RepairParentage':

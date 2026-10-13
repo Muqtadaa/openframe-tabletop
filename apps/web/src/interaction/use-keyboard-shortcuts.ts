@@ -189,19 +189,6 @@ export function useKeyboardShortcuts(setSpaceHeld: (held: boolean) => void): voi
       if (action === null) return
 
       /*
-       * WITH THE VOTE TOOL UP, Enter votes on the selection and Backspace or
-       * Delete takes a dot back. A dot could only be placed with a pointer, or
-       * through two levels of context menu; and Backspace, the obvious key for
-       * taking one back, deleted the note being voted on.
-       */
-      if (store.tool === 'dot' && (action.kind === 'edit-selection' || action.kind === 'delete')) {
-        event.preventDefault()
-        if (me !== null && store.selection.size > 0)
-          commands.vote([...store.selection], me, action.kind === 'delete')
-        return
-      }
-
-      /*
        * Left to the browser, which follows with its own clipboard event — the
        * only place the system clipboard can be written and read without a
        * permission prompt. The board's own part happens now, in case that

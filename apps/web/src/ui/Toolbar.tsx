@@ -25,10 +25,8 @@ interface ToolSpec {
 
 /**
  * The chrome's own modes, which are not a type and so not the registry's.
- * Voting is not on the rail: it is armed from a round of dot voting, the only
- * time it means anything.
  */
-const CHROME: Readonly<Record<Exclude<ChromeTool, 'dot'>, ToolSpec>> = {
+const CHROME: Readonly<Record<ChromeTool, ToolSpec>> = {
   select: { id: 'select', label: 'Select', shortcut: 'V', icon: <CursorIcon /> },
   pan: { id: 'pan', label: 'Hand', shortcut: 'H', icon: <HandIcon /> },
   comment: { id: 'comment', label: 'Comment', shortcut: 'M', icon: <CommentIcon /> },

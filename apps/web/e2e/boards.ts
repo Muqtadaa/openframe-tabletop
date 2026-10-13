@@ -63,22 +63,10 @@ export interface BoardBuilder {
     glyph: string,
     by: { key: string; name: string; hue: number },
   ) => void
-  /** A round of dot voting, as `StartVoteRound` would leave it. */
-  readonly voting: (options: {
-    readonly perPerson?: number
-    readonly hidden?: boolean
-    readonly ids?: readonly ObjectId[]
-  }) => ObjectId
   /** Somebody's answer on a poll. */
   readonly answer: (
     poll: ObjectId,
     option: string,
-    by: { key: string; name: string; hue: number },
-  ) => void
-  /** Somebody's dot on a note in the round. */
-  readonly vote: (
-    round: ObjectId,
-    target: ObjectId,
     by: { key: string; name: string; hue: number },
   ) => void
 }
@@ -169,21 +157,8 @@ export function buildBoard(
       const result = dispatcher.dispatch({ kind: 'ToggleReaction', target, glyph, by })
       if (!result.ok) throw result.error
     },
-    voting: ({ perPerson = 3, hidden = false, ids }) =>
-      create({
-        kind: 'StartVoteRound',
-        title: 'Which first?',
-        scope: ids === undefined ? { kind: 'board' } : { kind: 'objects', ids },
-        perPerson,
-        hidden,
-        by: { key: 'g_facilitator', name: 'Facilitator', hue: 120 },
-      }),
     answer: (poll, option, by) => {
       const result = dispatcher.dispatch({ kind: 'AnswerPoll', poll, option, by })
-      if (!result.ok) throw result.error
-    },
-    vote: (round, target, by) => {
-      const result = dispatcher.dispatch({ kind: 'CastDotVote', round, target, by })
       if (!result.ok) throw result.error
     },
   })

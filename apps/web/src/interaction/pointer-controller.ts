@@ -33,7 +33,6 @@ export type PointerIntent =
    * A dot on what was pressed, or one taken back off it — cast on RELEASE, so
    * a press that becomes a drag or the first finger of a pinch casts nothing.
    */
-  | { readonly kind: 'begin-vote'; readonly on: ObjectId; readonly remove: boolean }
   /**
    * Starts drawing a new object to size.
    *
@@ -66,10 +65,6 @@ export interface PointerDownContext {
   readonly hitId: ObjectId | null
   readonly selection: ReadonlySet<ObjectId>
   readonly shiftKey: boolean
-  /** Takes a vote back rather than casting one. */
-  readonly altKey?: boolean
-  /** The vote tool is taking dots back: a press removes one, as Alt does. */
-  readonly takingBack?: boolean
   /** 0 = primary, 1 = middle, 2 = secondary. */
   readonly button: number
   /**
@@ -118,22 +113,6 @@ export function onPointerDown(ctx: PointerDownContext): readonly PointerIntent[]
    */
   if (ctx.tool === 'comment') {
     return [{ kind: 'drop-comment', at: ctx.worldPoint, on: ctx.hitId }]
-  }
-
-  /*
-   * A dot goes on whatever was pressed, and Alt — or the tool's Take back
-   * mode, for a finger that has no Alt — takes one back. Pressing
-   * empty board does nothing: there is nothing to vote for there, and
-   * clearing the selection would only lose what somebody was looking at.
-   * Whether the object can carry a vote is the command's to say.
-   */
-  if (ctx.tool === 'dot') {
-    // Only a primary click votes: a right-click is for the menu, which is
-    // where somebody goes to take a vote BACK (Codex-free finding, 10-07).
-    if (ctx.hitId === null || ctx.button !== 0 || ctx.contextClick === true) return []
-    return [
-      { kind: 'begin-vote', on: ctx.hitId, remove: ctx.altKey === true || ctx.takingBack === true },
-    ]
   }
 
   /*

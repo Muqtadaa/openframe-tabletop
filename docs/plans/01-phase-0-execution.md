@@ -281,7 +281,7 @@ states), in that order, fixed in one batch. `polish` only if the concept is alre
 | T001 to T012 recorded                                | yes: T008, T009, T010, T012 Accepted; T001 to T005 and T011 Accepted as direction with the phase that finalises them; T006 and T007 scoped stubs                                                                                                                      |
 | Benchmarks hold                                      | `bench:cull` 4.64 ms at 12,250 mixed objects (baseline about 5 ms); `bench:transaction` 32 ms and 3 map copies (baseline 31 ms and 3); bundle 158.2, 243.0 and 272.2 kB gzip against 170, 270 and 300                                                                 |
 | Browser suites                                       | Chromium 781 of 782 on the full re-run, the one failure fixed and passing; rooms 40 of 40; Firefox and WebKit not installed in the sandbox and not run                                                                                                                |
-| Open owner decisions                                 | the AGPL source-offer posture; the SRD attribution wording; the product name and brand; whether to provision Supabase and Workers now (recommendation in plan section 4b)                |
+| Open owner decisions                                 | the AGPL source-offer posture; the SRD attribution wording; the product name and brand; whether to provision Supabase and Workers now (recommendation in plan section 4b)                                                                                             |
 
 ### Follow-up: the scene ground (owner decision, 2026-10-13)
 

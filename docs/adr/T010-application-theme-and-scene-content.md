@@ -1,6 +1,6 @@
 # ADR T010 · Application theme and Scene content are separate token spaces
 
-**Status:** Accepted · 2026-10-12 · enforced by a test added in WP 0.13
+**Status:** Accepted · 2026-10-12 · enforced by `apps/web/src/app/theme-boundary.test.ts` (WP 0.13)
 
 ## Context
 
@@ -44,5 +44,11 @@ override colour tokens used by objects as well as by chrome.
 - The visual-world swap (WP 0.13) builds the two spaces from the start rather than retrofitting.
 - Generic WCAG assertions (WP 0.11) are written against application tokens and against the
   chrome-over-content backing.
-- `--of-*` remains the application prefix; the Scene-content prefix is chosen with the design
-  contract.
+- `--of-*` remains the application prefix; the Scene-content prefix is `--sc-*`, chosen with the design
+  contract (WP 0.13). The apparatus drawn over content (selection, handles, guides) is scene-side too, because
+  chrome over arbitrary content must carry its own colour and halo (decision 4); the application accent failed
+  3:1 over dark ink on pale paper.
+- **Open owner decision:** the scene's empty ground is a fixed light stock. In a dim room, and on a cast
+  display, that is glare. Options: a dimmer mid-tone default stock re-checked against the eleven papers; a
+  per-table dark stock chosen by the GM; at minimum a non-white ground on the display route. It is not
+  recoloured per theme, which would break decision 4.

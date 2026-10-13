@@ -64,6 +64,21 @@ test.describe('prep', () => {
   })
 })
 
+test.describe('prep on a phone', () => {
+  for (const width of [320, 390]) {
+    test(`fits ${String(width)}px with nothing running off the side`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 })
+      await seedLocalBoard(page, 'one', 'The Sunken Library')
+      await goto(page, '/?prep')
+      await expect(page.getByTestId('prep-scenes')).toBeVisible()
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      )
+      expect(overflow).toBeLessThanOrEqual(0)
+    })
+  }
+})
+
 test.describe('the dock rail', () => {
   test.use({ board: 'open' })
 

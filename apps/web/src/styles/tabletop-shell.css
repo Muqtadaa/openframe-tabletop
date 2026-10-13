@@ -162,6 +162,17 @@
   margin-top: auto;
 }
 
+.of-prep__foot [data-tip]::after {
+  right: 0;
+  left: auto;
+  transform: translateY(var(--of-space-2));
+}
+
+.of-prep__foot [data-tip]:hover::after,
+.of-prep__foot [data-tip]:focus-visible::after {
+  transform: none;
+}
+
 .of-prep__back {
   display: inline-flex;
   align-items: center;

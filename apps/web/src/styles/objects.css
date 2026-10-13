@@ -171,7 +171,7 @@
 
 .of-poll__count,
 .of-poll__state {
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
 }
 

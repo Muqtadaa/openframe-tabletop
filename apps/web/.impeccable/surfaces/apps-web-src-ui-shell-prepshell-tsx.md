@@ -2,7 +2,7 @@
 version: 1
 slug: "apps-web-src-ui-shell-prepshell-tsx"
 primary_target: "apps/web/src/ui/shell/PrepShell.tsx"
-related_targets: ["apps/web/src/ui/WorkspaceBar.tsx","apps/web/src/ui/BoardOverview.tsx"]
+related_targets: []
 ---
 
 # Campaign Prep shell

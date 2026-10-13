@@ -2,6 +2,9 @@ import { useEffect } from 'react'
 
 import { Canvas } from '../canvas/Canvas.js'
 import { useBoardTitle } from '../hooks/use-document-object.js'
+import { useRoomStatus } from '../hooks/use-room-status.js'
+import { BoardGone } from '../ui/BoardGone.js'
+import { BoardLocked } from '../ui/BoardLocked.js'
 
 /**
  * The table drawn for a shared screen: a TV or a projector at a physical table,
@@ -13,12 +16,18 @@ import { useBoardTitle } from '../hooks/use-document-object.js'
  * game. The title is still the page's heading, hidden, so the page is not
  * nameless to a screen reader.
  *
+ * It still says when the table cannot be trusted. A screen on a wall whose room
+ * drops would otherwise show a frozen table with no word, so a connection that is
+ * not live is said in large type, in words, and the board's own gates (gone,
+ * locked) take the screen as they do everywhere.
+ *
  * PHASE 5: the turn order joins the Scene here, large, once initiative exists.
  * It is not drawn today because nothing produces one, and a placeholder strip
  * would be a claim the product cannot back.
  */
 export function DisplayFrame() {
   const title = useBoardTitle()
+  const room = useRoomStatus()
 
   useEffect(() => {
     const before = window.document.title
@@ -34,6 +43,13 @@ export function DisplayFrame() {
       <main className="of-board-main" aria-label="Board">
         <Canvas />
       </main>
+      {room !== null && room !== 'connected' && room !== 'gone' && room !== 'locked' && (
+        <p className="of-display-status" role="status" data-testid="display-status">
+          {room === 'connecting' ? 'Reconnecting…' : 'Offline. Showing the last table received.'}
+        </p>
+      )}
+      <BoardGone />
+      <BoardLocked />
     </div>
   )
 }

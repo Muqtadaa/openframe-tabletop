@@ -202,7 +202,7 @@
   min-width: 24px;
   height: 24px;
   padding: 0 var(--of-space-4);
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
   color: var(--of-ink-muted);
   cursor: pointer;

@@ -72,6 +72,8 @@ export function BoardOverview() {
   const open = useInteractionStore((state) => state.overviewOpen)
   const setOpen = useInteractionStore((state) => state.setOverviewOpen)
   const setSearchOpen = useInteractionStore((state) => state.setSearchOpen)
+  const clearSelection = useInteractionStore((state) => state.clearSelection)
+  const selected = useInteractionStore((state) => state.selection.size)
   const commands = useCommands()
   const panelRef = useRef<HTMLDivElement>(null)
   const treeRef = useRef<HTMLUListElement>(null)
@@ -98,6 +100,24 @@ export function BoardOverview() {
     // An empty board has no tree; the panel itself takes the keyboard then.
     ;(treeRef.current ?? panelRef.current)?.focus()
   }, [open])
+
+  /*
+   * On a phone the outline and the record panel are both bottom sheets, and two
+   * of them leave a fifth of the screen for the Scene. They take turns: opening
+   * the outline puts the selection away, and selecting while it is open puts it
+   * away. Wider windows hold both, one on each side.
+   */
+  useEffect(() => {
+    if (!open || !window.matchMedia('(width < 520px)').matches) return
+    clearSelection()
+  }, [open, clearSelection])
+  // Only a selection that ARRIVES while it is open: the one it just cleared is not one.
+  const wasSelected = useRef(selected)
+  useEffect(() => {
+    const arrived = selected > 0 && wasSelected.current === 0
+    wasSelected.current = selected
+    if (open && arrived && window.matchMedia('(width < 520px)').matches) setOpen(false)
+  }, [open, selected, setOpen])
 
   // Worked out only while it is open, and once per document — never per frame.
   const outline = useMemo(

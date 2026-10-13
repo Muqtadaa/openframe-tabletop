@@ -119,7 +119,7 @@
 
 .of-emoji-picker__heading {
   margin: var(--of-space-6) 0 var(--of-space-2);
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
   font-weight: var(--of-weight-regular);
   color: var(--of-ink-muted);

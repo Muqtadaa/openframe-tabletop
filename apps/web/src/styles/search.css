@@ -101,7 +101,7 @@
 .of-search__type {
   flex: none;
   min-width: 56px;
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
   color: var(--of-ink-muted);
   letter-spacing: 0.02em;

@@ -6,26 +6,36 @@
  * for it. A tree rather than a list, indented by depth.
  */
 /*
- * The outline is the first dock: a panel beside the table, against the dock
- * rail, not a dialog at the top centre.
+ * The outline is the first dock: a panel the height of the table's band, beside
+ * the dock rail with a step of air between them, so the button and its panel
+ * read as one thing. It stops above the zoom cluster, which owns the foot.
  */
 .of-overview {
   position: absolute;
   top: var(--of-nav-band);
-  right: calc(var(--of-gutter) + var(--of-hit-lg) + var(--of-step));
+  right: calc(var(--of-gutter) + var(--of-hit) + 2 * var(--of-space-6) + 2px + var(--of-step));
+  bottom: var(--of-zoom-band);
   z-index: var(--of-z-search);
   display: flex;
   flex-direction: column;
-  width: min(440px, calc(100vw - 2 * var(--of-gutter)));
+  width: min(320px, calc(100vw - 2 * var(--of-gutter)));
   overflow: hidden;
 }
 
-/* Docked beside the rail on a phone, as the top overlay is (shell.css). */
+/*
+ * A bottom sheet on a phone, as the record panel is, and never both at once:
+ * opening the outline puts the selection away (BoardOverview), so the Scene
+ * keeps more than half the screen.
+ */
 @media (width < 520px) {
   .of-overview {
-    right: var(--of-gutter);
-    left: var(--of-rail-reach);
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: auto;
+    max-height: 45dvh;
+    border-radius: var(--of-radius-surface) var(--of-radius-surface) 0 0;
   }
 }
 
@@ -56,7 +66,8 @@
 }
 
 .of-overview__tree {
-  max-height: min(50vh, 420px);
+  flex: 1;
+  min-height: 0;
   padding: 0;
   margin: 0;
   overflow-y: auto;
@@ -104,7 +115,7 @@
 /* Mono marks the record: how much a frame holds. */
 .of-overview__held {
   margin-inline-start: auto;
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
   color: var(--of-ink-muted);
   letter-spacing: 0.02em;

@@ -5,7 +5,8 @@
   gap: var(--of-space-2);
   align-items: center;
   padding: var(--of-space-6);
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
+  font-variant-numeric: tabular-nums;
   background: var(--of-page);
   border: 1px solid var(--of-panel-border);
   border-radius: var(--of-radius-apparatus);

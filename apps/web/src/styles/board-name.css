@@ -77,14 +77,11 @@
  * the thing you read.
  */
 .of-home__board-tag {
+  grid-area: tag;
   justify-self: start;
-  padding: var(--of-space-4) var(--of-space-8);
-  font-family: var(--of-mono);
-  font-size: var(--of-type-record);
-  letter-spacing: 0.02em;
+  padding: 0;
+  font-size: var(--of-type-ui-small);
   /* It is one column of a ledger; wrapping turns the row into two. */
   white-space: nowrap;
   color: var(--of-ink-muted);
-  background: var(--of-bg);
-  border-radius: var(--of-radius-apparatus);
 }

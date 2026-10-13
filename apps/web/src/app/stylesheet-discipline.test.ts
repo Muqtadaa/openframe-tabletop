@@ -347,3 +347,33 @@ describe('the record panel fits what it promises to show', () => {
     expect(swatchRow).toBeLessThanOrEqual(control)
   })
 })
+
+/**
+ * A token nothing defines is a declaration that silently does nothing.
+ *
+ * `var(--of-rule-decade)` outlived the palette it came from: the slider tracks
+ * and three dividers drew nothing, and the contrast test passed over all of it
+ * because it measures pairs that exist, not references that do not. Every
+ * custom property the stylesheet reads is either defined in it or set inline by
+ * the interface, which is the short list below.
+ */
+describe('every token it reads is defined', () => {
+  const INLINE = new Set([
+    '--of-depth',
+    '--of-row',
+    '--of-tool-cursor',
+    '--of-clamp-lines',
+    '--of-valign',
+    '--of-presence-hue',
+  ])
+
+  it('reads no custom property that nothing sets', () => {
+    const source = CSS.replace(/\/\*[\s\S]*?\*\//g, '')
+    const defined = new Set(
+      [...source.matchAll(/(?<![\w-])(--(?:of|sc)-[\w-]+)\s*:/g)].map((m) => m[1] ?? ''),
+    )
+    const read = new Set([...source.matchAll(/var\((--(?:of|sc)-[\w-]+)/g)].map((m) => m[1] ?? ''))
+    expect(defined.size, 'the tokens are found, so this is not vacuous').toBeGreaterThan(50)
+    expect([...read].filter((name) => !defined.has(name) && !INLINE.has(name))).toEqual([])
+  })
+})

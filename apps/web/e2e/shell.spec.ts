@@ -1,4 +1,5 @@
-import { CANVAS, expect, goto, openBoard, test } from './fixtures.js'
+import { buildBoard } from './boards.js'
+import { CANVAS, expect, goto, openBoard, seedBoard, test } from './fixtures.js'
 import { localBoardUrl, HOME_URL } from './routes.js'
 import { seedLocalBoard } from './seed.js'
 
@@ -110,5 +111,38 @@ test.describe('the display', () => {
     await page.keyboard.press('n')
     await page.locator(CANVAS).click({ position: { x: 400, y: 300 } })
     await expect(page.locator('[data-object-type]')).toHaveCount(0)
+  })
+})
+
+test.describe('the display, when the room is not live', () => {
+  test('says so in words, rather than showing a frozen table', async ({ page }) => {
+    // A room that accepts the socket and says nothing: the board is never admitted.
+    await page.routeWebSocket(/\/room\//, () => undefined)
+    await goto(page, `/?room=brd_abcdefgh12345678&k=${'e'.repeat(32)}&display=1`)
+    await expect(page.getByTestId('display-status')).toHaveText('Reconnecting…')
+  })
+})
+
+test.describe('on a phone', () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+
+  test('the outline and the record panel take turns', async ({ page }) => {
+    await seedBoard(
+      page,
+      buildBoard((board) => {
+        board.note('Cellar door: locked', { x: 200, y: 260 })
+      }),
+    )
+    await page.locator(CANVAS).click({ position: { x: 240, y: 300 } })
+    await expect(page.getByTestId('inspector')).toBeVisible()
+
+    await page.getByTestId('dock-outline').click()
+    await expect(page.getByTestId('board-overview')).toBeVisible()
+    await expect(page.getByTestId('inspector')).toHaveCount(0)
+
+    // Selecting something puts the outline away again.
+    await page.locator(CANVAS).click({ position: { x: 240, y: 300 } })
+    await expect(page.getByTestId('inspector')).toBeVisible()
+    await expect(page.getByTestId('board-overview')).toHaveCount(0)
   })
 })

@@ -63,7 +63,7 @@
   gap: var(--of-space-8);
   padding-top: var(--of-space-12);
   margin: var(--of-space-12) 0;
-  border-top: 1px solid var(--of-rule);
+  border-top: 1px solid var(--of-panel-border);
 }
 
 .of-share__password .of-account__field {
@@ -99,7 +99,7 @@
  */
 .of-status__watching {
   padding: 0 var(--of-step);
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
   line-height: 28px;
   letter-spacing: 0.02em;

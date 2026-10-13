@@ -190,7 +190,8 @@
   font-family: var(--of-mono);
   /* 12px is the legibility floor for functional text, shortcuts included. */
   font-size: var(--of-type-record);
-  color: var(--of-rule-decade);
+  /* Quieter than the tip's own words, on the same inverted bed. */
+  color: color-mix(in srgb, var(--of-page) 72%, var(--of-ink));
 }
 
 .of-tool:hover .of-tool__tip,

@@ -244,7 +244,7 @@
 .of-inbox__heading {
   margin: 0 0 var(--of-space-4);
   padding: 0 var(--of-space-4);
-  font-family: var(--of-mono);
+  font-family: var(--of-font);
   font-size: var(--of-type-record);
   font-weight: var(--of-weight-regular);
   letter-spacing: 0.02em;

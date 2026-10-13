@@ -255,6 +255,19 @@ export function Home() {
               </a>
             )}
 
+            {/* Quiet, at the header's end: the ledger is what the page is for. */}
+            {canStart && (
+              <button
+                type="button"
+                className="of-button of-home__start"
+                data-testid="home-start"
+                disabled={starting}
+                onClick={start}
+              >
+                {starting ? 'Starting…' : 'Start a board'}
+              </button>
+            )}
+
             {/* Last, as on the board's bar: something about the page, not on it. */}
             <ThemeToggle className="of-icon-button of-home__world" />
           </div>
@@ -285,7 +298,7 @@ export function Home() {
           {showBoards && (
             <section className="of-home__boards" aria-labelledby="of-home-boards">
               <h2 className="of-home__heading" id="of-home-boards">
-                your boards
+                Your boards
               </h2>
 
               <WorkspaceBar
@@ -338,18 +351,6 @@ export function Home() {
 
               {strays.length > 0 && <ClaimLocalBoards boards={strays} onChanged={refresh} />}
 
-              {canStart && (
-                <button
-                  type="button"
-                  className="of-home__start"
-                  data-testid="home-start"
-                  disabled={starting}
-                  onClick={start}
-                >
-                  {starting ? 'Starting…' : 'Start a board'}
-                </button>
-              )}
-
               {startError !== null && (
                 <p className="of-home__row-problem" role="alert" data-testid="home-start-error">
                   {startError}
@@ -361,7 +362,7 @@ export function Home() {
           {services.accounts.enabled && identity === null && (
             <section className="of-home__signin" aria-labelledby="of-home-signin">
               <h2 className="of-home__heading" id="of-home-signin">
-                sign in
+                Sign in
               </h2>
               {/*
                * The one thing the door must not imply: that somebody holding a

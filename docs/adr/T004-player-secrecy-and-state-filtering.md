@@ -1,7 +1,7 @@
 # ADR T004 · Secrecy is a data boundary: partition by audience, never hide in the client
 
-**Status:** Accepted (direction) · 2026-10-12 · a spike must pass before any hide / reveal feature
-ships · see also [T011](T011-game-and-scene-collaboration-topology.md),
+**Status:** Accepted · 2026-10-12 · the spike passed 2026-10-13 (see _Spike result_), so hide / reveal
+may be built within the limits listed there · see also [T011](T011-game-and-scene-collaboration-topology.md),
 [T006](T006-vision-architecture.md)
 
 ## Context
@@ -61,3 +61,55 @@ What OpenFrame does today, verified in the code:
   ([T006](T006-vision-architecture.md)).
 - Roll visibility (public, GM, self, blind) is enforced the same way: private results are written to
   rows or rooms only their audience can read.
+
+## Spike result (2026-10-13)
+
+The gate in decision 5 was exercised and **passed**: partitioning by audience expresses what Phase 2 needs
+for _visibility_. What was built and shown, and where it lives:
+
+- **Two ordinary rooms and a ticket.** A scene is a table room and a GM room. A signed ticket names one room
+  (`packages/collab/src/tickets.ts`, Ed25519, verified in the room with a public key only), so the room has no
+  idea what an audience is and ADR 0016's schema-agnostic relay is unchanged. A player holds one ticket, a GM two.
+- **A reveal is a move.** Write the destination with a stamp, wait for that room to confirm, then remove the
+  source (`packages/collab/src/move.ts`). A crash leaves the object in both documents, never neither;
+  `reconcileMoves` settles it from the stamps, and a tie resolves toward secrecy.
+- **The player's wire is checked, not just their document.** Tests put the player on the table and the GM on both,
+  and assert that a marker string belonging to an unrevealed object appears in none of the player's document, its
+  saved state, or any frame the room sent it, through reconnects (`audiences.test.ts`, and over real workerd in
+  `e2e-rooms/t004-partitions.spec.ts`). The same assertion is shown **failing** on the rejected design, a hidden
+  flag in one shared document, so it is not passing vacuously.
+- **Ticket mode closes a hole that was already in the room.** `roleForKey` answers `editor` for a room with no
+  keys, so an unclaimed scene room was open to anyone. When `TICKET_PUBLIC_KEYS` is set the link path is not
+  consulted at all, and every route that decided by key is refused; images are reached by ticket header.
+
+### What it settled
+
+- Ed25519 verifies in workerd as well as Node, so the room holds no secret and a leaked Worker cannot mint a ticket.
+- A GM holds two sockets, one per room. Limits are per room, so this does not double anything inside a room, and the
+  GM room has only GMs in it, so it is cheap while idle.
+- Revocation is expiry: at most an hour, with a minute's allowance for clocks, noticed **when the socket next speaks**
+  (never by a timer, rule 29). A quiet socket is harmless and is put out on its next word; the client reconnects
+  with a fresh ticket because its credentials are read again on every attempt.
+- Keys can be rotated: the room accepts several public keys at once.
+
+### What partitioning does not express (decisions for the owner before Phase 2 builds on it)
+
+1. **Per-player secrets inside the table.** Each player's private notes, or per-player fog, cannot live in the table
+   room, which every player receives. Options: a room per player (another audience tier, which the model allows),
+   relational rows under row-level security for things that are not spatial, or accepting that Phase 2 has only
+   GM-versus-table. This is the case the original alternative (server-side projection) was kept for; it is not
+   needed for Phase 2.
+2. **Write authority per object.** The relay cannot tell a player moving their own token from a player deleting
+   somebody else's: the table room accepts any editor's update. Phase 2's "players control their own tokens" is
+   therefore a trust matter today. Options: per-owner documents, a signed-intent layer that the relay checks without
+   reading the document, or the GM's client being the only writer with players sending intents. Needs a decision.
+3. **Images.** An image in the GM room is already unreachable from the table room (assets are keyed by room), but a
+   reveal must also copy the image to the table room, and the GM-room copy is deleted after. Not built; the rule is
+   recorded here so Phase 2 does not reveal an object that points at an image the table cannot fetch.
+4. **"Hide" does not un-see.** A player's device keeps what it was shown. A hide stops further delivery, and the
+   test says so (`cannot take back what the player was already shown`). Product copy must not promise otherwise.
+5. **Confirmation relies on the platform.** A move waits for the room's in-order reply (`RoomProvider.flushed`), and
+   the Durable Object's output gate is what holds a reply until the writes behind it are stored. The ordering is
+   tested; the durability half rests on the platform and has not been shown by killing a room mid-write.
+6. **Spectators.** In ticket mode a link is not a credential. A spectator needs a ticket (a `viewer` role), so the
+   bearer-link spectator question in T011 becomes a question about who may mint anonymous viewer tickets.

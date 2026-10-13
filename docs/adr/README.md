@@ -44,7 +44,7 @@ the phase that finalises it.
 | [T001](T001-game-to-scene-persistence.md)             | A Game is a catalogue; each Scene is its own document                  | Accepted (direction)     |
 | [T002](T002-actor-and-token.md)                       | An Actor is persistent data; a Token points at one                     | Accepted (direction)     |
 | [T003](T003-game-system-contract.md)                  | A Game System is the smallest contract the first system needs          | Accepted (direction)     |
-| [T004](T004-player-secrecy-and-state-filtering.md)    | Secrecy is a data boundary: partition by audience                      | Accepted (direction)     |
+| [T004](T004-player-secrecy-and-state-filtering.md)    | Secrecy is a data boundary: partition by audience                      | Accepted (spike passed)  |
 | [T005](T005-grid-and-measurement.md)                  | One grid abstraction in core geometry                                  | Accepted (direction)     |
 | [T006](T006-vision-architecture.md)                   | Vision: vocabulary now, representation in Phases 5 and 6               | Accepted (scoped stub)   |
 | [T007](T007-extension-isolation.md)                   | Extensions: a boundary not to foreclose                                | Accepted (boundary note) |

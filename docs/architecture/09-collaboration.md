@@ -319,6 +319,24 @@ included allowance: ordinary play is not what these are for.
   check was removed once to see its test fail. The rooms suite lowers the document ceiling to 10 MiB
   (`DOCUMENT_CEILING_BYTES`, never set in `wrangler.toml`) so a browser can reach it.
 
+## Audiences: tickets and moves (ADR T004, T011)
+
+A scene served to people who may not all see everything is two ordinary rooms, one
+the whole table receives and one only the GM does. A player is never joined to the
+GM's room, so what lives there never reaches their client, their saved state or their
+wire. Nothing in the room knows about audiences.
+
+- **Admission is by ticket** when the deployment sets `TICKET_PUBLIC_KEYS`: a signed
+  note naming one room, valid for at most an hour, checked in the room with a public
+  key and no call out (`packages/collab/src/tickets.ts`, `apps/rooms/src/ticket-mode.ts`).
+  In that mode no link is a credential, and a room with no keys is not open.
+- **Showing something is a move** between the two documents, not a flag: write the
+  destination with a stamp, wait for that room to confirm, then remove the source
+  (`packages/collab/src/move.ts`). A crash leaves it in both, never neither, and
+  `reconcileMoves` settles it from the stamps; a tie resolves toward secrecy.
+- **A hide does not un-see.** A device keeps what it was shown.
+- Evidence and limits: [T004's spike result](../adr/T004-player-secrecy-and-state-filtering.md#spike-result-2026-10-13).
+
 ## Open problems
 
 ### Concurrent edits to the same object

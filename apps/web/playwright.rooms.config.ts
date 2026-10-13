@@ -1,3 +1,4 @@
+import { generateTicketKeys, type MintCrypto } from '@openframe/collab/tickets-mint'
 import { defineConfig, devices } from '@playwright/test'
 
 const isCI = process.env['CI'] !== undefined
@@ -7,6 +8,49 @@ const launchOverrides =
 
 const ROOM_SERVER = 'http://127.0.0.1:8787'
 const PAUSED_SERVER = 'http://127.0.0.1:8788'
+const TICKET_SERVER = 'http://127.0.0.1:8789'
+
+/**
+ * A fresh signing key for every run, made here so that the room server and the
+ * spec that mints tickets share it without it being written anywhere. The room
+ * is given only the PUBLIC half, as a deployment would be; the private half
+ * travels to the spec in the environment of this one test run.
+ *
+ * This file is loaded again in every worker the runner starts, so it must come
+ * to the same answer each time: the first load makes the key and records it in
+ * the environment the workers inherit, and every later load reads it back.
+ */
+const subtle = crypto.subtle as unknown as MintCrypto & {
+  exportKey(format: 'pkcs8' | 'jwk', key: unknown): Promise<ArrayBuffer & { x?: string }>
+  importKey(
+    format: 'pkcs8',
+    key: Uint8Array,
+    algorithm: 'Ed25519',
+    extractable: boolean,
+    usages: string[],
+  ): Promise<unknown>
+}
+async function ticketPublicKey(): Promise<string> {
+  const recorded = process.env['OPENFRAME_TICKET_KEY']
+  if (recorded === undefined) {
+    const made = await generateTicketKeys(subtle)
+    process.env['OPENFRAME_TICKET_KEY'] = Buffer.from(
+      await subtle.exportKey('pkcs8', made.privateKey),
+    ).toString('base64')
+    return made.publicKey
+  }
+  const key = await subtle.importKey(
+    'pkcs8',
+    Uint8Array.from(Buffer.from(recorded, 'base64')),
+    'Ed25519',
+    true,
+    ['sign'],
+  )
+  // The public half of an Ed25519 key is the `x` of its JWK, which is the raw key, base64url.
+  const jwk = (await subtle.exportKey('jwk', key)) as unknown as { x: string }
+  return jwk.x
+}
+const ticketKeys = { publicKey: await ticketPublicKey() }
 
 /**
  * A production build, served as the host serves it.
@@ -69,6 +113,16 @@ export default defineConfig({
         'pnpm --filter @openframe/rooms exec wrangler dev --port 8788 --inspector-port 9230 --local --persist-to .wrangler/paused --var ROOMS_PAUSED:1',
       url: `${PAUSED_SERVER}/health`,
       reuseExistingServer: !isCI,
+      timeout: 120_000,
+    },
+    {
+      // A third, in TICKET MODE, for `t004-partitions.spec.ts` (ADR T004): every
+      // connection needs a signed ticket naming the room it knocks on.
+      command: `pnpm --filter @openframe/rooms exec wrangler dev --port 8789 --inspector-port 9231 --local --persist-to .wrangler/tickets --var TICKET_PUBLIC_KEYS:${ticketKeys.publicKey}`,
+      url: `${TICKET_SERVER}/health`,
+      // Never reused: the key is new every run, and a server left from the last
+      // run would hold the old one and refuse every ticket.
+      reuseExistingServer: false,
       timeout: 120_000,
     },
     {

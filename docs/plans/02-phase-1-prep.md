@@ -112,13 +112,13 @@ The committed values are placeholders on the reserved `.invalid` domain, guarded
 
 0. **Cost guard** (above), steps 3 and 5 first. They protect the owner's account, so they come before
    anything that is deployed.
-1. **T004 spike: audience-partitioned rooms.** Two rooms for one Scene, a player-visible document and
-   a GM-layer document. Show a "reveal" that moves content between them is idempotent and recoverable
-   if one half fails, and say which cases partitioning cannot express (for example per-player fog
-   inside one document). Gate: no hide or reveal ships before it passes.
-2. **T011 admission.** A short-lived signed ticket minted from membership, carrying Game, role and
-   audience tiers, verified by the room without calling Supabase on the hot path. Decide whether
-   spectators keep bearer links.
+1. **T004 spike: audience-partitioned rooms. Done (2026-10-13), passed.** Two rooms, ticket-admitted player and GM,
+   a reveal that moves an object between them, and a test that the player's document, saved state and wire never
+   held what was not revealed. Results, limits and the decisions it leaves are in the
+   [T004 spike result](../adr/T004-player-secrecy-and-state-filtering.md#spike-result-2026-10-13).
+2. **T011 admission. Mostly done by the spike.** Tickets, verification in the room with a public key, ticket mode and
+   expiry on the next message are built and tested. Left: the Supabase function that mints tickets (needs the
+   Supabase project), the client refreshing a ticket on reconnect, and what a spectator's ticket is.
 3. **T001 persistence.** The Game catalogue (membership, scene list, active scene) in Postgres under
    row-level security; one document and one room per Scene. This needs the first envelope v1 to v2
    migration with a frozen fixture (rule 6), and the remote meta filter widened to carry Scene

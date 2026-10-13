@@ -69,20 +69,20 @@ once the shape step has run. Format: Status · Context · Decision · Alternativ
 Consequences, like the inherited records. Files are `docs/adr/T0NN-<slug>.md`; `docs/adr/README.md`
 gains a Tabletop section.
 
-| ADR  | Settles                                           | Status at the end of Phase 0                         |
-| ---- | ------------------------------------------------- | ---------------------------------------------------- |
-| T008 | Package boundaries                                | Accepted                                             |
-| T001 | Game to Scene persistence                         | Accepted (direction); finalised in Phase 1           |
-| T011 | Game-level and Scene-level collaboration topology | Accepted (direction); finalised in Phase 1 / 3       |
-| T004 | Player secrecy and state filtering                | Accepted (direction); spike before any hide / reveal |
-| T002 | Actor and Token relationship                      | Accepted (direction); finalised in Phase 3           |
-| T003 | Game System contract                              | Accepted (direction); finalised in Phase 3           |
-| T005 | Grid and measurement abstraction                  | Accepted (direction); finalised in Phase 2           |
-| T006 | Vision architecture                               | Accepted as a scoped stub (vocabulary only)          |
-| T007 | Extension isolation                               | Accepted as a boundary note                          |
-| T010 | Application theme against Scene content           | Accepted                                             |
-| T012 | SRD system / content provenance                   | Accepted                                             |
-| T009 | Play and Prep shell                               | Accepted after WP 0.12                               |
+| ADR  | Settles                                           | Status at the end of Phase 0                   |
+| ---- | ------------------------------------------------- | ---------------------------------------------- |
+| T008 | Package boundaries                                | Accepted                                       |
+| T001 | Game to Scene persistence                         | Accepted (direction); finalised in Phase 1     |
+| T011 | Game-level and Scene-level collaboration topology | Accepted (direction); finalised in Phase 1 / 3 |
+| T004 | Player secrecy and state filtering                | Accepted; spike passed 2026-10-13              |
+| T002 | Actor and Token relationship                      | Accepted (direction); finalised in Phase 3     |
+| T003 | Game System contract                              | Accepted (direction); finalised in Phase 3     |
+| T005 | Grid and measurement abstraction                  | Accepted (direction); finalised in Phase 2     |
+| T006 | Vision architecture                               | Accepted as a scoped stub (vocabulary only)    |
+| T007 | Extension isolation                               | Accepted as a boundary note                    |
+| T010 | Application theme against Scene content           | Accepted                                       |
+| T012 | SRD system / content provenance                   | Accepted                                       |
+| T009 | Play and Prep shell                               | Accepted after WP 0.12                         |
 
 **Accept:** every question the brief lists is Accepted, scoped, or deferred to a named phase; none
 is settled inside feature code. **Gate G2.**

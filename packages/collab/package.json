@@ -9,7 +9,8 @@
     ".": "./src/index.ts",
     "./room-url": "./src/room-url.ts",
     "./tickets": "./src/tickets.ts",
-    "./tickets-mint": "./src/tickets-mint.ts"
+    "./tickets-mint": "./src/tickets-mint.ts",
+    "./headless": "./src/headless.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",

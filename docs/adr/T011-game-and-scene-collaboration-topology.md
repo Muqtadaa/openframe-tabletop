@@ -56,3 +56,21 @@ of what a Scene holds must reach only some of them.
 - Moving content between tiers ("reveal") is a command that touches two documents; its atomicity
   and failure modes are part of the T004 spike.
 - The existing `boards` table, its duplicated keys and `my_boards()` are not reused.
+
+## Spike result (2026-10-13)
+
+Exercised with [T004](T004-player-secrecy-and-state-filtering.md); see its _Spike result_ for the evidence.
+
+- **A ticket names a room, not a tier.** `{room, role, sub, iat, exp}`, Ed25519-signed, `v1.<payload>.<signature>`
+  (`packages/collab/src/tickets.ts`). The mint decides which rooms a person's tickets name; the room only compares
+  the ticket's room with its own id. This is simpler than the "audience tiers in the ticket" this ADR first assumed
+  and keeps the room ignorant of tiers.
+- **It travels in the hello** as an optional fourth string, so a hello without one is byte-for-byte what every
+  deployed client sends.
+- **Ticket mode is a deployment setting** (`TICKET_PUBLIC_KEYS`, public keys, comma separated). When set, nothing
+  admits by link, including the "no keys means open" rule.
+- **Lifetime** at most an hour, enforced by the room whatever the mint signs; a minute of clock allowance; checked
+  when a socket next speaks. Short expiry is the revocation mechanism, so the client must be able to mint a fresh
+  ticket on reconnect (Phase 1: a Supabase function the client calls with its session).
+- **Still open for Phase 1:** the Supabase function that mints tickets (it holds the private key), what a spectator's
+  ticket is, and tickets for history reads beyond the image header already supported.

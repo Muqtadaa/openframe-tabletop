@@ -523,8 +523,8 @@ test.describe('a narrow window', () => {
 })
 
 /*
- * The bar at its fullest — signed in, mentions waiting, a selection, the
- * timer and the music running, or a shared board whose room is out of reach
+ * The bar at its fullest — signed in, mentions waiting, a selection, or a
+ * shared board whose room is out of reach
  * — at every width from a wide screen to a phone. It used five breakpoints,
  * each worked out for what the bar carried at the time; now it gives way by
  * measurement, a word to its icon at a time (use-squeeze.ts). Every control

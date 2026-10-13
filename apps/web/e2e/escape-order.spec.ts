@@ -15,20 +15,20 @@ import { boxOf, CANVAS, expect, seedBoard, test } from './fixtures.js'
  * Each case here was seen failing first.
  */
 
-const session = (page: Page) => page.getByTestId('session-surface')
+const sheet = (page: Page) => page.getByTestId('board-overview')
 
-/** The session sheet, opened from the board by its key. */
-async function openSession(page: Page): Promise<void> {
-  await page.keyboard.press('Alt+t')
-  await expect(session(page)).toBeVisible()
+/** The board overview, a sheet opened from the board by its key. */
+async function openSheet(page: Page): Promise<void> {
+  await page.keyboard.press('Alt+s')
+  await expect(sheet(page)).toBeVisible()
 }
 
-test.describe('with the session sheet open underneath', () => {
+test.describe('with a sheet open underneath', () => {
   test.use({ board: 'open' })
 
   test('a rail flyout opened over it is the one Escape closes', async ({ page }) => {
     await page.locator(CANVAS).focus()
-    await openSession(page)
+    await openSheet(page)
     await page.getByTestId('tool-shape').focus()
     await page.keyboard.press('Enter')
     await page.keyboard.press('Enter')
@@ -36,18 +36,18 @@ test.describe('with the session sheet open underneath', () => {
 
     await page.keyboard.press('Escape')
     await expect(page.getByTestId('shape-flyout')).toHaveCount(0)
-    await expect(session(page)).toBeVisible()
+    await expect(sheet(page)).toBeVisible()
   })
 
   test('search opened over it is the one Escape closes', async ({ page }) => {
     await page.locator(CANVAS).focus()
-    await openSession(page)
+    await openSheet(page)
     await page.keyboard.press('ControlOrMeta+f')
     await expect(page.getByRole('combobox')).toBeFocused()
 
     await page.keyboard.press('Escape')
     await expect(page.getByRole('combobox')).toHaveCount(0)
-    await expect(session(page)).toBeVisible()
+    await expect(sheet(page)).toBeVisible()
   })
 })
 
@@ -62,11 +62,11 @@ test('the colour picker is closed before the sheet opened after it', async ({ pa
   await page.getByTestId('paint-textColor').click()
   await page.getByTestId('ink-custom').click()
   await expect(page.getByTestId('color-picker')).toBeVisible()
-  await openSession(page)
+  await openSheet(page)
 
   // The sheet came last, so it goes first, and the picker stays.
   await page.keyboard.press('Escape')
-  await expect(session(page)).toHaveCount(0)
+  await expect(sheet(page)).toHaveCount(0)
   await expect(page.getByTestId('color-picker')).toBeVisible()
   await page.keyboard.press('Escape')
   await expect(page.getByTestId('color-picker')).toHaveCount(0)

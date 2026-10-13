@@ -20,8 +20,8 @@
  */
 
 /** The identity service. */
-export const SUPABASE_URL = 'https://nayxpmxpornsjmmmedmh.supabase.co'
-export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_B5U44eQkoeAl8-MfrMG_zQ_cIVbQr2O'
+export const SUPABASE_URL = 'https://unprovisioned.invalid'
+export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_unprovisioned'
 
 /**
  * The room server, as the socket wants it.
@@ -30,4 +30,4 @@ export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_B5U44eQkoeAl8-MfrMG_zQ_c
  * the room half is developed and demonstrated, and pointing at it must not mean
  * editing a constant.
  */
-export const ROOM_SERVER = 'wss://openframe-rooms.muqdara95.workers.dev'
+export const ROOM_SERVER = 'wss://rooms.unprovisioned.invalid'

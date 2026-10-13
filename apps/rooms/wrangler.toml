@@ -1,4 +1,4 @@
-name = "openframe-rooms"
+name = "openframe-tabletop-rooms"
 main = "src/index.ts"
 # Pinned, not "latest". The runtime's behaviour is versioned by this date, so a
 # deploy six months from now runs the runtime this code was written against.
@@ -47,8 +47,8 @@ storage = "sqlite"
 [vars]
 AI_DAILY_LIMIT = "20"
 AI_GLOBAL_DAILY_LIMIT = "1000"
-SUPABASE_URL = "https://nayxpmxpornsjmmmedmh.supabase.co"
-SUPABASE_PUBLISHABLE_KEY = "sb_publishable_B5U44eQkoeAl8-MfrMG_zQ_cIVbQr2O"
+SUPABASE_URL = "https://unprovisioned.invalid"
+SUPABASE_PUBLISHABLE_KEY = "sb_publishable_unprovisioned"
 
 # Where a board's images live.
 #
@@ -62,7 +62,7 @@ SUPABASE_PUBLISHABLE_KEY = "sb_publishable_B5U44eQkoeAl8-MfrMG_zQ_cIVbQr2O"
 # exists.
 [[r2_buckets]]
 binding = "ASSETS"
-bucket_name = "openframe-assets"
+bucket_name = "openframe-tabletop-assets"
 
 # The session music: CC0 tracks, the same for every board, served publicly by
 # this Worker at /music (ADR 0017). Its own bucket, so a board's deletion can
@@ -71,4 +71,4 @@ bucket_name = "openframe-assets"
 # here by `tools/audio/upload-tracks.mjs`, which checks each against it.
 [[r2_buckets]]
 binding = "LIBRARY"
-bucket_name = "openframe-library"
+bucket_name = "openframe-tabletop-library"

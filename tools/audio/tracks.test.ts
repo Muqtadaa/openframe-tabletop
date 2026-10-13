@@ -47,7 +47,7 @@ void describe('putting a track in the library', () => {
       'r2',
       'object',
       'put',
-      'openframe-library/audio/calm-1',
+      'openframe-tabletop-library/audio/calm-1',
       '--file',
       '/tmp/calm-1.mp3',
       '--content-type',

@@ -13,12 +13,9 @@
 # is affected.
 name: Upload music
 
+# Manual only: Tabletop has no library bucket yet, and this feature is removed
+# from the product in Phase 0 (see docs/plans/01-phase-0-execution.md, WP 0.9).
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'apps/rooms/src/library/catalogue.json'
-      - '.github/workflows/upload-music.yml'
   workflow_dispatch:
     inputs:
       archive:

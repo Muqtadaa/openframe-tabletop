@@ -2,7 +2,7 @@
 
 `catalogue.json` is the list of tracks the rooms Worker will serve at
 `/music/track/:id`, and the browser will play (ADR 0017). The bucket
-(`LIBRARY`, `openframe-library`) holds the files; this list decides which of
+(`LIBRARY`, `openframe-tabletop-library`) holds the files; this list decides which of
 them anyone can reach. A file in the bucket that is not listed here is not
 served.
 

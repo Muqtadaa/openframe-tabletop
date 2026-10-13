@@ -14,7 +14,7 @@ import type { Page } from '@playwright/test'
  * the routes then answer the calls it makes as a result.
  */
 
-const REF = 'nayxpmxpornsjmmmedmh'
+const REF = 'unprovisioned'
 
 export interface StubbedBoard {
   readonly id: string
@@ -205,7 +205,7 @@ export async function signedIn(
    */
   const { rows, comments, people, mentioned, read } = server
 
-  await page.route(`**/${REF}.supabase.co/**`, (route) => {
+  await page.route(`**/${REF}.invalid/**`, (route) => {
     const url = route.request().url()
     const json = (body: unknown) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) })

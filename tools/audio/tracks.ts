@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto'
 import type { Track } from '@openframe/core/facilitation'
 
 /** The bucket the rooms Worker serves the music from (`apps/rooms/wrangler.toml`, `LIBRARY`). */
-export const LIBRARY_BUCKET = 'openframe-library'
+export const LIBRARY_BUCKET = 'openframe-tabletop-library'
 
 /**
  * Why a file is not the track the catalogue describes, or `null` if it is.

@@ -1,22 +1,13 @@
 name: Deploy rooms
 
-# The room server, deployed when it changes and never otherwise.
+# The room server, deployed by hand until Tabletop has one.
 #
-# Path-filtered on purpose: the board room is not the web app, and a change to a
-# stylesheet has no business restarting rooms that people are editing in. It is
-# also deployed only from `main`, so a branch cannot replace production by
-# pushing to itself.
+# Manual only for now: there is no Tabletop Cloudflare Worker or bucket yet
+# (they are provisioned at the start of Phase 1), and a push trigger would try
+# to deploy to one that does not exist. Restore the path-filtered push trigger
+# from git history (`apps/rooms/**`, `packages/collab/**`, `packages/core/**`,
+# the lockfile and this file, from `main` only) when the resources are real.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'apps/rooms/**'
-      - 'packages/collab/**'
-      - 'packages/core/**'
-      - 'pnpm-lock.yaml'
-      - '.github/workflows/deploy-rooms.yml'
-  # So the first deploy — and any re-deploy after a token change — can be run
-  # from the Actions tab without an empty commit.
   workflow_dispatch:
 
 concurrency:

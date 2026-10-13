@@ -89,7 +89,16 @@ export async function inBucket(key: string): Promise<boolean> {
   try {
     await promisify(execFile)(
       'pnpm',
-      ['exec', 'wrangler', 'r2', 'object', 'get', `openframe-assets/${key}`, '--local', '--pipe'],
+      [
+        'exec',
+        'wrangler',
+        'r2',
+        'object',
+        'get',
+        `openframe-tabletop-assets/${key}`,
+        '--local',
+        '--pipe',
+      ],
       { cwd: ROOMS_DIR, encoding: 'buffer' },
     )
     return true

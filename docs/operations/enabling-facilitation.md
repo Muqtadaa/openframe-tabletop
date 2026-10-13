@@ -1,5 +1,9 @@
 # Enabling facilitation: music and AI
 
+> **Removed in OpenFrame Tabletop (WP 0.6 and 0.9).** Session music, AI and dot
+> voting are gone from the product, along with the `LIBRARY` bucket and the music
+> upload workflow. This page describes OpenFrame at `8eb19c5`.
+
 Everything else in a session works as soon as it is deployed: the timer,
 reactions, dot voting, polls. Two features need the owner to do something
 first. Until then each one stays out of the way: the Session pill has no Music section,

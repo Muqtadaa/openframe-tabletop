@@ -10,7 +10,6 @@ import { useRemoteDrag } from '../interaction/remote-drags.js'
 import { translateOffset } from '../interaction/drag-offset.js'
 import { ObjectErrorBoundary } from './ObjectErrorBoundary.js'
 import { MarkedRenderer } from './MarkedRenderer.js'
-import { ReactionChips } from './ReactionChips.js'
 import { EditorChrome, EditorOverlay } from './EditorChrome.js'
 import { FallbackView } from '../views/FallbackView.js'
 import type { ObjectEditorProps, ObjectViewRegistry } from '../views/registry.js'
@@ -234,9 +233,6 @@ function ObjectViewInner({ id, views }: Props) {
   // The same condition as the lifting class, so "selected" here means what
   // it means on screen: a container is not lifted, and is not marked either.
   const lifted = selected && !holdsChildren
-  // Asked of the registry, like containment: a type states whether people
-  // can react to it, and nothing here knows which types do.
-  const markable = runtime.registry.get(object.type)?.capabilities.markable === true
   // A body you cannot press, so the DOM agrees with the registry's hit test:
   // a press inside lands on what is beneath, never on this object.
   const hollow = runtime.registry.get(object.type)?.capabilities.hollow === true
@@ -347,7 +343,6 @@ function ObjectViewInner({ id, views }: Props) {
           />
         )}
       </ObjectErrorBoundary>
-      {markable && <ReactionChips id={id} />}
     </div>
   )
 }

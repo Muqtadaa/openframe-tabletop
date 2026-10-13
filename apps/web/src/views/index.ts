@@ -5,7 +5,6 @@ import { groupView } from './GroupView.js'
 import { imageView } from './ImageView.js'
 import { shapeView } from './ShapeView.js'
 import { codeView } from './CodeView.js'
-import { pollView } from './PollView.js'
 import { stickyView } from './StickyView.js'
 import { tableView } from './TableView.js'
 import { textView } from './TextView.js'
@@ -25,7 +24,6 @@ export function createDefaultViewRegistry(): ObjectViewRegistry {
     stickyView,
     tableView,
     codeView,
-    pollView,
     textView,
     shapeView,
     frameView,

@@ -3,6 +3,9 @@ import { type ZodType, z } from 'zod'
 import { plainTextOf, RichTextSchema, type RichText } from './domain/rich-text.js'
 import { defineObjectType, ObjectTypeRegistry } from './domain/registry.js'
 import { createDefaultRegistry } from './types/index.js'
+import { pollType } from './types/poll/definition.js'
+import { pollAnswerType } from './types/poll-answer/definition.js'
+import { reactionType } from './types/reaction/definition.js'
 import { stickyType } from './types/sticky/definition.js'
 
 /**
@@ -174,7 +177,10 @@ export const fixtureFollowupType = defineObjectType<typeof FIXTURE_FOLLOWUP, Fol
 })
 
 /**
- * The default registry plus the three fixtures. A sticky note is given the
+ * The default registry plus the three fixtures, and the three types that are
+ * written, tested and not shipped (`reaction`, `poll`, `poll-answer`: Tabletop
+ * hides them rather than deleting them, and registering them again in
+ * `createDefaultRegistry` is the whole of bringing them back). A sticky note is given the
  * promotions and derivation the product no longer declares for it, so the
  * generic conversion and derivation paths have something to run against.
  */
@@ -192,5 +198,9 @@ export function createFixtureRegistry(): ObjectTypeRegistry {
     fixtureSourceType,
     fixtureClaimType,
     fixtureFollowupType,
+    // Built and tested, but not shipped: see `createFixtureRegistry`'s note.
+    reactionType,
+    pollType,
+    pollAnswerType,
   ])
 }

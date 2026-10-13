@@ -1,5 +1,11 @@
 # ADR 0017 · Facilitation state is outside the document
 
+**Superseded for OpenFrame Tabletop** · 2026-10-12 (Phase 0, WP 0.9). The session
+timer, session music and dot voting this record describes were removed from the
+product; polls and reactions are hidden (unregistered, code kept and tested).
+The pure rules in `core/facilitation` and the `facilitation` map in `collab`
+remain, unused. The record stays as the OpenFrame history.
+
 **Status:** Accepted · 2026-10-04 · built in PR B (the session timer) and
 PR C (session music). Cites ADR 0016.
 

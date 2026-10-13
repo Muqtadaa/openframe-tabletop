@@ -31,9 +31,6 @@ describe('object type registry contract', () => {
       'frame',
       'group',
       'image',
-      'poll',
-      'poll-answer',
-      'reaction',
       'relation',
       'shape',
       'sticky',
@@ -41,6 +38,18 @@ describe('object type registry contract', () => {
       'text',
       'unknown',
     ])
+  })
+
+  /**
+   * Hidden, not deleted: reactions and polls are written and tested, and left
+   * out of what ships. Asserted both ways, so that hiding cannot quietly turn
+   * into either shipping them again or losing the code.
+   */
+  it('hides reactions and polls from the product, and keeps them for the tests', () => {
+    for (const type of ['reaction', 'poll', 'poll-answer']) {
+      expect(registry.get(type), `${type} is shipped`).toBeUndefined()
+      expect(fixtures.get(type), `${type} is gone from the tests`).toBeDefined()
+    }
   })
 
   /**

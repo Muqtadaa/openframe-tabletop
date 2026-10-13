@@ -125,7 +125,6 @@ test('the rail is grouped into getting around, making and annotating', async ({ 
     'tool-connector',
     'tool-table',
     'tool-code',
-    'tool-poll',
     'tool-image',
   ])
   expect(await ids(2)).toEqual(['tool-comment'])

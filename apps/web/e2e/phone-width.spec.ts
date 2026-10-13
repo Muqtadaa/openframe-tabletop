@@ -6,6 +6,14 @@ import { boxOf, CANVAS, goto, seedBoard } from './fixtures.js'
 import { BOARD_URL, HOME_URL } from './routes.js'
 import { signedIn } from './signed-in.js'
 
+/** Whether two boxes share any area. */
+function boxesOverlap(
+  a: { x: number; y: number; width: number; height: number },
+  b: { x: number; y: number; width: number; height: number },
+): boolean {
+  return a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height
+}
+
 /**
  * A phone-width window (C3 #9).
  *
@@ -350,19 +358,6 @@ test.describe('surfaces at phone width', () => {
     await docked(page, 'account-surface')
   })
 
-  test('the reaction bar stays on the screen', async ({ page }) => {
-    await seedBoard(
-      page,
-      buildBoard((board) => {
-        board.note('Near the right edge', { x: 300, y: 420 })
-      }),
-    )
-    await page.locator(CANVAS).click({ position: { x: 300, y: 420 } })
-    const bar = await docked(page, 'reaction-bar')
-    const panel = await boxOf(page.getByTestId('inspector'))
-    expect(meets(bar, panel)).toBe(false)
-  })
-
   test('a selection with no record panel is not moved', async ({ page }) => {
     await seedBoard(
       page,
@@ -378,24 +373,6 @@ test.describe('surfaces at phone width', () => {
     await expect(page.getByTestId('inspector')).toHaveCount(0)
     const after = await boxOf(page.locator('[data-object-type="sticky"]').first())
     expect(after.y).toBe(before.y)
-  })
-
-  test("the record panel leaves the poll's Close in reach", async ({ page }) => {
-    await seedBoard(
-      page,
-      buildBoard((board) => {
-        board.add('poll', { x: 220, y: 560 }, { text: [{ text: 'Cats or dogs?' }] })
-      }),
-    )
-    await page.locator('[data-object-type="poll"]').getByTestId('poll-question').click()
-    await expect(page.getByTestId('inspector')).toBeVisible()
-    const close = page.getByTestId('poll-close')
-    const box = await boxOf(close)
-    const hit = await page.evaluate(
-      ({ x, y }) => document.elementFromPoint(x, y)?.closest('[data-testid="poll-close"]') !== null,
-      { x: box.x + box.width / 2, y: box.y + box.height / 2 },
-    )
-    expect(hit).toBe(true)
   })
 })
 
@@ -466,26 +443,17 @@ for (const width of [390, 320]) {
 test.describe('a phone held sideways', () => {
   test.use({ viewport: { width: 844, height: 390 }, hasTouch: true, isMobile: true })
 
-  test("the record panel docks at the side and leaves a poll's answers in reach", async ({
-    page,
-  }) => {
+  test('the record panel docks at the side, clear of the note it is about', async ({ page }) => {
     await seedBoard(
       page,
       buildBoard((board) => {
-        board.add('poll', { x: 620, y: 220 }, { text: [{ text: 'Cats or dogs?' }] })
+        board.note('Cats or dogs?', { x: 620, y: 220 })
       }),
     )
-    await page.locator('[data-object-type="poll"]').getByTestId('poll-question').click()
+    await page.locator('[data-object-type="sticky"]').click()
     const panel = await boxOf(page.getByTestId('inspector'))
     expect(panel.x + panel.width).toBeGreaterThanOrEqual(844 - 1)
-    for (const testId of ['poll-option-o1', 'poll-option-o2', 'poll-close']) {
-      const box = await boxOf(page.getByTestId(testId))
-      const hit = await page.evaluate(
-        ({ x, y, id }) =>
-          document.elementFromPoint(x, y)?.closest(`[data-testid="${id}"]`) !== null,
-        { x: box.x + box.width / 2, y: box.y + box.height / 2, id: testId },
-      )
-      expect(hit, `${testId} under the panel`).toBe(true)
-    }
+    const note = await boxOf(page.locator('[data-object-type="sticky"]'))
+    expect(boxesOverlap(panel, note)).toBe(false)
   })
 })

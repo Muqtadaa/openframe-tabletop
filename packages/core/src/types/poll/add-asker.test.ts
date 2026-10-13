@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
 import { deserializeBoard } from '../../schema/deserialize.js'
-import { createDefaultRegistry } from '../index.js'
+import { createFixtureRegistry } from '../../testing-fixtures.js'
 import type { PollData } from './schema.js'
 import frozen from './__fixtures__/v1-polls.json' with { type: 'json' }
 
 /** Polls saved before a poll knew who asked it. Frozen, per rule 6. */
 describe('a board from before a poll knew who asked', () => {
-  const registry = createDefaultRegistry()
+  const registry = createFixtureRegistry()
 
   it('opens, with nobody recorded as asking', () => {
     const result = deserializeBoard(frozen, registry)

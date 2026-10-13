@@ -203,68 +203,6 @@ for (const world of WORLDS) {
       await snap(page, `${world}-selection-inspector`)
     })
 
-    // Two people's reactions on a note, one of them yours, and the bar to add more.
-    test('reactions on a note', async ({ page }) => {
-      await seedBoard(
-        page,
-        buildBoard((board) => {
-          const note = board.note('Customers do not understand pricing', { x: 520, y: 300 })
-          board.react(note, 'plus-one', { key: 'g_0123456789abcdef', name: 'Heron', hue: 200 })
-          board.react(note, 'idea', { key: 'g_0123456789abcdef', name: 'Heron', hue: 200 })
-          board.react(note, 'plus-one', { key: 'g_fedcba9876543210', name: 'Otter', hue: 30 })
-        }),
-      )
-      await page.locator('[data-testid="canvas"]').click({ position: { x: 520, y: 280 } })
-      await page.getByTestId('reaction-bar').getByRole('button', { name: 'Agree' }).click()
-      await expect(page.getByTestId('reaction-plus-one')).toHaveText(/3/)
-      await snap(page, `${world}-reactions`)
-    })
-
-    test('the emoji library, searched', async ({ page }) => {
-      await seedBoard(
-        page,
-        buildBoard((board) => {
-          board.note('Customers do not understand pricing', { x: 520, y: 300 })
-        }),
-      )
-      await page.locator('[data-testid="canvas"]').click({ position: { x: 520, y: 280 } })
-      await page.getByTestId('react-more').click()
-      await page.keyboard.type('heart')
-      await expect(page.getByRole('button', { name: 'red heart', exact: true })).toBeVisible()
-      await snap(page, `${world}-emoji-picker`)
-    })
-
-    // A poll with its results showing: one option picked here, one by someone else.
-    test('a poll', async ({ page }) => {
-      await page.addInitScript(() => {
-        localStorage.setItem(
-          'openframe:guest',
-          JSON.stringify({ name: 'Heron', hue: 2, key: 'g_0123456789abcdef' }),
-        )
-      })
-      await seedBoard(
-        page,
-        buildBoard((board) => {
-          const poll = board.add(
-            'poll',
-            { x: 520, y: 300 },
-            {
-              text: [{ text: 'Which first?' }],
-              options: [
-                { id: 'o1', label: 'Show the price early' },
-                { id: 'o2', label: 'Free returns' },
-                { id: 'o3', label: 'Live chat' },
-              ],
-            },
-          )
-          board.answer(poll, 'o2', { key: 'g_otter', name: 'Otter', hue: 30 })
-        }),
-      )
-      await page.getByTestId('poll-option-o2').click()
-      await expect(page.getByTestId('poll-state')).toHaveText('2 answers')
-      await snap(page, `${world}-poll`)
-    })
-
     // The board's earlier versions, two of them named, from the board's menu.
     test('version history', async ({ page }) => {
       await page.clock.install({ time: new Date('2026-10-08T09:30:00Z') })

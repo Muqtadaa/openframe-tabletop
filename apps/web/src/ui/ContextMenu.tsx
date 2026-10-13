@@ -16,13 +16,11 @@ import { useViewportSize } from '../controls/use-viewport-size.js'
 import { useCanEdit } from '../hooks/use-can-edit.js'
 import { useCommands, type PasteAs } from '../hooks/use-commands.js'
 import { useExport } from '../hooks/use-export.js'
-import { useMe } from '../hooks/use-me.js'
 import { useOpenFrame } from '../runtime/context.js'
 import { useInteractionStore, type ContextMenuAt } from '../interaction/interaction-store.js'
 import { writeSystemClipboard, type ClipboardPayload } from '../interaction/clipboard-format.js'
 import { ariaKeys, formatKeys } from '../interaction/keymap.js'
 import type { Rect } from '../scene/anchoring.js'
-import { REACTION_GLYPHS } from '../scene/reaction-glyphs.js'
 import { fitToDocument } from '../scene/zoom.js'
 
 interface Item {
@@ -87,7 +85,6 @@ export function ContextMenu() {
   const hasCopy = useInteractionStore((state) => state.clipboard !== null)
   const commands = useCommands()
   const exportAs = useExport()
-  const me = useMe()
   const canEdit = useCanEdit()
   const { runtime } = useOpenFrame()
   /*
@@ -271,16 +268,7 @@ export function ContextMenu() {
       [],
     )
 
-  // Every selected object, asked of the registry: a reaction offered to a
-  // selection that includes a frame would be a partial action (rule 21).
-  const reactable =
-    canEdit &&
-    selected.length > 0 &&
-    selected.every((id) => {
-      const type = runtime.store.getObject(id)?.type
-      return type !== undefined && runtime.registry.get(type)?.capabilities.markable === true
-    })
-
+  // Every selected object, asked of the registry (rule 21).
   const promotions = selected
     .map((id) => {
       const type = runtime.store.getObject(id)?.type
@@ -409,44 +397,6 @@ export function ContextMenu() {
                   commands.promoteSelection(target)
                 },
               })),
-            },
-          ]),
-      /*
-       * Reacting from the keyboard: the bar above a note is reached by
-       * pointer, and this is the same eight, toggling the same way.
-       */
-      // Not until it is known who is reacting: see `useMe`.
-      ...(!reactable || me === null
-        ? []
-        : [
-            {
-              label: 'React',
-              submenu: [
-                ...REACTION_GLYPHS.map((glyph) => ({
-                  label: `${glyph.emoji} ${glyph.label}`,
-                  run: () => {
-                    if (me !== null) commands.toggleReaction(selected, glyph.key, me)
-                  },
-                })),
-                // The rest of the library, hung where this menu was.
-                {
-                  label: 'More…',
-                  run: () => {
-                    const layer = window.document
-                      .querySelector('[data-chrome-layer]')
-                      ?.getBoundingClientRect() ?? { x: 0, y: 0 }
-                    useInteractionStore.getState().openReactionPicker({
-                      targets: selected,
-                      anchor: {
-                        x: at.x - layer.x,
-                        y: at.y - layer.y,
-                        width: at.width,
-                        height: at.height,
-                      },
-                    })
-                  },
-                },
-              ],
             },
           ]),
     ],

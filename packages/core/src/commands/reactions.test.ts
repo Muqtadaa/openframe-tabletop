@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import type { ObjectId } from '../domain/ids.js'
 import { richFromPlain } from '../domain/rich-text.js'
-import { createTestHarness, type TestHarness } from '../testing.js'
+import { createFixtureHarness, type TestHarness } from '../testing.js'
 import { reactionId } from '../types/reaction/definition.js'
 import type { MarkAuthor } from '../types/reaction/schema.js'
 
@@ -48,7 +48,7 @@ describe('reactions', () => {
   let h: TestHarness
   let note: ObjectId
   beforeEach(() => {
-    h = createTestHarness()
+    h = createFixtureHarness()
     note = create(h, 'sticky', 'Price is hidden')
   })
 

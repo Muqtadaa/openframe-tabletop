@@ -26,7 +26,7 @@ Format: Status · Context · Decision · Alternatives considered · Consequences
 | [0014](0014-paragraphs-lists-and-labels.md)             | **Lists live on the newline, and labels become text**               | Accepted              |
 | [0015](0015-tables-as-grids-lines-and-merges.md)        | **A table's lines live on its grid, and it edits as a spreadsheet** | Accepted              |
 | [0016](0016-room-trust-boundary.md)                     | **The room enforces who may write, not what they write**            | Accepted              |
-| [0017](0017-facilitation-state-outside-the-document.md) | **Facilitation state is outside the document**                      | Accepted              |
+| [0017](0017-facilitation-state-outside-the-document.md) | **Facilitation state is outside the document**                      | Superseded (Tabletop) |
 | [0018](0018-ai-clustering-on-the-room-server.md)        | **AI clustering runs on the room server, and proposes copies**      | Superseded (Tabletop) |
 | [0019](0019-version-history.md)                         | **Version history: whole snapshots, thinned, restored as an edit**  | Accepted              |
 | [0020](0020-export-as-a-readout.md)                     | **Export is a readout first: Markdown, with provenance**            | Accepted              |

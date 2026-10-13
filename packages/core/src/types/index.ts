@@ -5,9 +5,6 @@ import { frameType } from './frame/definition.js'
 import { groupType } from './group/definition.js'
 import { imageType } from './image/definition.js'
 import { relationType } from './relation/definition.js'
-import { reactionType } from './reaction/definition.js'
-import { pollType } from './poll/definition.js'
-import { pollAnswerType } from './poll-answer/definition.js'
 import { shapeType } from './shape/definition.js'
 import { stickyType } from './sticky/definition.js'
 import { tableType } from './table/definition.js'
@@ -176,9 +173,6 @@ export function createDefaultRegistry(): ObjectTypeRegistry {
     codeType,
     groupType,
     relationType,
-    reactionType,
-    pollType,
-    pollAnswerType,
     unknownType,
   ])
 }

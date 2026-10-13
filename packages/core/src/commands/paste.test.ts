@@ -12,7 +12,7 @@ import {
   type ClipboardContent,
 } from '../schema/clipboard.js'
 import { serializeObject } from '../schema/serialize.js'
-import { createTestHarness, type TestHarness } from '../testing.js'
+import { createFixtureHarness, type TestHarness } from '../testing.js'
 import type { ConnectorData } from '../types/connector/schema.js'
 import type { RelationData } from '../types/relation/schema.js'
 import type { NewObjectSpec } from './types.js'
@@ -29,7 +29,7 @@ import type { NewObjectSpec } from './types.js'
 let h: TestHarness
 
 beforeEach(() => {
-  h = createTestHarness()
+  h = createFixtureHarness()
 })
 
 function create(spec: NewObjectSpec): ObjectId {

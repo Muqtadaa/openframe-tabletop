@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { asObjectId, type ObjectId } from '../domain/ids.js'
-import { createTestHarness, type TestHarness } from '../testing.js'
+import { createFixtureHarness, type TestHarness } from '../testing.js'
 import { POLL_MARK, pollAnswerId } from '../types/poll-answer/definition.js'
 import type { MarkAuthor } from '../types/reaction/schema.js'
 
@@ -36,7 +36,7 @@ const picks = (h: TestHarness, id: ObjectId) =>
 describe('polls', () => {
   let h: TestHarness
   beforeEach(() => {
-    h = createTestHarness()
+    h = createFixtureHarness()
   })
 
   it('takes a pick, and takes it back when the same option is pressed again', () => {
@@ -73,7 +73,7 @@ describe('polls', () => {
   it('gives a single-choice answer one id per person, whatever it picks', () => {
     // Two devices for one person, each answering before hearing of the other:
     // one object, so the merge keeps one answer rather than two.
-    const other = createTestHarness()
+    const other = createFixtureHarness()
     const here = poll(h)
     const there = poll(other)
     expect(here).toBe(there)

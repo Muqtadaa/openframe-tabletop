@@ -136,33 +136,6 @@ test.describe('the board overview', () => {
   })
 })
 
-test.describe('the emoji library', () => {
-  test.use({ board: 'fresh' })
-
-  test('is walked as a grid, and Up from its top row goes back to search', async ({ page }) => {
-    await oneNote(page)
-    await selectNote(page)
-    await page.getByTestId('react-more').click()
-    const search = page.getByRole('searchbox', { name: 'Search emoji' })
-    await expect(search).toBeFocused()
-    const cells = page.getByRole('dialog', { name: 'Emoji' }).locator('button[data-emoji-cell]')
-    await expect(cells.nth(9)).toBeAttached()
-    await page.keyboard.press('ArrowDown')
-    await expect(cells.nth(0)).toBeFocused()
-    await page.keyboard.press('ArrowRight')
-    await expect(cells.nth(1)).toBeFocused()
-    // Eight to a row.
-    await page.keyboard.press('ArrowDown')
-    await expect(cells.nth(9)).toBeFocused()
-    await page.keyboard.press('ArrowUp')
-    await expect(cells.nth(1)).toBeFocused()
-    await page.keyboard.press('ArrowLeft')
-    await expect(cells.nth(0)).toBeFocused()
-    await page.keyboard.press('ArrowUp')
-    await expect(search).toBeFocused()
-  })
-})
-
 test.describe('the mention picker', () => {
   test('moves its highlight with the arrows, and wraps', async ({ page }) => {
     await signedIn(page, [{ id: 'brd_abcdefgh12345678', title: 'Shared', role: 'owner' }])

@@ -14,10 +14,11 @@ import { buildBoard } from './boards.js'
 const NOTE = { x: 340, y: 260 }
 
 /**
- * Where the keyboard lands on a note's menu. It used to be "Derive insight":
- * promoting and deriving led the menu while the product had types to make.
+ * Where the keyboard lands on a note's menu. It was "Derive insight" while the
+ * product had types to make, and then "React"; with neither shipped, the first
+ * row is Cut.
  */
-const FIRST = 'React'
+const FIRST = 'Cut'
 
 /**
  * A board holding one note, nothing selected. Seeded: every test here is about
@@ -49,8 +50,6 @@ test(
     await expect(menu(page)).toBeVisible()
     await expect(item(page, FIRST)).toBeFocused()
 
-    await page.keyboard.press('ArrowDown')
-    await expect(item(page, 'Cut')).toBeFocused()
     await page.keyboard.press('ArrowDown')
     await expect(item(page, 'Copy')).toBeFocused()
     // An unavailable item is still reachable, and says so.

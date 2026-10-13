@@ -279,7 +279,7 @@ export class CommandDispatcher {
        * The objects map this transaction may change in place, once it has
        * one. Copying the board per COMMAND made an agent's 200-command
        * transaction copy a 12,000-object map 200 times — 406ms against 5ms for
-       * the same objects in one command (tracks P2, `pnpm bench:mcp`). The
+       * the same objects in one command (tracks P2, `pnpm bench:transaction`). The
        * copy is private to this run, so it is made on the first write and
        * changed in place after that; the store's own map is never touched.
        *

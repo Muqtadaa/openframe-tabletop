@@ -31,7 +31,6 @@ packages/core     Pure TypeScript domain. Deps: zod, fractional-indexing. Nothin
 packages/collab   The board on Yjs: document mapping, room protocol, change log. Core + yjs.
 apps/web          React app: canvas, interaction, UI, adapters.
 apps/rooms        Cloudflare Worker + one Durable Object per board, images in R2.
-apps/mcp          The MCP server, a separate stdio process. Core + collab + Supabase.
 supabase/         Migrations: accounts, board list, membership, workspaces, comments.
 ```
 
@@ -160,7 +159,7 @@ The same trap applies once per COMMAND. A transaction used to copy the whole
 object map for every command in it, and `CreateObjects` sorted a container's
 children to read its top. So an agent's 200-command transaction on a
 12,000-object board took 406ms, against 5ms for the same objects in one
-command. `pnpm bench:mcp` measures this, and it counts map copies as well as
+command. `pnpm bench:transaction` measures this, and it counts map copies as well as
 time.
 
 **A benchmark fixture of one object type measures one object type.** The board

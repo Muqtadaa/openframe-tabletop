@@ -81,8 +81,8 @@ jobs:
       - name: Cull and relation lookups
         run: pnpm bench:cull --json bench-results/cull.json
 
-      - name: An agent peer's reads and writes
-        run: pnpm bench:mcp --json bench-results/mcp.json
+      - name: Transaction and search cost
+        run: pnpm bench:transaction --json bench-results/transaction.json
 
       # Asserts that DOM nodes track what is on screen; its load and pan
       # times are recorded as the trend, not budgeted.

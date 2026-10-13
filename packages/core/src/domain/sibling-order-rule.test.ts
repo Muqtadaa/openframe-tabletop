@@ -28,13 +28,7 @@ function sources(directory: string): string[] {
     .map((file) => join(directory, file))
 }
 
-const ROOTS = [
-  'packages/core/src',
-  'packages/collab/src',
-  'apps/web/src',
-  'apps/mcp/src',
-  'apps/rooms/src',
-]
+const ROOTS = ['packages/core/src', 'packages/collab/src', 'apps/web/src', 'apps/rooms/src']
 
 function offenders(files: readonly { path: string; text: string }[]): string[] {
   return files.flatMap(({ path, text }) =>

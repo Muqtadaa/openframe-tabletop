@@ -77,7 +77,7 @@ export function childrenOf(doc: BoardDocument, parentId: ObjectId | null): AnyOp
  * Still one pass, so still not something to call per object. It is what
  * `CreateObjects` asks once per command, and an agent's transaction of 200
  * single-object commands on a 12,000-object board spent most of its time in
- * the sort (tracks P2, `pnpm bench:mcp`).
+ * the sort (tracks P2, `pnpm bench:transaction`).
  */
 export function lastChildOrder(doc: BoardDocument, parentId: ObjectId | null): OrderKey | null {
   let last: OrderKey | null = null

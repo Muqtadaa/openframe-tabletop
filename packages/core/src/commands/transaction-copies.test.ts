@@ -11,7 +11,7 @@ import type { Command } from './types.js'
  * applied, and made that board by copying the whole object map — so an
  * agent's transaction of 200 single-object commands copied a 12,000-object
  * map 200 times: 406ms against 5ms for the same objects in one command
- * (`pnpm bench:mcp`). The working copy is private to the transaction, so it is
+ * (`pnpm bench:transaction`). The working copy is private to the transaction, so it is
  * made once and changed in place.
  *
  * Copies are counted by swapping the global `Map` for one that counts maps

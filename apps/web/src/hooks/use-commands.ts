@@ -13,7 +13,6 @@ import type {
   Placement,
   Point,
   Rect,
-  TransactionId,
   VoteScope,
 } from '@openframe/core'
 import {
@@ -38,8 +37,6 @@ import {
 } from '@openframe/core'
 import { useMemo } from 'react'
 
-import type { LoggedChange } from '@openframe/collab'
-import { guestIdentity } from '../app/guest.js'
 import {
   readSystemClipboard,
   toClipboard,
@@ -228,13 +225,6 @@ export interface BoardCommands {
    * changed since is kept. The revert's own transaction, so an undo of it can
    * be recognised, or `null` when nothing could be taken back.
    */
-  /**
-   * Takes an agent's change back. Says what it did: the transaction, and how
-   * many of the objects it touched were kept because somebody changed them since.
-   */
-  revertChange(
-    change: LoggedChange,
-  ): { readonly transactionId: TransactionId; readonly kept: number } | null
 }
 
 /**
@@ -272,7 +262,7 @@ function pastedRoots(
 const SYNTHESIS_GAP = 80
 
 export function useCommands(): BoardCommands {
-  const { runtime, collaboration } = useOpenFrame()
+  const { runtime } = useOpenFrame()
   const { remoteBoards } = useServices()
   const dispatcher = runtime.dispatcher
 
@@ -1107,31 +1097,6 @@ export function useCommands(): BoardCommands {
           .getState()
           .pruneSelection((id) => runtime.store.getObject(id) !== undefined)
       },
-
-      revertChange(change) {
-        const result = dispatcher.revert(change)
-        if (!result.ok) {
-          sayWhyNot(result)
-          return null
-        }
-        // Said to every peer, so the change reads as taken back everywhere and
-        // nobody reverts it twice.
-        collaboration?.markReverted(change.id, guestIdentity().name)
-        const store = useInteractionStore.getState()
-        store.pruneSelection((id) => runtime.store.getObject(id) !== undefined)
-        /*
-         * Said, not left to be noticed: what stayed because somebody had
-         * changed it since is exactly the part a person would otherwise go
-         * looking for.
-         */
-        const kept = change.affected.length - result.affected.length
-        store.announce(
-          kept === 0
-            ? `Reverted “${change.label}”.`
-            : `Reverted “${change.label}”, except ${counted(kept, 'object')} changed since.`,
-        )
-        return { transactionId: result.transactionId, kept }
-      },
     }
-  }, [dispatcher, runtime, collaboration, remoteBoards])
+  }, [dispatcher, runtime, remoteBoards])
 }

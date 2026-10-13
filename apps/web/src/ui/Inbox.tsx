@@ -6,33 +6,25 @@ import { useAnchoredTo } from '../controls/use-anchor.js'
 import { stepFocus } from '../controls/roving.js'
 import { useDismiss } from '../controls/use-dismiss.js'
 import { useMentions } from '../hooks/use-mentions.js'
-import { AgentChangeItems, useAgentChanges } from './AgentChanges.js'
-import { focusTheBoard } from './hand-back-focus.js'
 import { MentionItems } from './Mentions.js'
 import { wrapTab } from '../controls/wrap-tab.js'
 
 /**
- * What has happened that is for you: mentions, and what agents did to the
- * board. One count, one sheet, a section each.
+ * What has happened that is for you: mentions. One count, one sheet.
  *
- * They were two buttons side by side in the same style — "2 mentions",
- * "1 agent change" — two words of bar for one question, "is anything waiting
- * for me?". The count is the unread mentions plus the agent changes still on
- * the board that this browser has not yet been shown; each section keeps its
- * own list exactly as it was.
+ * It was two kinds of news in one place — mentions, and what agents did to the
+ * board — until agents left the product. What stays is the one answer to "is
+ * anything waiting for me?", which other kinds of news can join.
  *
- * Absent while there is nothing in either: a control for something that has
+ * Absent while there is nothing in it: a control for something that has
  * never happened is a control people learn to ignore.
  */
 export function Inbox() {
   const mentions = useMentions()
-  // Mounted on every board, empty or not: it is also what toasts a new change.
-  const agents = useAgentChanges()
   const [open, setOpen] = useState(false)
   const { ref: button, anchor, surface } = useAnchoredTo<HTMLButtonElement>(open)
   const sheet = useRef<HTMLDivElement>(null)
   const mentionsHeading = useId()
-  const agentsHeading = useId()
   const close = useCallback(() => {
     setOpen(false)
     button.current?.focus()
@@ -40,25 +32,9 @@ export function Inbox() {
   useDismiss(sheet, button, close, open)
 
   /*
-   * Looked at is read: once the sheet has been open, the agent changes in it
-   * are no longer news in this browser. Marked as it CLOSES, so what was new
-   * stays marked while somebody is reading it. A mention is read by following
-   * it, as before — it points somewhere; an agent change has already happened.
-   */
-  const wasOpen = useRef(false)
-  const { markSeen } = agents
-  useEffect(() => {
-    if (open) wasOpen.current = true
-    else if (wasOpen.current) {
-      wasOpen.current = false
-      markSeen()
-    }
-  }, [open, markSeen])
-
-  /*
    * In once the sheet is PLACED: at its first mention, which only goes
-   * somewhere, or else at the sheet itself. Never at a Revert — opening the
-   * Inbox and pressing Enter twice took a change back.
+   * somewhere, or else at the sheet itself. Never at an action that changes
+   * something — opening the Inbox and pressing Enter twice must not do anything.
    */
   const placed = anchor !== null
   useEffect(() => {
@@ -66,9 +42,9 @@ export function Inbox() {
     ;(sheet.current?.querySelector<HTMLElement>('a') ?? sheet.current)?.focus()
   }, [open, placed])
 
-  if (mentions.mentions.length === 0 && agents.changes.length === 0) return null
+  if (mentions.mentions.length === 0) return null
 
-  const waiting = mentions.unread + agents.unseen
+  const waiting = mentions.unread
   const name = waiting === 0 ? 'Inbox, nothing new' : `Inbox, ${String(waiting)} new`
 
   return (
@@ -131,20 +107,6 @@ export function Inbox() {
                   markRead={mentions.markRead}
                   onFollowed={() => {
                     setOpen(false)
-                  }}
-                />
-              </section>
-            )}
-            {agents.changes.length > 0 && (
-              <section aria-labelledby={agentsHeading}>
-                <h2 className="of-inbox__heading" id={agentsHeading}>
-                  Agent changes
-                </h2>
-                <AgentChangeItems
-                  state={agents}
-                  onShown={() => {
-                    setOpen(false)
-                    focusTheBoard()
                   }}
                 />
               </section>

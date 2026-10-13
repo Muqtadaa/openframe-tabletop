@@ -12,8 +12,8 @@ import { describe, expect, it } from 'vitest'
  * only a test stops them coming back: nothing about them looks wrong in a diff.
  *
  * The names are assembled from pieces so that this file is not itself a hit.
- * `docs/` is the historical record and says what it says. `apps/mcp` is scanned
- * while it exists; the work package that deletes it removes it from SCANNED.
+ * `docs/` is the historical record and says what it says. The MCP
+ * server, which carried the same constants, has been deleted.
  */
 const LIVE_IDENTIFIERS = [
   ['nayxpmxp', 'ornsjmmmedmh'],
@@ -22,7 +22,7 @@ const LIVE_IDENTIFIERS = [
 ].map((pieces) => pieces.join(''))
 
 const ROOT = resolve(process.cwd(), '../..')
-const SCANNED = ['apps/web', 'apps/rooms', 'apps/mcp', 'packages', 'tools', '.github', 'supabase']
+const SCANNED = ['apps/web', 'apps/rooms', 'packages', 'tools', '.github', 'supabase']
 const SKIPPED = new Set(['node_modules', 'dist', 'test-results', 'playwright-report', '.wrangler'])
 const TEXT = /\.(ts|tsx|js|cjs|mjs|json|toml|yml|yaml|md|css|html|sql|env)$|(^|\/)\.env$/
 

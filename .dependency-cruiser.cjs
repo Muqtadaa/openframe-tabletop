@@ -68,7 +68,7 @@ module.exports = {
         'can replace. Everything else receives a session, never a client. Two folders, because ' +
         "there are two clients now — the browser's and the MCP server's — and each is the only " +
         'door in its own app.',
-      from: { pathNot: '^(apps/web/src/adapters/supabase|apps/mcp/src/supabase)' },
+      from: { pathNot: '^apps/web/src/adapters/supabase' },
       to: { path: '^@supabase($|/)|node_modules/@supabase/' },
     },
     {
@@ -125,18 +125,6 @@ module.exports = {
         'apps/rooms is that guarantee being given up.',
       from: { pathNot: '^apps/rooms' },
       to: { path: '^cloudflare:' },
-    },
-    {
-      name: 'mcp-does-not-depend-on-the-web-app',
-      severity: 'error',
-      comment:
-        'The MCP server is a peer, not a headless browser. It may use @openframe/core and ' +
-        '@openframe/collab — the domain and the room protocol — and nothing from apps/web, whose ' +
-        'code assumes a DOM it does not have. An import that reached for one would also be the ' +
-        'first place a tool could change a board without going through the dispatcher, because ' +
-        'that is where the composition root holds the writer.',
-      from: { path: '^apps/mcp' },
-      to: { path: '^apps/web' },
     },
     {
       name: 'core-does-not-depend-on-apps',

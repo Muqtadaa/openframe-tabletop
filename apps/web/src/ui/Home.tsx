@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { abandonSplash } from '../app/splash.js'
 import type { ListedBoard } from '../runtime/services.js'
-import { boardHref } from '../app/route.js'
+import { canPrep } from '../app/board-rows.js'
+import { boardHref, PREP_HREF } from '../app/route.js'
 import { ShareFailed, useServices } from '../runtime/services.js'
 import { useIdentity } from '../hooks/use-identity.js'
 import { Mentions } from './Mentions.js'
@@ -243,6 +244,16 @@ export function Home() {
 
             {/* Only worth showing to somebody who has an account to be told. */}
             {identity !== null && <Mentions />}
+
+            {/*
+              Preparing is across the tables you run, so it is one entry here and
+              not one per row; nothing is offered to somebody who runs none.
+            */}
+            {(listing?.boards ?? []).some(canPrep) && (
+              <a className="of-button of-home__prep" href={PREP_HREF} data-testid="library-prep">
+                Prep
+              </a>
+            )}
 
             {/* Last, as on the board's bar: something about the page, not on it. */}
             <ThemeToggle className="of-icon-button of-home__world" />

@@ -1,0 +1,242 @@
+/* ---------- the tabletop shell: docks, prep, the library's primary action ---------- */
+
+/*
+ * The dock rail: a column of buttons along the right edge, centred in the band
+ * between the navigation and the foot, the way the tool rail is on the left. A
+ * dock opens beside it, one at a time. Closed, it is one narrow strip and the
+ * Scene keeps the screen.
+ */
+.of-overlay--dock {
+  top: var(--of-nav-band);
+  right: var(--of-gutter);
+  bottom: var(--of-gutter);
+  display: flex;
+  align-items: center;
+}
+
+.of-overlay--dock:hover,
+.of-overlay--dock:focus-within {
+  z-index: var(--of-z-reached);
+}
+
+.of-dock-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--of-space-2);
+  padding: var(--of-space-6);
+  background: var(--of-page);
+  border: 1px solid var(--of-panel-border);
+  border-radius: var(--of-radius-apparatus);
+  box-shadow: var(--of-shadow);
+}
+
+/* A tip on this rail says what a button does on its LEFT, toward the table. */
+.of-dock-rail [data-tip]::after {
+  top: 50%;
+  right: calc(100% + var(--of-space-6));
+  bottom: auto;
+  left: auto;
+  transform: translate(var(--of-space-2), -50%);
+}
+
+.of-dock-rail [data-tip]:hover::after,
+.of-dock-rail [data-tip]:focus-visible::after {
+  transform: translate(0, -50%);
+}
+
+/* ---------- the shared screen ---------- */
+
+/*
+ * The display: the table and nothing else. No rail, no bar, no dock, no
+ * controls, because the people reading it are three metres away and are not
+ * operating it.
+ */
+.of-app--display {
+  background: var(--sc-ground);
+}
+
+/* ---------- the library ---------- */
+
+/*
+ * The row's one primary action, named. It sits at the entry's end as the single
+ * filled control on the row, in the accent, and is not a second target: the
+ * whole entry is the link.
+ */
+.of-home__open {
+  flex: none;
+  align-self: center;
+  padding: var(--of-space-6) var(--of-space-12);
+  font-size: var(--of-type-control);
+  font-weight: var(--of-weight-medium);
+  line-height: 1;
+  color: var(--of-panel);
+  white-space: nowrap;
+  background: var(--of-accent);
+  border-radius: var(--of-radius);
+}
+
+.of-home__board:hover .of-home__open,
+.of-home__board:focus-visible .of-home__open {
+  background: color-mix(in srgb, var(--of-accent) 84%, var(--of-ink));
+}
+
+/* ---------- prep ---------- */
+
+.of-prep {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100dvh;
+  font-family: var(--of-font);
+  color: var(--of-ink);
+  background: var(--of-bg);
+}
+
+.of-prep__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--of-step);
+  padding: var(--of-gutter);
+  background: var(--of-page);
+  border-right: 1px solid var(--of-panel-border);
+}
+
+.of-prep__name {
+  margin: 0;
+  font-size: var(--of-type-title);
+  font-weight: var(--of-weight-semibold);
+}
+
+.of-prep__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--of-space-2);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.of-prep__section {
+  display: flex;
+  align-items: center;
+  min-height: var(--of-hit);
+  padding: 0 var(--of-space-12);
+  font-size: var(--of-type-control);
+  color: var(--of-ink);
+  text-decoration: none;
+  border-radius: var(--of-radius);
+}
+
+.of-prep__section:hover {
+  background: var(--of-hover);
+}
+
+.of-prep__section[aria-current='page'] {
+  color: var(--of-accent);
+  background: var(--of-accent-soft);
+}
+
+.of-prep__foot {
+  display: flex;
+  gap: var(--of-step);
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.of-prep__back {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--of-hit);
+  font-size: var(--of-type-control);
+  color: var(--of-ink-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.of-prep__back:hover {
+  color: var(--of-ink);
+}
+
+.of-prep__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--of-gutter);
+  min-width: 0;
+  padding: calc(3 * var(--of-step)) calc(4 * var(--of-step));
+}
+
+.of-prep__head {
+  display: flex;
+  gap: var(--of-gutter);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.of-prep__title {
+  margin: 0;
+  font-size: var(--of-type-headline);
+  font-weight: var(--of-weight-semibold);
+}
+
+.of-prep__note {
+  margin: 0;
+  font-size: var(--of-type-control);
+  color: var(--of-ink-muted);
+}
+
+.of-prep__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--of-gutter);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.of-prep__scene {
+  display: flex;
+  flex-direction: column;
+  gap: var(--of-space-8);
+  justify-content: flex-end;
+  min-height: 120px;
+  padding: var(--of-space-16);
+  color: var(--of-ink);
+  text-decoration: none;
+  background: var(--of-page);
+  border: 1px solid var(--of-panel-border);
+  border-radius: var(--of-radius-surface);
+}
+
+.of-prep__scene:hover {
+  background: var(--of-hover);
+  border-color: var(--of-control-border);
+}
+
+.of-prep__scene-name {
+  overflow: hidden;
+  font-size: var(--of-type-ui);
+  font-weight: var(--of-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.of-prep__scene-when {
+  font-size: var(--of-type-ui-small);
+  color: var(--of-ink-muted);
+}
+
+/* On a phone the navigation is a strip along the top, not a column. */
+@media (width < 720px) {
+  .of-prep {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .of-prep__nav {
+    border-right: 0;
+    border-bottom: 1px solid var(--of-panel-border);
+  }
+
+  .of-prep__main {
+    padding: var(--of-gutter);
+  }
+}

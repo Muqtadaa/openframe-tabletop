@@ -1,4 +1,6 @@
 import type { ListedBoard } from '../runtime/services.js'
+import { shareLink } from './collab-config.js'
+import { boardHref } from './route.js'
 
 /**
  * What a row on the board list SAYS, apart from how the list is fetched.
@@ -40,4 +42,22 @@ export function canDelete(board: ListedBoard): boolean {
 
 export function canLeave(board: ListedBoard): boolean {
   return board.shared && board.role !== 'owner'
+}
+
+/**
+ * Where opening this board goes. The key travels with a shared board's link: a
+ * claimed room refuses the board id on its own.
+ */
+export function openHref(board: ListedBoard): string {
+  return board.shared
+    ? shareLink(board.boardId, '', board.accessKey)
+    : boardHref(board.boardId, false)
+}
+
+/**
+ * Whether the person runs this table, and so has something to prepare in it.
+ * A board in this browser is its maker's; a shared one is its owner's.
+ */
+export function canPrep(board: ListedBoard): boolean {
+  return !board.shared || board.role === 'owner'
 }

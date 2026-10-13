@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 
-import { canDelete, canLeave, describeWhen } from '../app/board-rows.js'
+import { canDelete, canLeave, describeWhen, openHref } from '../app/board-rows.js'
 import type { ListedBoard } from '../runtime/services.js'
-import { setLocalPin } from '../app/board-prefs.js'
 import { shareLink } from '../app/collab-config.js'
-import { boardHref } from '../app/route.js'
+import { setLocalPin } from '../app/board-prefs.js'
 import { useServices } from '../runtime/services.js'
 import { LeaveIcon, LinkIcon, PinIcon, RenameIcon, TrashIcon } from '../controls/icons.js'
 
@@ -84,10 +83,7 @@ export function BoardRow({
     }
   }, [mode])
 
-  const href = board.shared
-    ? // The key travels with the link: a claimed room refuses the board id.
-      shareLink(board.boardId, '', board.accessKey)
-    : boardHref(board.boardId, false)
+  const href = openHref(board)
 
   const togglePin = (): void => {
     const next = !pinned
@@ -223,6 +219,14 @@ export function BoardRow({
             </span>
             <span className="of-home__board-when" data-testid="board-when">
               {describeWhen(board.updatedAt, readAt)}
+            </span>
+            {/*
+             * The row's one primary action, named. The whole entry is the link,
+             * so this repeats it rather than adding a second target, and is
+             * left out of the accessible name for the same reason.
+             */}
+            <span className="of-home__open" aria-hidden="true">
+              Open table
             </span>
           </a>
         )}

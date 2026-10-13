@@ -21,6 +21,15 @@ import { accessKey, commentAnchor, ROOM_PARAM, sharedBoardId } from './collab-co
 /** A local board, in this browser only. `?board=<id>`. */
 export const BOARD_PARAM = 'board'
 
+/** The prep shell: the tables you can open, arranged between sessions. `?prep`. */
+export const PREP_PARAM = 'prep'
+
+/**
+ * The shared-screen display of a board: the table and nothing else, for a TV or
+ * a projector. `&display=1` on a board link.
+ */
+export const DISPLAY_PARAM = 'display'
+
 /**
  * The shape of a local board id.
  *
@@ -33,6 +42,8 @@ const LOCAL_ID = /^board_[A-Za-z0-9-]{1,48}$/
 export type Route =
   /** The entry surface: sign in, or pick up a board, or start one. */
   | { readonly kind: 'home' }
+  /** Preparing between sessions: persistent navigation, and the boards as a grid. */
+  | { readonly kind: 'prep' }
   | {
       readonly kind: 'board'
       readonly boardId: BoardId
@@ -50,9 +61,16 @@ export type Route =
        * for every other way of arriving.
        */
       readonly commentId: string | null
+      /**
+       * Drawn for a shared screen: no controls, nothing that edits. A link
+       * flag and not a role, because it is the same person on the same board
+       * looking at it differently (ADR T009).
+       */
+      readonly display: boolean
     }
 
 export function readRoute(search: string): Route {
+  const display = new URLSearchParams(search).get(DISPLAY_PARAM) === '1'
   const shared = sharedBoardId(search)
   if (shared !== null) {
     return {
@@ -61,6 +79,7 @@ export function readRoute(search: string): Route {
       shared: true,
       key: accessKey(search),
       commentId: commentAnchor(search),
+      display,
     }
   }
 
@@ -72,8 +91,11 @@ export function readRoute(search: string): Route {
       shared: false,
       key: null,
       commentId: commentAnchor(search),
+      display,
     }
   }
+
+  if (new URLSearchParams(search).has(PREP_PARAM)) return { kind: 'prep' }
 
   /*
    * Anything unrecognised is home rather than an error. A truncated or mangled
@@ -88,6 +110,8 @@ export function boardHref(boardId: BoardId, shared: boolean): string {
 }
 
 export const HOME_HREF = '/'
+
+export const PREP_HREF = `/?${PREP_PARAM}`
 
 /** A new local board. Short enough to read in a URL, unique enough to be one. */
 export function newLocalBoardId(): BoardId {

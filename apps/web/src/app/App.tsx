@@ -12,6 +12,8 @@ import { StatusBar } from '../ui/StatusBar.js'
 import { Toast } from '../ui/Toast.js'
 import { Toolbar } from '../ui/Toolbar.js'
 import { ZoomControl } from '../ui/ZoomControl.js'
+import { DisplayFrame } from './DisplayFrame.js'
+import { DockRail } from '../ui/shell/DockRail.js'
 import { lazy, Suspense, useContext, useSyncExternalStore } from 'react'
 
 import { useInteractionStore } from '../interaction/interaction-store.js'
@@ -40,11 +42,13 @@ const BoardOverview = lazy(() =>
   import('../ui/BoardOverview.js').then((module) => ({ default: module.BoardOverview })),
 )
 
-export function App() {
+export function App({ display = false }: { readonly display?: boolean }) {
   const { runtime } = useOpenFrame()
   const context = useContext(OpenFrameContext)
   const preview = useSyncExternalStore(versionPreview.subscribe, versionPreview.get)
   const overviewOpen = useInteractionStore((state) => state.overviewOpen)
+  // The shared screen: the table and nothing that operates it (ADR T009).
+  if (display) return <DisplayFrame />
   /*
    * A board this build could not read has nothing on it to work on, so it
    * gets the navigation bar and a sheet saying the work is safe — no rail, no
@@ -127,6 +131,8 @@ export function App() {
           <div className="of-overlay of-overlay--bottom-right" data-keep-clear="bottom">
             <ZoomControl />
           </div>
+
+          <DockRail />
         </main>
 
         {/*

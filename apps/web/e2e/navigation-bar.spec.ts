@@ -225,7 +225,7 @@ test.describe('the board’s name', () => {
   test('names the tab', async ({ page }) => {
     await openBoard(page)
     await rename(page, 'Checkout research')
-    await expect(page).toHaveTitle('Checkout research — OpenFrame')
+    await expect(page).toHaveTitle('Checkout research — OpenFrame Tabletop')
   })
 
   test('uses the room the bar has before it shortens', async ({ page }) => {

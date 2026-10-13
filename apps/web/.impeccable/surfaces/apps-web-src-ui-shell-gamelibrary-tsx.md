@@ -31,6 +31,10 @@ real links.
 
 OPEN DECISIONS: Whether Game and Scene vocabulary appears before Phase 1 (it appears as copy only).
 
+## As built (WP 0.13)
+
+Over Board data, in `ui/Home.tsx` and `ui/BoardRow.tsx`: flat workspace ground, the list as one sheet of rows, and a filled "Open table" label on each row's link. Prep is ONE entry in the header and not one per row, because until a Game exists it is across the tables you run; it is shown only to somebody who runs one. Not built, because nothing backs them: seat dots (the list carries no presence), a Game vocabulary (the rows still say boards).
+
 ## Direction contract
 
 THESIS: The tabletop is the product when playing and the campaign is the product when
@@ -56,8 +60,7 @@ believes that nothing was lost since last time, and acts by opening the table.
 FIRST VIEWPORT: A single column list on the dark workspace, 720px wide at desktop and centred,
 under a slim header with the product name on the left, Create on the right and the account at the
 far right. Each row is 72px: name at 17px, role and last-played in muted text beneath, people
-present as small seat dots on the right, and Open table as the one filled blue button. A GM row
-shows Prep as a quiet text button beside it. Empty: one sentence and Create. No imagery.
+present as small seat dots on the right, and Open table as the one filled blue button. Prep is one header entry (see As built). Empty: one sentence and Create. No imagery.
 
 FORM: The category standard (the standing exit), not on the ordered list and not the assigned direction;
 seed key 518dfea8, degraded roll (the roll service was unreachable). Chosen by the

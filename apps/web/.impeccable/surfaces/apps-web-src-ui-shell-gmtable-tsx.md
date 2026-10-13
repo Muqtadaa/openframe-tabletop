@@ -38,6 +38,10 @@ key and a command-palette entry.
 OPEN DECISIONS: Whether Run and Prep are one toggle or two entries (they are two entries from the
 Game Library; the frame is shared).
 
+## As built (WP 0.13)
+
+The structure that answers the density problem exists and is empty on purpose: posture from the board's role (`ui/shell/posture.ts`: owner, or a board that is this browser's own, is the GM), and a dock registry whose entries name the postures they are offered to. A phase that builds layers, initiative, tokens or notes registers a dock and the rail grows by one button; an entry for something that does not exist is not drawn. NOT built: Layers, Initiative, Tokens, Notes, Preview as player, scene tabs and the contextual selection bar, all of which need a model Phase 1 and later create.
+
 ## Direction contract
 
 THESIS: The tabletop is the product when playing and the campaign is the product when

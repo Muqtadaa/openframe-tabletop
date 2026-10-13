@@ -39,6 +39,10 @@ tools, no GM information, no controls. Contrast checked at distance sizes.
 OPEN DECISIONS: What the Rolls dock shows before dice exist (nothing: the dock is absent until it
 has content).
 
+## As built (WP 0.13)
+
+The board frame is the existing one, re-themed: rail left, name and connection top-left, zoom bottom-right. Added: a dock rail on the right edge (`ui/shell/DockRail.tsx`), closed by default, whose buttons come from a registry (`ui/shell/docks.ts`) filtered by posture. The only dock that exists is the Outline. The display mode is built (`&display=1`, `app/DisplayFrame.tsx`): the Scene, view-only, nothing else; the turn order joins it when initiative exists. NOT built: the four-tool player rail (ruler, area of effect and status marks do not exist until Phase 2, so the rail is still the full canvas toolset), Character, Rolls and Notes docks, the turn strip.
+
 ## Direction contract
 
 THESIS: The tabletop is the product when playing and the campaign is the product when

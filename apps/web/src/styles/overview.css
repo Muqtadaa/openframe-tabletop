@@ -5,25 +5,27 @@
  * it is the same kind of surface: a way to reach an object without looking
  * for it. A tree rather than a list, indented by depth.
  */
+/*
+ * The outline is the first dock: a panel beside the table, against the dock
+ * rail, not a dialog at the top centre.
+ */
 .of-overview {
   position: absolute;
   top: var(--of-nav-band);
-  left: 50%;
+  right: calc(var(--of-gutter) + var(--of-hit-lg) + var(--of-step));
   z-index: var(--of-z-search);
   display: flex;
   flex-direction: column;
   width: min(440px, calc(100vw - 2 * var(--of-gutter)));
   overflow: hidden;
-  transform: translateX(-50%);
 }
 
 /* Docked beside the rail on a phone, as the top overlay is (shell.css). */
 @media (width < 520px) {
   .of-overview {
-    left: var(--of-rail-reach);
     right: var(--of-gutter);
+    left: var(--of-rail-reach);
     width: auto;
-    transform: none;
   }
 }
 

@@ -33,6 +33,10 @@ name and last-edited. Opening a Scene fills the window with the tabletop frame i
 
 OPEN DECISIONS: Section order and names for sections that do not yet exist (decided when built).
 
+## As built (WP 0.13)
+
+`?prep`, over Board data (`ui/shell/PrepShell.tsx`): a 240px navigation whose sections come from a registry (`prep-sections.ts`, Scenes only), a grid of cards for the boards you run (name and last edited, no thumbnail yet), Create scene, and Back to library. On a phone the navigation becomes a strip. Theme follows the saved choice (dark default), not the system.
+
 ## Direction contract
 
 THESIS: The tabletop is the product when playing and the campaign is the product when

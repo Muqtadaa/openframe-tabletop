@@ -48,6 +48,8 @@ export async function openBoard({
    * the board — see `board-capabilities.ts` for why it starts open.
    */
   const capabilities = createBoardCapabilities()
+  // A shared screen shows the table; it never edits it (ADR T009). Narrowing is one-way.
+  if (route.display) capabilities.narrowTo('viewer')
 
   /*
    * EVERY await before the first render sits in this one try. The splash is up
@@ -238,7 +240,7 @@ export async function openBoard({
       <AppErrorBoundary>
         <ServicesContext.Provider value={services}>
           <OpenFrameContext.Provider value={{ runtime, views, collaboration, history }}>
-            <App />
+            <App display={route.display} />
           </OpenFrameContext.Provider>
         </ServicesContext.Provider>
       </AppErrorBoundary>

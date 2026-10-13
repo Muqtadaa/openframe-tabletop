@@ -1,18 +1,9 @@
-/* ---------- the front door ---------- */
+/* ---------- the library ---------- */
 
 /*
- * The one surface in this product that is not a board, and it is still the
- * page.
- *
- * It was a flat grey ground, which made it the only place in OpenFrame that
- * looked like a generic app shell — the neutral void this world exists to
- * refuse, met before anybody had seen the board. It is ruled now, in the same
- * two weights at the same 10 and 100 unit rhythm, and it is cut from page
- * stock rather than desk. Somebody arriving here has already been told what
- * kind of thing they are about to open.
- *
- * The rule stays under the 3:1 non-text ceiling `incumbent-world.test.ts`
- * asserts. Ground you cannot ignore is a cage the content has to fight.
+ * The library: the page you arrive at, a quiet workspace with your tables in it.
+ * Flat ground, one column, and a sheet of rows; nothing here is the table, so
+ * nothing here is drawn like it.
  */
 .of-home {
   /* The most actions a ledger row carries — three targets and two 2px gaps,
@@ -37,25 +28,7 @@
   padding: calc(5 * var(--of-step)) var(--of-gutter);
   font-family: var(--of-font);
   color: var(--of-ink);
-  background-color: var(--of-page);
-  /*
-   * Decade first, so the heavier line paints over the fine one.
-   *
-   * `linear-gradient` plus `background-size`, not `repeating-linear-gradient`:
-   * the repeating form accumulates its stops in floating point across the
-   * whole box, and at a 10px pitch that drifts into visible plaid banding
-   * instead of a rule. A tiled single line rasterises the same every cell.
-   */
-  background-image:
-    linear-gradient(to right, var(--of-rule-decade) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--of-rule-decade) 1px, transparent 1px),
-    linear-gradient(to right, var(--of-rule) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--of-rule) 1px, transparent 1px);
-  background-size:
-    100px 100px,
-    100px 100px,
-    10px 10px,
-    10px 10px;
+  background-color: var(--of-bg);
 }
 
 /*
@@ -156,6 +129,10 @@
   flex-wrap: wrap;
   gap: var(--of-step);
   align-items: center;
+}
+
+.of-home__prep {
+  text-decoration: none;
 }
 
 .of-home__title {

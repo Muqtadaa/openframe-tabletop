@@ -126,6 +126,10 @@ export function BoardOverview() {
     if (!open) return
     const outside = (event: Event): void => {
       if (event.target instanceof Node && panelRef.current?.contains(event.target) === true) return
+      // The dock's own button toggles the panel; counted as outside, the panel
+      // would close on pointerdown and open again on the click.
+      if (event.target instanceof Element && event.target.closest('[data-dock-trigger]') !== null)
+        return
       close('back')
     }
     window.addEventListener('pointerdown', outside, true)

@@ -43,7 +43,7 @@ export function StatusBar() {
    */
   useEffect(() => {
     const before = window.document.title
-    window.document.title = `${title} — OpenFrame`
+    window.document.title = `${title} — OpenFrame Tabletop`
     return () => {
       window.document.title = before
     }

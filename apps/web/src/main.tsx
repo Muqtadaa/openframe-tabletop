@@ -36,13 +36,18 @@ const services = createServices({ repository })
  * `createRuntime` would have to invent a board id to do it. It gets the
  * repository alone, which is all a list of boards needs.
  */
-if (route.kind === 'home') {
+if (route.kind === 'home' || route.kind === 'prep') {
   /*
    * The front door's own chunk, as the board has its own: neither pays for
    * the other (audit 2026-10-08). An await before the first render, so a
-   * failure to load it is said rather than left behind the splash.
+   * failure to load it is said rather than left behind the splash. Prep is the
+   * same kind of page, so it is the same branch: no board, no runtime.
    */
-  const { Home } = await import('./ui/Home.js').catch((error: unknown) => {
+  const Surface = await (
+    route.kind === 'prep'
+      ? import('./ui/shell/PrepShell.js').then((module) => module.PrepShell)
+      : import('./ui/Home.js').then((module) => module.Home)
+  ).catch((error: unknown) => {
     abandonSplash()
     root.render(<StartFailed heading="The front door did not open" error={error} />)
     throw error
@@ -51,7 +56,7 @@ if (route.kind === 'home') {
     <StrictMode>
       <AppErrorBoundary>
         <ServicesContext.Provider value={services}>
-          <Home />
+          <Surface />
         </ServicesContext.Provider>
       </AppErrorBoundary>
     </StrictMode>,

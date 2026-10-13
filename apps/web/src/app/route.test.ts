@@ -12,6 +12,24 @@ import { commentLink, shareLink } from './collab-config.js'
  * `?room=` predates this module and every share link in existence uses it.
  */
 
+describe('the prep shell and the shared-screen display', () => {
+  it('opens the prep shell from its own parameter', () => {
+    expect(readRoute('?prep')).toEqual({ kind: 'prep' })
+    expect(readRoute('?prep=1')).toEqual({ kind: 'prep' })
+  })
+
+  it('lets a board win over prep, so a link that names a board opens it', () => {
+    expect(readRoute('?board=board_local&prep')).toMatchObject({ kind: 'board' })
+  })
+
+  it('marks a board as drawn for a shared screen, only on exactly display=1', () => {
+    expect(readRoute('?board=board_local&display=1')).toMatchObject({ display: true })
+    expect(readRoute('?room=brd_abcdefgh12345678&display=1')).toMatchObject({ display: true })
+    expect(readRoute('?board=board_local&display=0')).toMatchObject({ display: false })
+    expect(readRoute('?board=board_local&display')).toMatchObject({ display: false })
+  })
+})
+
 describe('reading a route', () => {
   it('opens a shared board from a link that already exists', () => {
     expect(readRoute('?room=brd_abcdefgh12345678')).toEqual({
@@ -20,6 +38,7 @@ describe('reading a route', () => {
       shared: true,
       key: null,
       commentId: null,
+      display: false,
     })
   })
 
@@ -30,6 +49,7 @@ describe('reading a route', () => {
       shared: false,
       key: null,
       commentId: null,
+      display: false,
     })
   })
 
@@ -57,6 +77,7 @@ describe('reading a route', () => {
       shared: true,
       key: null,
       commentId: null,
+      display: false,
     })
   })
 })
@@ -70,6 +91,7 @@ describe('writing a route', () => {
       shared: false,
       key: null,
       commentId: null,
+      display: false,
     })
   })
 
@@ -82,6 +104,7 @@ describe('writing a route', () => {
       shared: true,
       key: null,
       commentId: null,
+      display: false,
     })
   })
 
@@ -100,6 +123,7 @@ describe('the key on a shared link', () => {
       shared: true,
       key,
       commentId: null,
+      display: false,
     })
   })
 
@@ -116,6 +140,7 @@ describe('the key on a shared link', () => {
       shared: true,
       key: null,
       commentId: null,
+      display: false,
     })
   })
 

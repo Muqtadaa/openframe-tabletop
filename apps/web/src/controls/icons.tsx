@@ -734,3 +734,12 @@ export function BorderPresetIcon({ className, preset }: IconProps & { preset: st
     </svg>
   )
 }
+
+/** An indented list: the board's outline. */
+export function OutlineIcon({ className }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M5 6h14M9 12h10M9 18h10M5 12h.01M5 18h.01" />
+    </svg>
+  )
+}

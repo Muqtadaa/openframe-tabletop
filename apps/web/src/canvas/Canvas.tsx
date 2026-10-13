@@ -79,7 +79,6 @@ const BOARD_KEYS = [
   'Enter: edit.',
   'Escape: deselect.',
   `${formatKeys('Alt+S')}: board overview.`,
-  `${formatKeys('Alt+T')}: session timer and music.`,
 ].join(' ')
 
 export function Canvas() {

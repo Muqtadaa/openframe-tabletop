@@ -2,7 +2,6 @@ import type { Locator, Page } from '@playwright/test'
 
 import { boxOf, CANVAS, goto, openBoard, test, expect } from './fixtures.js'
 import { signedIn } from './signed-in.js'
-import { library, TRACKS } from './music.js'
 import { BOARD_URL } from './routes.js'
 
 /**
@@ -302,15 +301,15 @@ test.describe('the keyboard on the bar', () => {
 
   test('presses a button with Enter even when the pointer put focus there', async ({ page }) => {
     await openBoard(page)
-    const session = page.getByTestId('session-button')
-    await session.click()
-    await expect(session).toHaveAttribute('aria-expanded', 'true')
-    await session.click()
-    await expect(session).toHaveAttribute('aria-expanded', 'false')
-    await expect(session).toBeFocused()
+    const menu = page.getByTestId('board-menu')
+    await menu.click()
+    await expect(menu).toHaveAttribute('aria-expanded', 'true')
+    await menu.click()
+    await expect(menu).toHaveAttribute('aria-expanded', 'false')
+    await expect(menu).toBeFocused()
     // Space after a click is the board's pan; Enter on a button only ever presses it.
     await page.keyboard.press('Enter')
-    await expect(session).toHaveAttribute('aria-expanded', 'true')
+    await expect(menu).toHaveAttribute('aria-expanded', 'true')
   })
 
   test('names each control by what it is, never by its tip', async ({ page }) => {
@@ -571,17 +570,10 @@ test.describe('the bar at its fullest', () => {
   }
 
   for (const width of [1440, 1024, 760, 600, 480, 390]) {
-    test(`fits a running session on a board of your own at ${String(width)}px`, async ({
-      page,
-    }) => {
+    test(`fits a board of your own at ${String(width)}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 800 })
       await signedIn(page, [], 'Muqtadaa Miandara', MENTIONED)
-      await library(page, TRACKS)
       await goto(page, BOARD_URL)
-      await page.getByTestId('session-button').click()
-      await page.getByTestId('timer-start').click()
-      await page.getByTestId('music-play').click()
-      await page.keyboard.press('Escape')
       await page.keyboard.press('s')
       await page.getByTestId('canvas').click({ position: { x: 300, y: 400 } })
       await page.keyboard.press('Escape')

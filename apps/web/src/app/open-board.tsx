@@ -16,8 +16,6 @@ import { boardHistoryFor } from './board-history.js'
 import { markLocalOpened } from './board-prefs.js'
 import { COLLAB_ENABLED } from './collab-config.js'
 import { createRuntime } from './composition-root.js'
-import { localFacilitation } from './facilitation-local.js'
-import { roomFacilitation } from './facilitation-room.js'
 import { healAssets, publishRewrite } from './heal-assets.js'
 import { holdAssets } from './hold-assets.js'
 import { keepLocalHistory } from './local-history.js'
@@ -210,14 +208,6 @@ export async function openBoard({
   }
 
   /*
-   * The session timer's channel, chosen once here so no component ever asks
-   * which kind of board it is on (ADR 0017): the room's state and clock on a
-   * shared board, this browser's on a local one.
-   */
-  const facilitation =
-    collaboration === null ? localFacilitation(route.boardId) : roomFacilitation(collaboration)
-
-  /*
    * A local board's history, kept in this browser (ADR 0019). Never for a
    * board that cannot be written back (rule 7), and never for a shared one,
    * whose room keeps its history. Lives as long as the page does, like
@@ -247,9 +237,7 @@ export async function openBoard({
     <StrictMode>
       <AppErrorBoundary>
         <ServicesContext.Provider value={services}>
-          <OpenFrameContext.Provider
-            value={{ runtime, views, collaboration, facilitation, history }}
-          >
+          <OpenFrameContext.Provider value={{ runtime, views, collaboration, history }}>
             <App />
           </OpenFrameContext.Provider>
         </ServicesContext.Provider>

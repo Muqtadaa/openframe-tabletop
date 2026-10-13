@@ -1,9 +1,7 @@
 import { expect, test, type Page, type WebSocketRoute } from '@playwright/test'
 import { encodeRole, MESSAGE_AWARENESS } from '@openframe/collab'
-import { MUSIC_GENRES } from '@openframe/core/facilitation'
 
 import { buildBoard } from './boards.js'
-import { library, TRACKS } from './music.js'
 import { goto, gotoBeforeInput, reload, seedBoard } from './fixtures.js'
 import { seedLocalBoard } from './seed.js'
 import { BOARD_URL, HOME_URL } from './routes.js'
@@ -234,68 +232,6 @@ for (const world of WORLDS) {
       await page.keyboard.type('heart')
       await expect(page.getByRole('button', { name: 'red heart', exact: true })).toBeVisible()
       await snap(page, `${world}-emoji-picker`)
-    })
-
-    // The session timer, paused part way, its sheet open on an editor's controls.
-    test('the session timer', async ({ page }) => {
-      await page.addInitScript(() => {
-        localStorage.setItem(
-          'openframe:guest',
-          JSON.stringify({ name: 'Heron', hue: 2, key: 'g_0123456789abcdef' }),
-        )
-      })
-      await page.clock.install()
-      await openLocalBoard(page)
-      await page.getByTestId('session-button').click()
-      await page.getByRole('button', { name: '3 minutes', exact: true }).click()
-      await page.getByTestId('timer-start').click()
-      await page.clock.runFor(10_000)
-      await page.getByTestId('timer-pause').click()
-      await expect(page.getByTestId('timer-readout')).toHaveText('2:50')
-      await snap(page, `${world}-session-timer`)
-    })
-
-    // The session music, paused a few seconds in, its sheet open on an editor's controls,
-    // with every genre offered — as the library offers them all.
-    test('the session music', async ({ page }) => {
-      await library(page, [
-        ...TRACKS,
-        ...MUSIC_GENRES.map((genre) => ({ id: `${genre}-1`, genre, title: 'Elsewhere' })),
-      ])
-      await page.clock.install()
-      await openLocalBoard(page)
-      await page.getByTestId('session-button').click()
-      await page.getByRole('radio', { name: 'Ambient' }).click()
-      await page.getByTestId('music-play').click()
-      await page.clock.runFor(12_000)
-      await page.getByTestId('music-pause').click()
-      await expect(page.getByTestId('music-elapsed')).toHaveText('0:12 / 2:00')
-      await snap(page, `${world}-session-music`)
-    })
-
-    // Somebody else started the music: the prompt under the bar's music button.
-    test('the listen prompt', async ({ page }) => {
-      await library(page, TRACKS)
-      await page.addInitScript(() => {
-        window.localStorage.setItem(
-          'openframe:music:board_local',
-          JSON.stringify({
-            v: 1,
-            genre: 'jazzhop',
-            status: 'playing',
-            anchor: Date.now(),
-            pausedAtMs: 0,
-            playlist: [{ id: 'jazzy-1', durationMs: 120_000 }],
-            run: 1,
-            by: 'Ada',
-            startedBy: 'Ada',
-            at: Date.now(),
-          }),
-        )
-      })
-      await openLocalBoard(page)
-      await expect(page.getByTestId('music-prompt')).toHaveText('Ada started the music')
-      await snap(page, `${world}-listen-prompt`)
     })
 
     // A poll with its results showing: one option picked here, one by someone else.

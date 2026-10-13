@@ -13,7 +13,6 @@ import type {
 
 import type { AssetService } from './asset-service.js'
 import type { BoardHistory } from './board-history.js'
-import type { FacilitationChannel } from './facilitation.js'
 import type { ObjectViewRegistry } from '../views/registry.js'
 
 /**
@@ -124,12 +123,6 @@ export interface OpenFrameContextValue {
    * it, so the quarantine holds too.
    */
   readonly collaboration?: BoardConnection | null
-  /**
-   * The session timer's channel: the room's on a shared board, this browser's
-   * on a local one. Optional only so a test can mount a component without one;
-   * the app always provides it.
-   */
-  readonly facilitation?: FacilitationChannel
   /**
    * The board's earlier versions (ADR 0019): its room's, or this browser's.
    * `null` where there are none to read; absent in a test that has no need.

@@ -13,7 +13,6 @@ import { BoardMenu } from './BoardMenu.js'
 import { BoardTitle } from './BoardTitle.js'
 import { Inbox } from './Inbox.js'
 import { DevPanel } from './DevPanel.js'
-import { Session } from './Session.js'
 import { ShareControl } from './ShareControl.js'
 
 /**
@@ -133,10 +132,6 @@ export function StatusBar() {
       </div>
       <span className="of-status__rule" aria-hidden="true" />
 
-      {/* The session's clock, beside the session's people. */}
-      <div className="of-status__zone" role="group" aria-label="Session">
-        <Session />
-      </div>
       <div className="of-status__zone" role="group" aria-label="People">
         <ShareControl />
         {/*

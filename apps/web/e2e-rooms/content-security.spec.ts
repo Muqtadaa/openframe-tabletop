@@ -1,6 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
 
-import { library, TRACKS } from '../e2e/music.js'
 import { HOME_URL } from '../e2e/routes.js'
 import { join, newRoomId } from './rooms.js'
 
@@ -59,9 +58,6 @@ test('a shared board works under the deployed policy, and the policy is real', a
   // `join` waits for the socket to report connected: the room over ws.
   const page = await join(browser, room)
   const seen = await watchViolations(page)
-  // A stand-in music library at the room server's address: the shipped
-  // catalogue is empty until tracks are approved.
-  await library(page, TRACKS, 'http://127.0.0.1:8787')
   await page.reload()
   await expect(page.locator('[data-testid="save-state"]')).toHaveAttribute(
     'data-room',
@@ -80,13 +76,6 @@ test('a shared board works under the deployed policy, and the policy is real', a
   await expect
     .poll(() => image.evaluate((element: HTMLImageElement) => element.naturalWidth))
     .toBe(2)
-
-  // A track streams from the room server under the policy (`media-src`).
-  await page.getByTestId('session-button').click()
-  // The request itself is the proof: a refused one is never made.
-  const streamed = page.waitForRequest('**/music/track/*')
-  await page.getByTestId('music-play').click()
-  await streamed
 
   // Nothing the application does was refused, the splash's scripts included.
   expect(await seen()).toEqual([])

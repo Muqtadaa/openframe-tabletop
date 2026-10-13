@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest'
  *
  * Surfaces that listened for it on the window themselves fired ALONGSIDE the
  * stack, because `stopPropagation` does not stop other listeners on the same
- * target, so one Escape closed a rail menu and the Session sheet together.
+ * target, so one Escape closed a rail menu and a sheet together.
  * The ones that read it on their own element fired AFTER the stack's capture
  * listener, which had already closed whatever was open beneath them.
  * `e2e/escape-order.spec.ts` holds the behaviour; this keeps the next
@@ -22,7 +22,6 @@ const ALLOWED = new Map([
   ['interaction/use-keyboard-shortcuts.ts', "the board's keymap, under every surface"],
   ['canvas/use-canvas-gestures.ts', 'Escape abandons a gesture in flight, which no surface owns'],
   ['ui/Inspector.tsx', 'Shift held lets the record panel yield the pointer'],
-  ['ui/SessionMusic.tsx', 'any key at all lets the music start in a browser that needs one'],
 ])
 
 const SRC = resolve(process.cwd(), 'src')

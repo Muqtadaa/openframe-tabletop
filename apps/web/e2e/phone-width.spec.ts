@@ -1,8 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 import { richFromPlain } from '@openframe/core'
 import { buildBoard } from './boards.js'
-import { boxOf, CANVAS, goto, reload, seedBoard } from './fixtures.js'
-import { library, TRACKS } from './music.js'
+import { boxOf, CANVAS, goto, seedBoard } from './fixtures.js'
 
 import { BOARD_URL, HOME_URL } from './routes.js'
 import { signedIn } from './signed-in.js'
@@ -388,14 +387,6 @@ test.describe('surfaces at phone width', () => {
     await docked(page, 'board-overview')
   })
 
-  test('the session sheet starts after the rail', async ({ page }) => {
-    await goto(page, BOARD_URL)
-    await page.waitForSelector('[data-testid="status-bar"]')
-    await page.getByTestId('session-button').click()
-    await expect(page.getByTestId('timer-start')).toBeVisible()
-    await docked(page, 'session-surface')
-  })
-
   test('the account sheet starts after the rail, and fits', async ({ page }) => {
     await goto(page, BOARD_URL)
     await page.waitForSelector('[data-testid="status-bar"]')
@@ -506,33 +497,6 @@ for (const width of [390, 320]) {
       await expect(page.getByTestId('arrange-bar')).toBeVisible()
       for (const axis of ['x', 'y']) await onScreen(page, `distribute-${axis}`)
       await onScreen(page, 'arrange-bar')
-    })
-
-    test('the listen prompt stays on screen', async ({ page }) => {
-      await goto(page, BOARD_URL)
-      await library(page, TRACKS)
-      await page.evaluate(() => {
-        const now = Date.now()
-        window.localStorage.setItem(
-          'openframe:music:board_local',
-          JSON.stringify({
-            v: 1,
-            genre: 'jazzhop',
-            status: 'playing',
-            anchor: now,
-            pausedAtMs: 0,
-            playlist: [{ id: 'jazzy-1', durationMs: 120_000 }],
-            run: 1,
-            by: 'Ada',
-            startedBy: 'Ada',
-            at: now,
-          }),
-        )
-      })
-      await reload(page)
-      await expect(page.getByTestId('music-prompt')).toBeVisible()
-      await onScreen(page, 'music-prompt-listen')
-      await onScreen(page, 'music-prompt-dismiss')
     })
   })
 }

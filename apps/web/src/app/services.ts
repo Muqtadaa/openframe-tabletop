@@ -2,7 +2,6 @@ import type { BoardId, BoardRepository } from '@openframe/core'
 
 import { forgetCrdt } from '../adapters/indexeddb/crdt-store.js'
 import { indexedDbVersionStore } from '../adapters/indexeddb/version-store.js'
-import { createMusicClient } from '../adapters/room/music-client.js'
 import { createRoomClient } from '../adapters/room/room-client.js'
 import {
   supabaseAccounts,
@@ -10,7 +9,7 @@ import {
   supabaseRemoteBoards,
   supabaseWorkspaces,
 } from '../adapters/supabase/services.js'
-import type { MusicService, RoomService, Services } from '../runtime/services.js'
+import type { RoomService, Services } from '../runtime/services.js'
 import {
   deleteBoardEverywhere,
   forgetDeletedBoard,
@@ -44,12 +43,6 @@ const NO_ROOM_SERVER: RoomService = {
   hasPassword: () => Promise.resolve(null),
 }
 
-/** No room server, no library: the music control does not appear. */
-const NO_MUSIC: MusicService = {
-  catalogue: () => Promise.resolve(null),
-  trackUrl: () => '',
-}
-
 /**
  * Wires the services the interface is given. The one place that knows which
  * adapter backs which port — built once in `main.tsx` and provided around
@@ -69,13 +62,6 @@ export function createServices(options: {
       : createRoomClient({
           base,
           // Bound late, so it is whatever `fetch` is when the request is made.
-          fetch: options.fetch ?? ((input, init) => globalThis.fetch(input, init)),
-        })
-  const music =
-    base === null
-      ? NO_MUSIC
-      : createMusicClient({
-          base,
           fetch: options.fetch ?? ((input, init) => globalThis.fetch(input, init)),
         })
   const accounts = supabaseAccounts()
@@ -99,7 +85,6 @@ export function createServices(options: {
   return {
     repository,
     rooms,
-    music,
     accounts,
     remoteBoards,
     discussion: supabaseDiscussion(),

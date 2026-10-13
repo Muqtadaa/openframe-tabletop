@@ -94,45 +94,11 @@ export function RedoIcon({ className }: IconProps) {
   )
 }
 
-export function TimerIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M10 3h4M12 3v2.5M12 21a7.5 7.5 0 100-15 7.5 7.5 0 000 15zM12 9.5v4l2.5 1.5" />
-    </svg>
-  )
-}
-
 /** A clock with its hand turned back: earlier versions of the board. */
 export function HistoryIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
       <path d="M4.5 12a7.5 7.5 0 102.2-5.3M4.5 4v3.5H8M12 8.5v4l2.5 1.5" />
-    </svg>
-  )
-}
-
-export function MusicIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M9 18V6l10-2v12M9 18a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM19 16a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-    </svg>
-  )
-}
-
-/** Skip to the next track: a triangle into a bar, drawn as the outline icons are. */
-export function NextTrackIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M6 6.5v11l9-5.5ZM18 6v12" />
-    </svg>
-  )
-}
-
-/** The track before — or this one again, more than a moment in. */
-export function PreviousTrackIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M18 6.5v11L9 12ZM6 6v12" />
     </svg>
   )
 }
@@ -237,16 +203,6 @@ export function PollIcon({ className }: IconProps) {
       <path d="M5 7h10" />
       <path d="M5 12h14" />
       <path d="M5 17h6" />
-    </svg>
-  )
-}
-
-/** Held: a timer stopped where it is. */
-export function PauseIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M9 6v12" />
-      <path d="M15 6v12" />
     </svg>
   )
 }

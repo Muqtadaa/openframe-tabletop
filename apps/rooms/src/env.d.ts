@@ -12,13 +12,6 @@ export interface Env {
    */
   readonly ASSETS: R2Bucket
   /**
-   * The session music (ADR 0017): CC0 tracks, the same for every board, listed
-   * in `library/catalogue.json` and served publicly. A bucket of its own,
-   * because nothing in it belongs to any board and nothing in it is ever
-   * deleted with one.
-   */
-  readonly LIBRARY: R2Bucket
-  /**
    * `"<settle ms>,<interval ms>"`, for the rooms suite only, which cannot wait
    * minutes for a version (ADR 0019). Never set in `wrangler.toml`.
    */

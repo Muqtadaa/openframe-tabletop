@@ -253,7 +253,6 @@
   display: none;
 }
 
-.of-status[data-squeeze~='words'] .of-session__word,
 .of-status[data-squeeze~='words'] .of-inbox__word {
   display: none;
 }
@@ -267,9 +266,7 @@
   display: none;
 }
 
-/* A running pill keeps its time and its note; an inbox with news, its count. */
-.of-status[data-squeeze~='compact'] .of-session__clock,
-.of-status[data-squeeze~='compact'] .of-session__dot,
+/* An inbox with news keeps its count. */
 .of-status[data-squeeze~='compact'] .of-inbox__icon--news {
   display: none;
 }

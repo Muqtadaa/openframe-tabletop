@@ -2,8 +2,7 @@ import { richFromPlain } from '@openframe/core'
 import type { Page } from '@playwright/test'
 
 import { buildBoard } from './boards.js'
-import { boxOf, CANVAS, expect, goto, reload, seedBoard, test } from './fixtures.js'
-import { library, TRACKS } from './music.js'
+import { boxOf, CANVAS, expect, goto, seedBoard, test } from './fixtures.js'
 import { BOARD_URL } from './routes.js'
 import { signedIn } from './signed-in.js'
 
@@ -35,33 +34,6 @@ async function selectNote(page: Page) {
   await expect(note).toHaveAttribute('data-selected', 'true')
   return { note, at: await boxOf(note) }
 }
-
-test.describe('the genres', () => {
-  test.use({ board: 'fresh' })
-
-  /*
-   * A radio group's arrows choose; the board's arrows nudge. The genres let
-   * the press go on to the board, so walking them walked the selected note
-   * across the board as well.
-   */
-  test('an arrow on the genres does not nudge the selected note', async ({ page }) => {
-    await library(page, TRACKS)
-    await reload(page)
-    await oneNote(page)
-    const { note, at } = await selectNote(page)
-    await page.getByTestId('session-button').click()
-    const sheet = page.getByRole('dialog', { name: 'Session' })
-    await sheet.getByRole('radio', { name: 'Jazz lounge' }).focus()
-    await page.keyboard.press('ArrowRight')
-    await expect(sheet.getByRole('radio', { name: 'Ambient' })).toBeFocused()
-    expect((await boxOf(note)).x).toBeCloseTo(at.x, 0)
-    // Home and End reach either end, as every radio group here does.
-    await page.keyboard.press('Home')
-    await expect(sheet.getByRole('radio', { name: 'Jazz lounge' })).toBeFocused()
-    await page.keyboard.press('End')
-    await expect(sheet.getByRole('radio', { name: 'Ambient' })).toBeFocused()
-  })
-})
 
 test.describe('the inbox', () => {
   const mention = (id: string, body: string) => ({

@@ -485,8 +485,6 @@ export interface ChromeSlice {
   readonly searchOpen: boolean
   /** Whether the board overview is open (Alt+S). Interaction state, like search. */
   readonly overviewOpen: boolean
-  /** Whether the Session sheet — timer and music — is open (Alt+T). */
-  readonly sessionOpen: boolean
   /**
    * Whether the account sheet — or, signed out, the sign-in sheet — is open.
    * Here rather than in the control, so something that needs an account (AI)
@@ -509,7 +507,6 @@ export interface ChromeSlice {
   closeContextMenu(): void
   setSearchOpen(open: boolean): void
   setOverviewOpen(open: boolean): void
-  setSessionOpen(open: boolean): void
   setAccountOpen(open: boolean): void
   openReactionPicker(picker: NonNullable<ChromeSlice['reactionPicker']>): void
   closeReactionPicker(): void

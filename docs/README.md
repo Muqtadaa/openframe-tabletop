@@ -16,18 +16,18 @@ are in [`legacy/`](legacy/openframe-whiteboard-product.md).
 
 ## Start here
 
-| If you want to…                          | Read                                                                                               |
-| ---------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Understand the system in ten minutes     | [Architecture overview](architecture/01-overview.md)                                               |
-| Know who this is for and what is settled | [`PRODUCT.md`](../PRODUCT.md) — product truth, not visual direction                                |
-| Know what the interface is trying to be  | [`DESIGN.md`](../DESIGN.md) and `apps/web/.impeccable/surfaces/`                                   |
-| Know where a piece of state belongs      | [State ownership](architecture/02-state-ownership.md)                                              |
-| Add a new kind of canvas object          | [Object type registry](architecture/04-object-type-registry.md)                                    |
-| Change what happens on the board         | [Commands and undo](architecture/05-commands-and-undo.md)                                          |
-| Know what we are building next           | [The brief](plans/openframe-tabletop-project-plan.md) and [Phase 0](plans/01-phase-0-execution.md) |
-| Know why something was decided           | [Decision records](adr/README.md)                                                                  |
-| Work on this repo with Claude Code       | [`CLAUDE.md`](../CLAUDE.md)                                                                        |
-| See how Tabletop is being derived        | [Source audit](plans/00-source-audit.md) and [Phase 0](plans/01-phase-0-execution.md)              |
+| If you want to…                          | Read                                                                                                      |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Understand the system in ten minutes     | [Architecture overview](architecture/01-overview.md)                                                      |
+| Know who this is for and what is settled | [`PRODUCT.md`](../PRODUCT.md) — product truth, not visual direction                                       |
+| Know what the interface is trying to be  | [`DESIGN.md`](../DESIGN.md) and `apps/web/.impeccable/surfaces/`                                          |
+| Know where a piece of state belongs      | [State ownership](architecture/02-state-ownership.md)                                                     |
+| Add a new kind of canvas object          | [Object type registry](architecture/04-object-type-registry.md)                                           |
+| Change what happens on the board         | [Commands and undo](architecture/05-commands-and-undo.md)                                                 |
+| Know what we are building next           | [The brief](plans/openframe-tabletop-project-plan.md) and [Phase 1 preparation](plans/02-phase-1-prep.md) |
+| Know why something was decided           | [Decision records](adr/README.md)                                                                         |
+| Work on this repo with Claude Code       | [`CLAUDE.md`](../CLAUDE.md)                                                                               |
+| See how Tabletop is being derived        | [Source audit](plans/00-source-audit.md) and [Phase 0](plans/01-phase-0-execution.md)                     |
 
 ---
 

@@ -77,12 +77,19 @@ export interface RoomCredentials {
   readonly token?: string | null | undefined
   /** The owner's key, for the person whose board it is. */
   readonly ownerKey?: string | null | undefined
+  /**
+   * A signed ticket naming this room (`tickets.ts`), for a room that admits by
+   * identity rather than by link. Sent as a FOURTH part: a client from before
+   * tickets sends three, and a room reading three finds the ticket absent.
+   */
+  readonly ticket?: string | null | undefined
 }
 
 export interface Hello {
   readonly key: string | null
   readonly token: string | null
   readonly ownerKey: string | null
+  readonly ticket: string | null
 }
 
 export function encodeHello(credentials: RoomCredentials): Uint8Array {
@@ -92,6 +99,11 @@ export function encodeHello(credentials: RoomCredentials): Uint8Array {
   encoding.writeVarString(encoder, credentials.key ?? '')
   encoding.writeVarString(encoder, credentials.token ?? '')
   encoding.writeVarString(encoder, credentials.ownerKey ?? '')
+  // Only when there is one, so a hello without a ticket is byte-for-byte the
+  // hello every deployed client sends, and an older room reads it unchanged.
+  if (credentials.ticket !== undefined && credentials.ticket !== null) {
+    encoding.writeVarString(encoder, credentials.ticket)
+  }
   return encoding.toUint8Array(encoder)
 }
 
@@ -103,7 +115,12 @@ export function decodeHello(message: Uint8Array): Hello | null {
     const value = decoding.readVarString(decoder)
     return value === '' ? null : value
   }
-  return { key: read(), token: read(), ownerKey: read() }
+  const key = read()
+  const token = read()
+  const ownerKey = read()
+  // Absent in a hello from before tickets, which simply ends here.
+  const ticket = decoding.hasContent(decoder) ? read() : null
+  return { key, token, ownerKey, ticket }
 }
 
 /** What a connection may do. Decided by the room, never by the client. */

@@ -3,16 +3,16 @@ import { describe, expect, it } from 'vitest'
 import * as Y from 'yjs'
 
 import { applyPatchesToDoc, objectsFromDoc } from './document-map.js'
-import { createAwareness, decodeHello, type RoomRole } from './protocol.js'
+import { createAwareness, decodeHello } from './protocol.js'
 import {
   CLOSE_BOARD_DELETED,
   CLOSE_BOARD_FULL,
   CLOSE_ROOMS_PAUSED,
   CLOSE_PASSWORD_REQUIRED,
   RoomProvider,
-  type RoomSocket,
 } from './provider.js'
 import { FRAGMENT_BYTES } from './parts.js'
+import { Wire } from './test-wire.js'
 import { BoardRoom, MAX_MESSAGE_BYTES, type RoomPeer } from './room.js'
 
 /**
@@ -22,80 +22,6 @@ import { BoardRoom, MAX_MESSAGE_BYTES, type RoomPeer } from './room.js'
  * is deployed, and it still runs in one process with no network: `Wire` is the
  * only thing standing in for a WebSocket, and it is twenty lines.
  */
-
-/** A socket pair. One end is the client's, the other is the room's peer. */
-class Wire {
-  #open = false
-  #openListeners: (() => void)[] = []
-  #messageListeners: ((data: Uint8Array) => void)[] = []
-  #closeListeners: ((code: number) => void)[] = []
-  #room: BoardRoom | null = null
-  #peer: RoomPeer | null = null
-  /** Messages the client sent while the socket was not up. */
-  delivered = 0
-  /** The largest frame either side put on this wire. */
-  largest = 0
-  /** Every frame the client sent, in order, including those before it was admitted. */
-  readonly sent: Uint8Array[] = []
-
-  readonly client: RoomSocket = {
-    send: (data) => {
-      this.sent.push(data)
-      if (!this.#open || this.#room === null || this.#peer === null) return
-      this.delivered++
-      this.largest = Math.max(this.largest, data.byteLength)
-      this.#room.receive(this.#peer, data)
-    },
-    close: () => {
-      this.drop()
-    },
-    onOpen: (listener) => this.#openListeners.push(listener),
-    onMessage: (listener) => this.#messageListeners.push(listener),
-    onClose: (listener) => this.#closeListeners.push(listener),
-    onError: () => undefined,
-  }
-
-  /**
-   * Opens the socket without admitting it, as the room does until it has read
-   * the hello: the client is connected and has been told nothing.
-   */
-  openOnly(): void {
-    this.#open = true
-    for (const listener of this.#openListeners) listener()
-  }
-
-  /** Completes the connection, as a server accepting the upgrade would. */
-  connectTo(room: BoardRoom, id: string, role: RoomRole = 'editor'): void {
-    this.openOnly()
-    this.admit(room, id, role)
-  }
-
-  /** The room, having read the hello, joins the socket. */
-  admit(room: BoardRoom, id: string, role: RoomRole = 'editor'): void {
-    this.#room = room
-    this.#peer = {
-      id,
-      role,
-      send: (data) => {
-        this.largest = Math.max(this.largest, data.byteLength)
-        for (const listener of this.#messageListeners) listener(data)
-      },
-    }
-    room.join(this.#peer)
-  }
-
-  /**
-   * `1006` is what a browser reports for a connection that dropped without a
-   * close frame — a lost network, a restarted room — which is the ordinary
-   * case and the one that SHOULD reconnect.
-   */
-  drop(code = 1006): void {
-    if (!this.#open) return
-    this.#open = false
-    if (this.#room !== null && this.#peer !== null) this.#room.leave(this.#peer)
-    for (const listener of this.#closeListeners) listener(code)
-  }
-}
 
 /** A client: its own document, its own provider, its own wire into the room. */
 function client(room: BoardRoom, id: string, now?: () => number) {
@@ -363,6 +289,48 @@ describe('a board that has outgrown the room', () => {
 })
 
 /**
+ * "The room has this" (`flushed`), which a move between two rooms waits for
+ * before it removes anything from the one it came out of.
+ */
+describe('asking the room to confirm', () => {
+  it('rejects at once when there is no connection to ask', async () => {
+    const doc = new Y.Doc()
+    const provider = new RoomProvider({
+      doc,
+      awareness: createAwareness(doc),
+      onStatus: () => undefined,
+      connect: () => new Wire().client,
+    })
+    await expect(provider.flushed()).rejects.toThrow('not connected')
+  })
+
+  it('resolves on the room’s answer to ITS question, not on an older one', async () => {
+    const room = new BoardRoom()
+    const member = client(room, 'member')
+    member.provider.start()
+    await settle()
+
+    let confirmed = false
+    const flushed = member.provider.flushed().then(() => {
+      confirmed = true
+    })
+    // The room answers the question it was asked, in order, on the same wire.
+    await flushed
+    expect(confirmed).toBe(true)
+  })
+
+  it('rejects when the room never answers', async () => {
+    const room = new BoardRoom()
+    const member = client(room, 'member')
+    member.provider.start()
+    await settle()
+    // Offline: the question cannot be sent, so nothing can answer it.
+    member.wires[0]?.drop(1006)
+    await expect(member.provider.flushed(10)).rejects.toThrow()
+  })
+})
+
+/**
  * Shared play paused by its operator (the cost guard's kill switch).
  *
  * The Worker closes the socket with 4005 before any room wakes. The provider
@@ -512,6 +480,7 @@ describe('a client introducing itself', () => {
       key: 'k'.repeat(32),
       token: 't'.repeat(32),
       ownerKey: null,
+      ticket: null,
     })
 
     // Admitted: only now does the client ask for the board.

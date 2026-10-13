@@ -28,4 +28,10 @@ export interface Env {
    * dashboard is overwritten by the next deploy.
    */
   readonly ROOMS_PAUSED?: string
+  /**
+   * Turns TICKET MODE on (`ticket-mode.ts`): raw Ed25519 public keys, base64url,
+   * comma separated. Public by nature, so a plain variable and not a secret.
+   * Unset, the room admits by link as OpenFrame always did.
+   */
+  readonly TICKET_PUBLIC_KEYS?: string
 }

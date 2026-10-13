@@ -17,8 +17,36 @@ describe('the hello a connection opens with', () => {
       key: 'k'.repeat(32),
       token: 't'.repeat(32),
       ownerKey: null,
+      ticket: null,
     })
-    expect(decodeHello(encodeHello({}))).toEqual({ key: null, token: null, ownerKey: null })
+    expect(decodeHello(encodeHello({}))).toEqual({
+      key: null,
+      token: null,
+      ownerKey: null,
+      ticket: null,
+    })
+  })
+
+  /**
+   * A ticket is a fourth part, and only when there is one: what every deployed
+   * client sends is unchanged, byte for byte, so a room that predates tickets
+   * reads it as it always did and a room that has them reads it as no ticket.
+   */
+  it('adds a ticket without changing the hello of a client that has none', () => {
+    const before = encodeHello({ key: 'k', token: null, ownerKey: null })
+    expect(encodeHello({ key: 'k', ticket: null })).toEqual(before)
+    expect(encodeHello({ key: 'k', ticket: undefined })).toEqual(before)
+    // Exactly the three parts of the old encoding: type, then three strings.
+    expect([...before]).toEqual([MESSAGE_HELLO, 1, 107, 0, 0])
+    expect(decodeHello(before)?.ticket).toBeNull()
+
+    const ticketed = encodeHello({ ticket: 'v1.a.b' })
+    expect(decodeHello(ticketed)).toEqual({
+      key: null,
+      token: null,
+      ownerKey: null,
+      ticket: 'v1.a.b',
+    })
   })
 
   it('is not a hello unless it says so, and an unreadable one is refused', () => {

@@ -44,6 +44,7 @@ import { readBounded } from './body.js'
 import { DocumentStore } from './document-store.js'
 import { RoomHistory, timingFrom } from './history.js'
 import { InFlight } from './in-flight.js'
+import { admitByTicket, ticketMode, ticketStillStands, type TicketMode } from './ticket-mode.js'
 import {
   admitDecision,
   assetQuotaDecision,
@@ -142,6 +143,8 @@ export class BoardRoomObject extends DurableObject<Env> {
   /** The board's earlier versions (ADR 0019). */
   #history!: RoomHistory
   #knownBoardId: string | null = null
+  /** Whether this deployment admits by ticket, read once (`ticket-mode.ts`). */
+  #mode: Promise<TicketMode> | null = null
   /**
    * What each socket and the room as a whole have sent lately (`limits.ts`).
    * In memory on purpose: they are only worth anything while sockets are busy,
@@ -210,6 +213,21 @@ export class BoardRoomObject extends DurableObject<Env> {
 
   override async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url)
+
+    /*
+     * TICKET MODE: a room that admits by identity has no link keys, and every
+     * route below that decides by key would read "no keys" as "open to all"
+     * (`roleForKey`). So in this mode nothing that decides by key is reachable:
+     * the socket and the images are admitted by ticket, and the rest is refused.
+     */
+    const mode = await this.#ticketMode()
+    if (
+      mode.on &&
+      !url.pathname.includes('/asset/') &&
+      request.headers.get('Upgrade') !== 'websocket'
+    ) {
+      return new Response('This room admits by ticket', { status: 403, headers: CORS })
+    }
 
     const destroyed = (await this.ctx.storage.get<boolean>(DESTROYED)) === true
 
@@ -327,6 +345,41 @@ export class BoardRoomObject extends DurableObject<Env> {
       return
     }
 
+    const attachedFirst = socket.deserializeAttachment() as { id?: string; board?: string } | null
+    const mode = await this.#ticketMode()
+    if (mode.on) {
+      /*
+       * By ticket, and ONLY by ticket: the link, the password and the owner
+       * key are not read. The same answer for every refusal, as the keys path
+       * gives, so a forged ticket learns nothing by being refined.
+       */
+      const admission = await admitByTicket(
+        mode,
+        hello.ticket,
+        attachedFirst?.board ?? '',
+        Date.now(),
+        crypto.subtle,
+      )
+      if (!admission.ok) {
+        socket.close(1008, 'That ticket does not open this room')
+        return
+      }
+      if (
+        admission.role === 'editor' &&
+        documentIsFull(this.#document.storedBytes, documentCeiling(this.env.DOCUMENT_CEILING_BYTES))
+      ) {
+        socket.close(CLOSE_BOARD_FULL, 'This board is full')
+        return
+      }
+      socket.serializeAttachment({
+        id: attachedFirst?.id ?? crypto.randomUUID(),
+        role: admission.role,
+        exp: admission.exp,
+      })
+      this.#room.join(this.#peer(socket))
+      return
+    }
+
     const role = await this.#roleFor(hello.key)
     if (role === null) {
       // The same answer for a wrong key and a missing one. Distinguishing them
@@ -385,6 +438,21 @@ export class BoardRoomObject extends DurableObject<Env> {
       this.#room.leave(this.#peer(socket))
       socket.close(CLOSE_POLICY, 'Sending too fast')
       return
+    }
+    /*
+     * A ticket is good for a while and no longer. Checked when the socket next
+     * speaks rather than by a timer, which would keep the room in memory
+     * (rule 29): a socket that has gone quiet costs nothing, and one that
+     * speaks after its ticket ran out is put out and comes back with a fresh
+     * one, which the client's credentials are read for again on every attempt.
+     */
+    if (!this.#pending(socket)) {
+      const exp = (socket.deserializeAttachment() as { exp?: number } | null)?.exp
+      if (!ticketStillStands(exp, Date.now())) {
+        this.#forget(socket)
+        socket.close(1008, 'Your ticket has expired')
+        return
+      }
     }
     // Not yet admitted: this is its hello, or it is closed.
     if (this.#pending(socket)) {
@@ -461,6 +529,11 @@ export class BoardRoomObject extends DurableObject<Env> {
     return sent.messages.take(1, now) && sent.bytes.take(size, now) && this.#roomRate.take(1, now)
   }
 
+  #ticketMode(): Promise<TicketMode> {
+    this.#mode ??= ticketMode(this.env.TICKET_PUBLIC_KEYS, crypto.subtle)
+    return this.#mode
+  }
+
   /** Whether a socket has yet to say who it is. */
   #pending(socket: WebSocket): boolean {
     return admittedRole(socket.deserializeAttachment() as { pending?: unknown } | null) === null
@@ -494,11 +567,32 @@ export class BoardRoomObject extends DurableObject<Env> {
     const verifier = await this.ctx.storage.get<PasswordVerifier>(PASSWORD)
     const owner = isOwnerKey(keys, request.headers.get('x-openframe-owner'))
 
+    /*
+     * In ticket mode an image is reached by ticket too, in a header (a browser
+     * cannot put one on a socket, but a fetch can). The room's id comes from
+     * the address, never from the ticket, so a GM-room ticket cannot fetch a
+     * table image or the reverse; and there is no password in this mode.
+     */
+    const mode = await this.#ticketMode()
+    const byTicket = mode.on
+      ? await admitByTicket(
+          mode,
+          request.headers.get('x-openframe-ticket'),
+          this.#boardId(url),
+          Date.now(),
+          crypto.subtle,
+        )
+      : null
+
     const decision = assetDecision({
       method: request.method,
-      role: roleForKey(keys, request.headers.get('x-openframe-key')),
-      owner,
-      unlocked: tokenAdmits(verifier, request.headers.get('x-openframe-token')),
+      role: mode.on
+        ? byTicket?.ok === true
+          ? byTicket.role
+          : null
+        : roleForKey(keys, request.headers.get('x-openframe-key')),
+      owner: mode.on ? false : owner,
+      unlocked: mode.on ? true : tokenAdmits(verifier, request.headers.get('x-openframe-token')),
       contentType: request.headers.get('content-type'),
       contentLength: Number(request.headers.get('content-length') ?? Number.NaN),
     })

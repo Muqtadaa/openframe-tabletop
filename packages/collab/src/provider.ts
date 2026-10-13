@@ -162,6 +162,8 @@ export class RoomProvider {
   readonly #now: () => number
   readonly #clock = new ServerClock()
   readonly #clockListeners = new Set<() => void>()
+  /** Questions asked by `flushed`, by the time each carried, until the room answers. */
+  readonly #flushWaiters = new Map<number, () => void>()
   /** A board too large for one frame goes, and comes, in parts (`parts.ts`). */
   readonly #splitter = new Splitter()
 
@@ -233,6 +235,44 @@ export class RoomProvider {
    */
   syncClock(): void {
     this.#send(encodeTimeRequest(this.#now()))
+  }
+
+  /**
+   * Resolves once the room has processed everything this client sent before
+   * the call, and rejects if it has not by `timeoutMs` or the connection is not
+   * up.
+   *
+   * A question about the time is the one message the room answers in order with
+   * the updates ahead of it on the same socket, and the Durable Object does not
+   * release a reply until the writes it caused are stored. So the answer to a
+   * question asked AFTER an update means that update is in the room. Matched on
+   * what the reply echoes, so an answer to an older question cannot stand in
+   * for this one.
+   *
+   * What a move between two rooms waits for before it removes anything from the
+   * source (`move.ts`): nothing is taken out of one room until it is certainly
+   * in the other.
+   */
+  flushed(timeoutMs = 5000): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (this.#socket === null || this.#status !== 'connected') {
+        reject(new Error('The room is not connected'))
+        return
+      }
+      // Distinct from any question still in flight, so a late answer to one of
+      // those cannot be mistaken for this one.
+      let sentAt = this.#now()
+      while (this.#flushWaiters.has(sentAt)) sentAt += 0.001
+      const timer = this.#setTimer(() => {
+        this.#flushWaiters.delete(sentAt)
+        reject(new Error('The room did not confirm in time'))
+      }, timeoutMs)
+      this.#flushWaiters.set(sentAt, () => {
+        this.#clearTimer(timer)
+        resolve()
+      })
+      this.#send(encodeTimeRequest(sentAt))
+    })
   }
 
   /** Called whenever the room answers a question about the time. */
@@ -307,6 +347,11 @@ export class RoomProvider {
 
       const time = decodeTimeReply(data)
       if (time !== null) {
+        const waiting = this.#flushWaiters.get(time.sentAt)
+        if (waiting !== undefined) {
+          this.#flushWaiters.delete(time.sentAt)
+          waiting()
+        }
         if (this.#clock.add(time.sentAt, time.roomNow, this.#now())) {
           for (const listener of [...this.#clockListeners]) listener()
         }

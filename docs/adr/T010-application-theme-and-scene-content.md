@@ -48,7 +48,7 @@ override colour tokens used by objects as well as by chrome.
   contract (WP 0.13). The apparatus drawn over content (selection, handles, guides) is scene-side too, because
   chrome over arbitrary content must carry its own colour and halo (decision 4); the application accent failed
   3:1 over dark ink on pale paper.
-- **Open owner decision:** the scene's empty ground is a fixed light stock. In a dim room, and on a cast
+- **Decided by the owner, 2026-10-13: a dimmer, neutral, mid-tone ground** (`--sc-ground` `#b8c0ca`, about L 0.52) with the grid still clearly visible on top (decade rule about 2.3:1, held between 2.0 and 2.5 by `theme-boundary.test.ts`). The nine hue inks, `--sc-ink-muted` and `--sc-control-border` were darkened a little so every authored pair still clears its floor on it. Not per theme. Context, now resolved: the scene's empty ground was a fixed light stock. In a dim room, and on a cast
   display, that is glare. Options: a dimmer mid-tone default stock re-checked against the eleven papers; a
   per-table dark stock chosen by the GM; at minimum a non-white ground on the display route. It is not
   recoloured per theme, which would break decision 4.

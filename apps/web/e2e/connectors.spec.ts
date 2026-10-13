@@ -718,7 +718,7 @@ test.describe('formatting a connector label', () => {
 
     await page.getByTestId('paint-textColor').click()
     await page.getByTestId('ink-red').click()
-    await expect(page.getByTestId('connector-label')).toHaveCSS('color', 'rgb(138, 64, 56)')
+    await expect(page.getByTestId('connector-label')).toHaveCSS('color', 'rgb(123, 57, 50)')
   })
 })
 

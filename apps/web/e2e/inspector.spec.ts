@@ -155,7 +155,7 @@ test.describe('inspector', () => {
 
     await page.getByTestId('paint-textColor').click()
     await page.getByTestId('ink-red').click()
-    await expect(viewOf(page, 'sticky')).toHaveCSS('color', 'rgb(138, 64, 56)')
+    await expect(viewOf(page, 'sticky')).toHaveCSS('color', 'rgb(123, 57, 50)')
     // The note is still the colour it was: two controls, two properties.
     await expect(viewOf(page, 'sticky')).toHaveCSS('background-color', paper)
   })

@@ -148,6 +148,8 @@ link (an owner decision, see Brand Commitments).
   game-table one); the roll service was unreachable from the build sandbox, so that round ran
   degraded with no challengers. The standing preference binds the layout conventions; the
   constraints in this file (two postures, minimal chrome in Play, chat not leading) bind it.
+- **Scene ground (owner, 2026-10-13):** a dimmer, neutral, mid-tone ground, not white, with the grid
+  overlay still clearly visible on top for measuring and placing scenery and tokens.
 - **No Tabletop identity exists yet:** no logo, wordmark, palette or type. OpenFrame's
   neon artwork and its two visual worlds belong to OpenFrame, are kept as history,
   and are not the Tabletop identity. The replacement was decided in the Impeccable

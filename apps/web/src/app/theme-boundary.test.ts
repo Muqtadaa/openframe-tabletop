@@ -85,9 +85,11 @@ describe('content is painted from the scene', () => {
 })
 
 /*
- * The grid is ground, not a control: deliberately BELOW the 3:1 floor, so a
- * later "improve contrast" pass cannot turn it into a cage the content has to
- * fight. It is also a Scene's own state (ADR T005), so these are the defaults.
+ * The grid is a measuring aid, not a control: deliberately BELOW the 3:1 floor,
+ * so a later "improve contrast" pass cannot turn it into a cage the content has
+ * to fight, and deliberately ABOVE a whisper, because it is how a GM and the
+ * players place scenery and tokens and it has to read on the ground. It is also a
+ * Scene's own state (ADR T005), so these are the defaults.
  */
 describe('the scene ground', () => {
   const [{ token }] = THEMES as [(typeof THEMES)[number]]
@@ -96,6 +98,9 @@ describe('the scene ground', () => {
     expect(contrast(token('sc-rule'), token('sc-ground'))).toBeLessThan(2)
     expect(contrast(token('sc-rule-decade'), token('sc-ground'))).toBeLessThan(2.5)
     expect(contrast(token('sc-rule-decade'), token('sc-ground'))).toBeGreaterThan(1.2)
+    // The owner's requirement: the rule you aim at is clearly visible on the mid-tone ground.
+    expect(contrast(token('sc-rule-decade'), token('sc-ground'))).toBeGreaterThanOrEqual(2)
+    expect(contrast(token('sc-rule'), token('sc-ground'))).toBeGreaterThanOrEqual(1.3)
   })
 })
 

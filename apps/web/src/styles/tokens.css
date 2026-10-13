@@ -244,24 +244,30 @@
    * THE SCENE. Defined once, here, and by nothing else: no theme block below or
    * elsewhere assigns a --sc-* token.
    *
-   * The ground is a fixed light stock. It is not a style choice about the
-   * application; it is the one surface every authored colour below was chosen to
-   * read on. A map shipped with its own art replaces the ground, never the other
-   * way round.
+   * The ground is a fixed, neutral mid-tone. It is not a style choice about the
+   * application; it is the surface every authored colour below is held to read on
+   * (a11y-floor.test.ts). Mid, not white: a dim room and a cast display are the
+   * scene this is for, and a near-white board is glare there. A map shipped with
+   * its own art replaces the ground, never the other way round.
    */
-  --sc-ground: #f2f4f7;
-  --sc-ground-deep: #e6eaf0;
+  --sc-ground: #b8c0ca;
+  --sc-ground-deep: #aeb6c1;
 
-  /* The grid. Ground, not a control: deliberately below the 3:1 floor. */
-  --sc-rule: #e1e7ee;
-  --sc-rule-decade: #c7d3e0;
+  /*
+   * The grid, a measuring aid for placing scenery and tokens: it has to read
+   * clearly on the ground (the decade rule at about 2.3:1) without becoming a
+   * control, so it stays under the 3:1 floor. theme-boundary.test.ts holds both
+   * bounds.
+   */
+  --sc-rule: #9aa3af;
+  --sc-rule-decade: #727c89;
 
   /* Paper and ink for content that carries its own surface: tables, code, images. */
   --sc-panel: #ffffff;
   --sc-panel-border: #c7d2de;
-  --sc-control-border: #758596;
+  --sc-control-border: #576574;
   --sc-ink: #16202b;
-  --sc-ink-muted: #4e6070;
+  --sc-ink-muted: #3a4956;
   --sc-hover: #e8edf3;
   --sc-danger: #a3231b;
   --sc-danger-wash: #f9ebea;
@@ -314,16 +320,16 @@
    */
   --sc-edge-inner: #8595a6;
 
-  --sc-c-yellow: #7a5c00;
-  --sc-c-green: #146045;
-  --sc-c-blue: #17529e;
-  --sc-c-red: #8a4038;
-  --sc-c-violet: #5b3ba8;
-  --sc-c-orange: #8c4715;
-  --sc-c-gray: #3f5163;
+  --sc-c-yellow: #604900;
+  --sc-c-green: #12553d;
+  --sc-c-blue: #154b91;
+  --sc-c-red: #7b3932;
+  --sc-c-violet: #5738a0;
+  --sc-c-orange: #783d12;
+  --sc-c-gray: #3d4e60;
   /* Raspberry, not rose: a lighter pink sits on top of the guide magenta. */
-  --sc-c-pink: #8f2a67;
-  --sc-c-brown: #6a4a2a;
+  --sc-c-pink: #852760;
+  --sc-c-brown: #654628;
 
   --sc-s-yellow: #ffe9a3;
   --sc-s-green: #bff0d4;

@@ -25,33 +25,33 @@ colors:
   light-accent: '#1c4fb5'
   light-accent-soft: '#e3ebfa'
   light-danger: '#b3261b'
-  scene-ground: '#f2f4f7'
-  scene-ground-deep: '#e6eaf0'
-  scene-rule: '#e1e7ee'
-  scene-rule-decade: '#c7d3e0'
+  scene-ground: '#b8c0ca'
+  scene-ground-deep: '#aeb6c1'
+  scene-rule: '#9aa3af'
+  scene-rule-decade: '#727c89'
   scene-panel: '#ffffff'
   scene-ink: '#16202b'
-  scene-ink-muted: '#4e6070'
+  scene-ink-muted: '#3a4956'
   scene-select: '#1450b5'
   scene-guide: '#b0197a'
   scene-halo: '#f7f9fb'
-  ink-yellow: '#7a5c00'
+  ink-yellow: '#604900'
   paper-yellow: '#ffe9a3'
-  ink-green: '#146045'
+  ink-green: '#12553d'
   paper-green: '#bff0d4'
-  ink-blue: '#17529e'
+  ink-blue: '#154b91'
   paper-blue: '#cfe2ff'
-  ink-red: '#8a4038'
+  ink-red: '#7b3932'
   paper-red: '#ffd5d0'
-  ink-violet: '#5b3ba8'
+  ink-violet: '#5738a0'
   paper-violet: '#e3daff'
-  ink-orange: '#8c4715'
+  ink-orange: '#783d12'
   paper-orange: '#ffddb8'
-  ink-gray: '#3f5163'
+  ink-gray: '#3d4e60'
   paper-gray: '#dfe5ec'
-  ink-pink: '#8f2a67'
+  ink-pink: '#852760'
   paper-pink: '#ffd4ef'
-  ink-brown: '#6a4a2a'
+  ink-brown: '#654628'
   paper-brown: '#e8dcc6'
   ink-black: '#16202b'
   paper-white: '#ffffff'
@@ -217,7 +217,7 @@ A cool, blue-leaning near-black workspace with one blue accent, set around a del
 
 ### The Scene (never themed)
 
-- **Daylight Ground** (`scene-ground`, `scene-ground-deep`) with a **quadrille** (`scene-rule`, `scene-rule-decade`, below 3:1 on purpose: ground, not control).
+- **Mid-tone Ground** (`scene-ground`, `scene-ground-deep`): a neutral cool grey, not white, so a dim room and a cast display are not glare. The grid over it (`scene-rule`, `scene-rule-decade`) is a measuring aid for placing scenery and tokens: the decade rule is about 2.3:1 on the ground so it reads clearly, and stays under 3:1 so it is not a control. `theme-boundary.test.ts` holds both bounds.
 - **Scene paper and ink** (`scene-panel`, `scene-ink`, `scene-ink-muted`): for content that carries its own surface (tables, code, images).
 - **Eleven authored colours**, each an ink over a pale paper: yellow, green, blue, red, violet, orange, gray, pink, brown, plus black and white (whose ink and paper are the same value; `inkFor` picks the readable one). Black is a blue-black, never `#000000`. Lines in black or white are drawn in `--sc-line-black` and `--sc-line-white` (`#3f5163`) so a white line does not vanish on the ground.
 - **Apparatus over content** (`scene-select`, `scene-guide`, `scene-halo`): selection, handles and guides carry their own colour and a halo so they read over dark ink and pale paper alike.
@@ -319,7 +319,7 @@ A 240px navigation on page stock whose sections come from a registry (Scenes onl
 
 ### Display status
 
-On the display route, a status line in words at 1.6em on the panel with a control-edge border, top centre. The route shows the scene on the daylight ground, view-only, with no rail, bar or dock.
+On the display route, a status line in words at 1.6em on the panel with a control-edge border, top centre. The route shows the scene on the mid-tone ground, view-only, with no rail, bar or dock.
 
 ### Scene stock
 
@@ -354,6 +354,6 @@ A note is a pale paper with a deep ink of the same hue, a 2px corner and the sli
 
 ## Open Decisions
 
-- **Light scene ground inside dark chrome.** The empty ground is a fixed light stock (ADR T010) around a dark application. Glare in a dim room and on the cast display is an open owner question; it is not settled. Changing the ground means re-checking every authored pair, which were chosen to read on it.
+- **Decided (owner, 2026-10-13): a dimmer, neutral, mid-tone scene ground**, with the grid overlay still contrasting on top. The nine hue inks were darkened a little (same hues) so each still clears 4.5:1 on it. Still open for Phase 2: a per-table ground chosen by the GM, and a Scene's own grid colour and opacity (ADR T005).
 - **Brand and name.** The working title is not a brand; the favicon is a placeholder.
 - **Not yet built, so not designed here:** player toolset, layers, initiative and turn strip, contextual selection bar, scene tabs, preview as player, prep thumbnails, a turn order on the display.

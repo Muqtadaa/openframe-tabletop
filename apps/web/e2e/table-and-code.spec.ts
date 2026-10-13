@@ -280,7 +280,7 @@ test('colours a range of cells, in one undo entry', async ({ page }) => {
   const cells = page.locator('[role="table"] [data-row]')
   await expect(cells.nth(0)).toHaveCSS('background-color', 'rgb(191, 240, 212)')
   await expect(cells.nth(1)).toHaveCSS('background-color', 'rgb(191, 240, 212)')
-  await expect(cells.nth(4)).toHaveCSS('color', 'rgb(138, 64, 56)')
+  await expect(cells.nth(4)).toHaveCSS('color', 'rgb(123, 57, 50)')
 
   /*
    * A cell OUTSIDE the block is untouched. Without this the test passes just

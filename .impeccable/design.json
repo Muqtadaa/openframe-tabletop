@@ -19,7 +19,7 @@
       "accent-soft": { "role": "primary", "displayName": "Accent Wash", "canonical": "#1a2b49" },
       "danger": { "role": "secondary", "displayName": "Danger Coral", "canonical": "#ff7b6c" },
       "guide": { "role": "secondary", "displayName": "Guide Magenta", "canonical": "#f26fcf" },
-      "scene-ground": { "role": "scene", "displayName": "Daylight Ground", "canonical": "#f2f4f7" },
+      "scene-ground": { "role": "scene", "displayName": "Mid-tone Ground", "canonical": "#b8c0ca" },
       "scene-select": {
         "role": "scene-apparatus",
         "displayName": "Selection Blue",
@@ -155,7 +155,7 @@
       "refersTo": "slip-sticky",
       "description": "An authored note: deep ink on its pale paper, 2px corner, slip shadow. Scene tokens, never themed.",
       "html": "<div class=\"ds-slip\">Cellar door: locked</div>",
-      "css": ".ds-slip { width: 180px; min-height: 120px; padding: 12px; font: 0.9375rem ui-sans-serif, system-ui, sans-serif; color: var(--sc-c-yellow, #7a5c00); background: var(--sc-s-yellow, #ffe9a3); border-radius: 2px; box-shadow: 0 1px 1px rgb(22 32 43 / 18%), 0 3px 7px rgb(22 32 43 / 14%); }"
+      "css": ".ds-slip { width: 180px; min-height: 120px; padding: 12px; font: 0.9375rem ui-sans-serif, system-ui, sans-serif; color: var(--sc-c-yellow, #604900); background: var(--sc-s-yellow, #ffe9a3); border-radius: 2px; box-shadow: 0 1px 1px rgb(22 32 43 / 18%), 0 3px 7px rgb(22 32 43 / 14%); }"
     }
   ],
   "narrative": {
@@ -243,7 +243,7 @@
       "Don't use a bare z-index integer, an odd spacing value, or a font size under 12px."
     ],
     "openDecisions": [
-      "Light scene ground inside dark chrome (ADR T010): glare in a dim room and on the cast display is an open owner question, not settled.",
+      "Decided 2026-10-13: a dimmer neutral mid-tone scene ground with a still-contrasting grid (ADR T010). Open for Phase 2: a per-table ground chosen by the GM, and a Scene's own grid colour and opacity.",
       "Brand and name: working title only; favicon is a placeholder.",
       "Not built: player toolset, layers, initiative and turn strip, selection bar, scene tabs, preview as player, prep thumbnails, display turn order."
     ]

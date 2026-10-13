@@ -91,7 +91,10 @@ test('destroying a board takes its images with it', async ({ page }) => {
   const put = await page.evaluate(
     async ({ url, key }) => {
       // The eight bytes every PNG starts with.
-      const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0])
+      const png = new Uint8Array([
+        0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 13, 0x49, 0x48, 0x44, 0x52, 0, 0,
+        0, 1, 0, 0, 0, 1, 8, 2, 0, 0, 0,
+      ])
       const response = await fetch(`${url}/asset/img_one`, {
         method: 'PUT',
         headers: { 'content-type': 'image/png', 'x-openframe-key': key },

@@ -70,3 +70,5 @@ export function createFixtureHarness(
 }
 
 export * from './testing-fixtures.js'
+
+export { imageHeader } from './uploads/image-fixtures.js'

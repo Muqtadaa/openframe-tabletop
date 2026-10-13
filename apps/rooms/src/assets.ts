@@ -1,5 +1,10 @@
 import type { RoomRole } from '@openframe/collab'
-import { isAllowedImageType, MAX_IMAGE_BYTES, validateImage } from '@openframe/core/uploads'
+import {
+  isAllowedImageType,
+  MAX_GIF_BYTES,
+  MAX_IMAGE_BYTES,
+  validateImage,
+} from '@openframe/core/uploads'
 
 import { readDecision } from './access.js'
 
@@ -90,6 +95,11 @@ export function assetDecision(request: AssetRequest): AssetDecision {
   }
   if (length > MAX_ASSET_BYTES) {
     return { ok: false, status: 413, reason: 'That image is too large' }
+  }
+  // Before the body is read: the declared length is a claim, but a claim that
+  // is already over the ceiling needs no reading to be refused.
+  if (declared === 'image/gif' && length > MAX_GIF_BYTES) {
+    return { ok: false, status: 413, reason: 'That GIF is too large' }
   }
 
   return { ok: true, write: true, contentType: declared }
@@ -213,9 +223,18 @@ export async function checkUpload(
 
   const verdict = validateImage(contentType, bytes, received)
   if (!verdict.ok) {
-    return verdict.failure.reason === 'too-large'
-      ? { ok: false, status: 413, reason: 'That image is too large' }
-      : { ok: false, status: 415, reason: 'That is not an image this board accepts' }
+    switch (verdict.failure.reason) {
+      case 'too-large':
+        return { ok: false, status: 413, reason: 'That image is too large' }
+      case 'gif-too-large':
+        return { ok: false, status: 413, reason: 'That GIF is too large' }
+      case 'too-many-pixels':
+        return { ok: false, status: 413, reason: 'That image has too many pixels' }
+      case 'unreadable-size':
+        return { ok: false, status: 415, reason: 'The size of that image could not be read' }
+      default:
+        return { ok: false, status: 415, reason: 'That is not an image this board accepts' }
+    }
   }
   return { ok: true, bytes }
 }

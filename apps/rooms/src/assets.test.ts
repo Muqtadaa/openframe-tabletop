@@ -1,3 +1,4 @@
+import { imageHeader } from '@openframe/core/testing'
 import { describe, expect, it } from 'vitest'
 
 import * as shared from '@openframe/core/uploads'
@@ -100,6 +101,22 @@ describe('writing an image', () => {
 
   it('accepts one exactly at the ceiling', () => {
     expect(assetDecision({ ...write, contentLength: MAX_ASSET_BYTES })).toMatchObject({ ok: true })
+  })
+
+  /** Cost: a GIF is refused on its declared length, before a byte of it is read. */
+  it('refuses a GIF over its own limit from the declared length alone', () => {
+    const gif = { ...write, contentType: 'image/gif' }
+    expect(assetDecision({ ...gif, contentLength: shared.MAX_GIF_BYTES })).toMatchObject({
+      ok: true,
+    })
+    expect(assetDecision({ ...gif, contentLength: shared.MAX_GIF_BYTES + 1 })).toMatchObject({
+      ok: false,
+      status: 413,
+    })
+    // The same length is fine for a still.
+    expect(assetDecision({ ...write, contentLength: shared.MAX_GIF_BYTES + 1 })).toMatchObject({
+      ok: true,
+    })
   })
 })
 
@@ -262,7 +279,7 @@ describe('purging a board’s images', () => {
  * same policy the browser uses.
  */
 describe('checking what was actually uploaded', () => {
-  const PNG = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 1, 2, 3, 4])
+  const PNG = imageHeader('image/png', 640, 480)
   const SVG = new TextEncoder().encode('<svg xmlns="http://www.w3.org/2000/svg"><script/></svg>')
 
   function body(...chunks: Uint8Array[]): ReadableStream<Uint8Array> {
@@ -282,6 +299,21 @@ describe('checking what was actually uploaded', () => {
     )
     expect(result).toMatchObject({ ok: true })
     expect(result.ok && [...result.bytes]).toEqual([...PNG])
+  })
+
+  /** Cost: a few hundred bytes can declare a picture no phone could decode. */
+  it('refuses a small file that declares too many pixels, and one whose size cannot be read', async () => {
+    const huge = imageHeader('image/jpeg', 12000, 9000)
+    expect(await checkUpload('image/jpeg', huge.length, body(huge))).toMatchObject({
+      ok: false,
+      status: 413,
+      reason: 'That image has too many pixels',
+    })
+    const unreadable = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 1, 2, 3, 4])
+    expect(await checkUpload('image/png', unreadable.length, body(unreadable))).toMatchObject({
+      ok: false,
+      status: 415,
+    })
   })
 
   /** The renamed-file attack, made by a client that never ran the browser's check. */

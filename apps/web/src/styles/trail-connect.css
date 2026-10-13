@@ -55,7 +55,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  border: 1px dashed var(--of-accent);
+  border: 1px dashed var(--sc-select);
   pointer-events: none;
 }
 
@@ -78,7 +78,7 @@
 .of-draw-preview path,
 .of-draw-preview ellipse {
   fill: none;
-  stroke: var(--of-accent);
+  stroke: var(--sc-select);
   stroke-dasharray: 4 3;
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
@@ -96,7 +96,7 @@
   top: 0;
   left: 0;
   background: var(--of-panel);
-  border: 1px solid var(--of-accent);
+  border: 1px solid var(--sc-select);
   border-radius: var(--of-radius-round);
   cursor: crosshair;
   pointer-events: auto;
@@ -110,9 +110,9 @@
  * has to be visible before the pointer comes up rather than discovered after.
  */
 .of-connect-point.is-aimed {
-  background: var(--of-accent);
+  background: var(--sc-select);
   transform-origin: center;
-  box-shadow: 0 0 0 3px var(--of-accent-soft);
+  box-shadow: 0 0 0 3px var(--sc-select-soft);
 }
 
 /*

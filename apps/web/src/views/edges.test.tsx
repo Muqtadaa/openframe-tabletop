@@ -16,7 +16,7 @@ import { createDefaultViewRegistry } from './index.js'
  *
  * Black and white are the two colours that mean themselves, and each is the
  * page in one world: a white shape vanished in the notebook and a black line
- * After Hours. Strokes take `--of-line-*`, which `a11y-floor.test` holds
+ * After Hours. Strokes take `--sc-line-*`, which `a11y-floor.test` holds
  * at 3:1 on the page in both worlds; fills keep the colour that was chosen.
  */
 describe('edges in black and white', () => {
@@ -54,16 +54,16 @@ describe('edges in black and white', () => {
   for (const hue of ['black', 'white'] as const) {
     it(`a ${hue} shape is outlined in the line token`, () => {
       const markup = render('shape', { color: hue })
-      expect(markup).toContain(`stroke="var(--of-line-${hue})"`)
-      expect(markup).toContain(`var(--of-s-${hue})`)
+      expect(markup).toContain(`stroke="var(--sc-line-${hue})"`)
+      expect(markup).toContain(`var(--sc-s-${hue})`)
     })
 
     it(`a shape given a ${hue} outline gets the line token`, () => {
-      expect(render('shape', { strokeColor: hue })).toContain(`stroke="var(--of-line-${hue})"`)
+      expect(render('shape', { strokeColor: hue })).toContain(`stroke="var(--sc-line-${hue})"`)
     })
   }
 
   it('a hue keeps its own ink', () => {
-    expect(render('shape', { color: 'blue' })).toContain('stroke="var(--of-c-blue)"')
+    expect(render('shape', { color: 'blue' })).toContain('stroke="var(--sc-c-blue)"')
   })
 })

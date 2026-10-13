@@ -128,18 +128,18 @@ test.describe('links that already exist', () => {
 test.describe('the world, from the front door', () => {
   test('is chosen here, and the board opens in it', async ({ page }) => {
     await goto(page, HOME_URL)
-    const toggle = page.getByRole('button', { name: 'After Hours theme' })
+    const toggle = page.getByRole('button', { name: 'Light theme' })
     await expect(toggle).toHaveAttribute('aria-pressed', 'false')
 
     await toggle.click()
     await expect(toggle).toHaveAttribute('aria-pressed', 'true')
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'after-hours')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 
     await goto(page, BOARD_URL)
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'after-hours')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
     // And the board's own switch, in the sign-in sheet, says so.
     await page.getByTestId('sign-in').click()
-    await expect(page.getByTestId('theme-after-hours')).toHaveAttribute('aria-checked', 'true')
+    await expect(page.getByTestId('theme-light')).toHaveAttribute('aria-checked', 'true')
   })
 
   test('sits at the end of the head, clear of the account, at phone width too', async ({
@@ -149,7 +149,7 @@ test.describe('the world, from the front door', () => {
     for (const width of [1280, 390]) {
       await page.setViewportSize({ width, height: 800 })
       await goto(page, HOME_URL)
-      const toggle = await boxOf(page.getByRole('button', { name: 'After Hours theme' }))
+      const toggle = await boxOf(page.getByRole('button', { name: 'Light theme' }))
       const account = await boxOf(page.getByTestId('home-account'))
       expect(overlaps(toggle, account)).toBe(false)
       expect(toggle.x + toggle.width).toBeLessThanOrEqual(width)
@@ -161,7 +161,7 @@ test.describe('the world, from the front door', () => {
   test('says what it is on screen, at the edge of a phone too', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 800 })
     await goto(page, HOME_URL)
-    const toggle = page.getByRole('button', { name: 'After Hours theme' })
+    const toggle = page.getByRole('button', { name: 'Light theme' })
     // Reached from the keyboard, which shows the tip at once. Forward and then
     // BACK, never the other way round: signed out, the toggle is the first
     // thing on the page that takes focus, so Shift+Tab from it leaves the page

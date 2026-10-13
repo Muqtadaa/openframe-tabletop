@@ -100,7 +100,7 @@ const OWN_NAVIGATION = /\b\w+\.(goto|reload)\(/g
 
 /** Specs whose subject is the page BEFORE it takes input: they navigate by hand. */
 const BEFORE_INPUT: Readonly<Record<string, string>> = {
-  'e2e/brand.spec.ts': 'the splash itself, held and leaving',
+  'e2e/theme.spec.ts': 'the splash itself, and the saved theme before the page takes input',
   'e2e/splash.spec.ts': 'the splash itself, and what is shown while it stalls',
   'e2e/start-failed.spec.ts': 'start-up that fails, where the page may never take input',
   'e2e/keys-at-load.spec.ts': 'keys pressed while the page is still loading',

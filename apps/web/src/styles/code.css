@@ -9,11 +9,11 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--of-s-gray);
-  border: 1px solid var(--of-control-border);
+  background: var(--sc-s-gray);
+  border: 1px solid var(--sc-control-border);
   /* Stock on the page, like every object: the page's corner and slip height. */
   border-radius: var(--of-radius-slip);
-  box-shadow: var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-shadow);
 }
 
 .of-code__language {
@@ -21,7 +21,7 @@
   top: 2px;
   right: 6px;
   font-size: var(--of-type-record);
-  color: var(--of-ink-muted);
+  color: var(--sc-ink-muted);
 }
 
 .of-code__pre {
@@ -43,7 +43,7 @@
   font-family: var(--of-mono);
   font-size: var(--of-type-record);
   line-height: 1.5;
-  color: var(--of-ink);
+  color: var(--sc-ink);
   white-space: pre;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .of-code__input:focus {
-  outline: 2px solid var(--of-accent);
+  outline: 2px solid var(--sc-select);
   outline-offset: -2px;
 }
 
@@ -67,7 +67,7 @@
   padding: var(--of-space-4) var(--of-space-6);
   font: inherit;
   font-size: var(--of-type-record);
-  color: var(--of-ink-muted);
+  color: var(--sc-ink-muted);
 }
 
 /*
@@ -82,31 +82,31 @@
 .hljs-keyword,
 .hljs-built_in,
 .hljs-selector-tag {
-  color: var(--of-c-violet);
+  color: var(--sc-c-violet);
 }
 
 .hljs-string,
 .hljs-regexp,
 .hljs-attr {
-  color: var(--of-c-green);
+  color: var(--sc-c-green);
 }
 
 .hljs-number,
 .hljs-literal {
-  color: var(--of-c-orange);
+  color: var(--sc-c-orange);
 }
 
 .hljs-title,
 .hljs-title.function_,
 .hljs-section {
-  color: var(--of-c-blue);
+  color: var(--sc-c-blue);
 }
 
 .hljs-comment {
-  color: var(--of-c-gray);
+  color: var(--sc-c-gray);
 }
 
 .hljs-meta,
 .hljs-type {
-  color: var(--of-c-red);
+  color: var(--sc-c-red);
 }

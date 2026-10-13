@@ -17,31 +17,31 @@ import {
  * from here rather than hard-coding a hex value.
  */
 export const COLOR_VARS: Record<ColorToken, string> = {
-  black: 'var(--of-c-black)',
-  white: 'var(--of-c-white)',
-  pink: 'var(--of-c-pink)',
-  brown: 'var(--of-c-brown)',
-  yellow: 'var(--of-c-yellow)',
-  green: 'var(--of-c-green)',
-  blue: 'var(--of-c-blue)',
-  red: 'var(--of-c-red)',
-  violet: 'var(--of-c-violet)',
-  orange: 'var(--of-c-orange)',
-  gray: 'var(--of-c-gray)',
+  black: 'var(--sc-c-black)',
+  white: 'var(--sc-c-white)',
+  pink: 'var(--sc-c-pink)',
+  brown: 'var(--sc-c-brown)',
+  yellow: 'var(--sc-c-yellow)',
+  green: 'var(--sc-c-green)',
+  blue: 'var(--sc-c-blue)',
+  red: 'var(--sc-c-red)',
+  violet: 'var(--sc-c-violet)',
+  orange: 'var(--sc-c-orange)',
+  gray: 'var(--sc-c-gray)',
 }
 
 export const SURFACE_VARS: Record<ColorToken, string> = {
-  black: 'var(--of-s-black)',
-  white: 'var(--of-s-white)',
-  pink: 'var(--of-s-pink)',
-  brown: 'var(--of-s-brown)',
-  yellow: 'var(--of-s-yellow)',
-  green: 'var(--of-s-green)',
-  blue: 'var(--of-s-blue)',
-  red: 'var(--of-s-red)',
-  violet: 'var(--of-s-violet)',
-  orange: 'var(--of-s-orange)',
-  gray: 'var(--of-s-gray)',
+  black: 'var(--sc-s-black)',
+  white: 'var(--sc-s-white)',
+  pink: 'var(--sc-s-pink)',
+  brown: 'var(--sc-s-brown)',
+  yellow: 'var(--sc-s-yellow)',
+  green: 'var(--sc-s-green)',
+  blue: 'var(--sc-s-blue)',
+  red: 'var(--sc-s-red)',
+  violet: 'var(--sc-s-violet)',
+  orange: 'var(--sc-s-orange)',
+  gray: 'var(--sc-s-gray)',
 }
 
 /**
@@ -50,7 +50,7 @@ export const SURFACE_VARS: Record<ColorToken, string> = {
  * why it is not `SURFACE_VARS.white`: a white somebody chose stays white, at
  * night included, and only the default follows the lamp being off.
  */
-export const FRAME_PAPER = 'var(--of-frame-paper)'
+export const FRAME_PAPER = 'var(--sc-frame-paper)'
 
 /**
  * A colour, as CSS.
@@ -76,12 +76,12 @@ export function inkOf(value: ColorValue | undefined, fallback: ColorToken = 'gra
  *
  * The same as `inkOf` except for black and white, which are each the page in
  * one of the two worlds and so vanish there as a line. They take
- * `--of-line-*`, which is the gray ink in the world where they would vanish.
+ * `--sc-line-*`, which is the gray ink in the world where they would vanish.
  * A fill keeps the colour that was chosen; only its edge moves.
  */
 export function lineOf(value: ColorValue | undefined, fallback: ColorToken = 'gray'): string {
   const token = value ?? fallback
-  if (token === 'black' || token === 'white') return `var(--of-line-${token})`
+  if (token === 'black' || token === 'white') return `var(--sc-line-${token})`
   return inkOf(token)
 }
 
@@ -145,7 +145,7 @@ export function surfaceColor(value: ColorValue | undefined): string | undefined 
  *
  * A LITERAL is arithmetic on six hex digits, which is cheap enough to do while
  * rendering. What this never does is ask for a computed style: resolving
- * `var(--of-s-black)` against the document is a layout read, and this is
+ * `var(--sc-s-black)` against the document is a layout read, and this is
  * called once per object per frame.
  */
 export function readableInkOn(fill: ColorValue | undefined): string | undefined {

@@ -96,7 +96,6 @@ test('keeps an invitation until there is an account to accept it', async ({ page
   // otherwise, so this test clears it before anything loads.
   await page.addInitScript(() => {
     window.localStorage.clear()
-    window.localStorage.setItem('openframe:splash-hold', 'off')
   })
 
   await goto(page, `/?workspace=${SHARED_WORKSPACE}&wk=${'e'.repeat(32)}`)

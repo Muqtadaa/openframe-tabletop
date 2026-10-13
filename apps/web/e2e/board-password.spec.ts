@@ -184,9 +184,6 @@ test('never puts the owner key in the page URL', async ({ page }) => {
  */
 test('a gate that arrives during the brand hold still gets the keyboard', async ({ page }) => {
   await signedIn(page, [])
-  await page.addInitScript(() => {
-    localStorage.removeItem('openframe:splash-hold')
-  })
   // A clock that never moves holds the artwork up for as long as the test
   // needs, so the gate arrives under it whatever the machine's speed.
   await page.clock.install()

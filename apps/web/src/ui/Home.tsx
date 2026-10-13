@@ -19,7 +19,6 @@ import { ClaimLocalBoards } from './ClaimLocalBoards.js'
 import { describeStartFailure } from './StartFailed.js'
 // Imported rather than referenced by path: rule 12 keeps assets out of
 // `public/`, so the bundler is what puts this in the build and fingerprints it.
-import logoMark from '../assets/logo-mark-180.png'
 
 /**
  * The front door, which now has ONE handle.
@@ -236,8 +235,7 @@ export function Home() {
       <div className="of-home__column">
         <header className="of-home__head">
           <div className="of-home__lockup">
-            <img className="of-home__mark" src={logoMark} alt="" width={32} height={32} />
-            <h1 className="of-home__title">OpenFrame</h1>
+            <h1 className="of-home__title">OpenFrame Tabletop</h1>
 
             {identity !== null && (
               <HomeAccount name={identity.displayName} hue={identity.hue} email={identity.email} />

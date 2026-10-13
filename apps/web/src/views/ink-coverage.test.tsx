@@ -93,7 +93,7 @@ describe('every type that declares textColor paints it', () => {
 
       /*
        * The VARIABLE, not a hex value. Views read the token through
-       * `COLOR_VARS`, so asserting `var(--of-c-red)` is asserting they went
+       * `COLOR_VARS`, so asserting `var(--sc-c-red)` is asserting they went
        * through the one mapping rather than hard-coding a colour — which is
        * the other half of how a palette stays themeable.
        */

@@ -22,10 +22,10 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: var(--of-panel);
+  background: var(--sc-panel);
   /* A sheet laid on the page, as every object is. */
   border-radius: var(--of-radius-slip);
-  box-shadow: var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-shadow);
 }
 
 .of-table__row {
@@ -81,7 +81,7 @@
 
 .of-table__cell--head {
   font-weight: var(--of-weight-semibold);
-  background: var(--of-hover);
+  background: var(--sc-hover);
 }
 
 /*
@@ -137,7 +137,7 @@
 .of-divider::after {
   position: absolute;
   content: '';
-  background: var(--of-accent);
+  background: var(--sc-select);
   opacity: 0;
 }
 

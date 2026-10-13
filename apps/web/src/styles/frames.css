@@ -19,7 +19,7 @@
   left: 0;
   box-sizing: border-box;
   /* An edge you find the frame by, so a boundary at 3:1, not a panel hairline. */
-  border: 1px solid var(--of-control-border);
+  border: 1px solid var(--sc-control-border);
   border-radius: var(--of-radius-slip);
   transform-origin: 0 0;
   pointer-events: none;
@@ -40,7 +40,7 @@
   overflow: hidden;
   font-size: var(--of-type-ui);
   line-height: 1.2;
-  color: var(--of-ink-muted);
+  color: var(--sc-ink-muted);
   overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
@@ -62,8 +62,8 @@
   width: 300px;
   min-height: 18px;
   padding: 0;
-  background: var(--of-panel);
-  outline: 1px solid var(--of-accent);
+  background: var(--sc-panel);
+  outline: 1px solid var(--sc-select);
 }
 
 /*

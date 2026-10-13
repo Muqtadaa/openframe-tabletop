@@ -30,7 +30,7 @@ function visibleRules(zoom: number): Rule[] {
   const style = gridStyle({ x: 0, y: 0, zoom })
   const sizes = cells(zoom)
   /*
-   * `...var(--of-rule)) 92%, transparent)` — the percentage follows a closing
+   * `...var(--sc-rule)) 92%, transparent)` — the percentage follows a closing
    * parenthesis, not a comma, because the ink is itself a nested color-mix.
    * A first version of this pattern expected a comma, matched nothing, and
    * left every rule looking invisible — so the sweep below compared two empty
@@ -101,7 +101,7 @@ describe('the ruled ground', () => {
   /** Ruling is geometry, not decoration: no literal colour may appear here. */
   it('paints only with tokens', () => {
     const image = paints(1)
-    expect(image).toContain('var(--of-rule)')
+    expect(image).toContain('var(--sc-rule)')
     expect(/#[0-9a-f]{3,8}|rgba?\(/i.test(image)).toBe(false)
   })
 
@@ -112,7 +112,7 @@ describe('the ruled ground', () => {
    */
   it('darkens a rule as its cells grow', () => {
     const image = paints(1)
-    const weights = [...image.matchAll(/--of-rule-decade\) (\d+)%/g)].map((m) => Number(m[1]))
+    const weights = [...image.matchAll(/--sc-rule-decade\) (\d+)%/g)].map((m) => Number(m[1]))
     expect(weights.length).toBeGreaterThanOrEqual(2)
     expect([...weights].sort((a, b) => a - b)).toEqual(weights)
   })

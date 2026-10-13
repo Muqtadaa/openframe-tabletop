@@ -42,7 +42,7 @@
  * connector, which is exactly the confusion a handle must not add.
  */
 .of-endpoint--leg {
-  background: var(--of-accent);
+  background: var(--sc-select);
   border: none;
   border-radius: var(--of-radius-capsule);
   /*
@@ -51,7 +51,7 @@
    * — so the thing to push vanished into the thing it pushes. It only shows on
    * the run under the pointer, so it can afford to be seen.
    */
-  box-shadow: 0 0 0 1px var(--of-page);
+  box-shadow: 0 0 0 1px var(--sc-halo);
 }
 
 /*
@@ -143,7 +143,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  outline: 1px solid color-mix(in srgb, var(--of-accent) 55%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--sc-select) 55%, transparent);
   outline-offset: 0;
   transform-origin: 50% 50%;
   pointer-events: none;
@@ -151,7 +151,7 @@
 
 .of-selection__member {
   position: absolute;
-  outline: 1px solid var(--of-accent);
+  outline: 1px solid var(--sc-select);
   outline-offset: 0;
   opacity: 0.6;
 }
@@ -199,7 +199,7 @@
   border-color: transparent;
   /* A print laid on the page: the page's corner and the one slip height. */
   border-radius: var(--of-radius-slip);
-  box-shadow: var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-shadow);
 }
 
 .of-image-frame .of-image {
@@ -223,7 +223,7 @@
    * The divider handles learned this the same way.
    */
   z-index: var(--of-z-guide);
-  outline: 1.5px dashed var(--of-accent);
+  outline: 1.5px dashed var(--sc-select);
   outline-offset: 0;
   pointer-events: none;
 }
@@ -239,7 +239,7 @@
 .of-crop__grip {
   position: absolute;
   border-style: none;
-  border-color: var(--of-accent);
+  border-color: var(--sc-select);
   pointer-events: none;
 }
 

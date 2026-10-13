@@ -401,19 +401,12 @@ export function CloseIcon({ className }: IconProps) {
   )
 }
 
-/**
- * The setting sun with its banded horizon — the artwork's own motif, and the
- * one glyph that says "after hours" without reaching for the stock crescent
- * moon every theme toggle in the category already uses.
- */
-export function AfterHoursIcon({ className }: IconProps) {
-  /*
-   * A crescent: the evening the world is named for. The sun going down behind
-   * a horizon read, at 16 pixels, as a hat or a lamp.
-   */
+/** A disc split down the middle: the theme, without choosing a side. */
+export function ThemeIcon({ className }: IconProps) {
   return (
     <svg {...base} className={className}>
-      <path d="M19.5 14.2A7.6 7.6 0 1 1 9.8 4.5a6.1 6.1 0 0 0 9.7 9.7z" />
+      <circle cx="12" cy="12" r="8" />
+      <path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" />
     </svg>
   )
 }

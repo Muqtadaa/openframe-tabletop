@@ -2,15 +2,18 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
+import { CSS, THEMES } from './design-test-support.js'
+
 /**
  * The boot splash's structure, WHATEVER it looks like.
  *
  * It has to paint at first paint, before any stylesheet has loaded, so its
  * critical CSS lives inline in `index.html`, outside the reach of the tests that
- * read the stylesheet. What it looks like is the brand's business and is pinned
- * in `incumbent-splash.test.ts`; what must stay true of any splash is here: it is
- * inline, the checks it repeats agree with the router's, and its assets are
- * bundled rather than served from `public/`.
+ * read the stylesheet. That makes its colours a second source of truth, and a
+ * second source of truth drifts, so they are pinned here: every colour it paints
+ * is a theme's surface or text colour, and the browser chrome is told the default
+ * theme's. It is also inline, the checks it repeats agree with the router's, and
+ * its assets (it has none now) are bundled rather than served from `public/`.
  */
 const HTML = readFileSync(resolve(process.cwd(), 'index.html'), 'utf8')
 const inlineStyle = /<style>([\s\S]*?)<\/style>/.exec(HTML)?.[1] ?? ''
@@ -62,9 +65,7 @@ describe('the boot splash', () => {
     )
 
     const referenced = [...new Set([...single, ...sets])]
-    expect(referenced.length).toBeGreaterThanOrEqual(4)
-    // The guard above is only worth anything if a srcset was actually read.
-    expect(sets.length).toBeGreaterThan(0)
+    // The splash names none now; the check stays for the favicon and anything added.
 
     for (const path of referenced) {
       expect(path).not.toContain('/public/')
@@ -74,5 +75,60 @@ describe('the boot splash', () => {
       ).toBe(true)
     }
     expect(existsSync(resolve(process.cwd(), 'public'))).toBe(false)
+  })
+
+  /*
+   * Surface and text colours of EACH theme, read from the stylesheet. The
+   * splash and the label/button text it paints are the only literals allowed
+   * outside tokens.css, and only these.
+   */
+  it('paints only in the themes’ surface and text colours', () => {
+    const allowed = new Set<string>()
+    for (const { token } of THEMES) {
+      for (const name of ['page', 'panel', 'ink', 'ink-muted', 'control-border', 'accent']) {
+        allowed.add(token(name).toLowerCase())
+      }
+    }
+    const used = (inlineStyle.match(/#[0-9a-fA-F]{6}\b/g) ?? []).map((hex) => hex.toLowerCase())
+    expect(used.length).toBeGreaterThan(0)
+    for (const hex of used) expect(allowed, hex).toContain(hex)
+  })
+
+  it('draws the sheet in each theme’s own surface colour', () => {
+    const [dark, light] = THEMES
+    const base = /#of-splash \{[^}]*background-color: (#[0-9a-fA-F]{6})/.exec(inlineStyle)?.[1]
+    const themed =
+      /:root\[data-theme='light'\] #of-splash \{[^}]*background-color: (#[0-9a-fA-F]{6})/.exec(
+        inlineStyle,
+      )?.[1]
+    expect(dark?.name).toBe('default')
+    expect(base?.toLowerCase()).toBe(dark?.token('page'))
+    expect(themed?.toLowerCase()).toBe(light?.token('page'))
+  })
+
+  it('tells the browser chrome the surface colours, and only those', () => {
+    const meta = /<meta name="theme-color" content="(#[0-9a-fA-F]{6})"/.exec(HTML)?.[1]
+    const [dark, light] = THEMES
+    expect(meta?.toLowerCase()).toBe(dark?.token('page'))
+    const script = /<script>\s*try \{[\s\S]*?<\/script>/.exec(HTML)?.[0] ?? ''
+    const used = (script.match(/#[0-9a-fA-F]{6}\b/g) ?? []).map((hex) => hex.toLowerCase())
+    expect(new Set(used)).toEqual(new Set([light?.token('page')]))
+  })
+
+  /*
+   * The splash's fade is the product's own motion, written as a literal for the
+   * same reason as its colours: `--of-quick` on `--of-ease`.
+   */
+  it('moves on the product’s curve and its quick duration', () => {
+    const quick = /--of-quick:\s*(\d+ms)/.exec(CSS)?.[1]
+    const ease = /--of-ease:\s*(cubic-bezier\([^)]*\))/.exec(CSS)?.[1]
+    const transitions = [...inlineStyle.matchAll(/transition:\s*opacity ([^;]+);/g)].map(
+      (match) => match[1],
+    )
+    expect(transitions.length).toBeGreaterThan(0)
+    for (const transition of transitions) expect(transition).toBe(`${quick ?? ''} ${ease ?? ''}`)
+
+    const script = readFileSync(resolve(process.cwd(), 'src/app/splash.ts'), 'utf8')
+    expect(/const FADE_MS = (\d+)/.exec(script)?.[1]).toBe(quick?.replace('ms', ''))
   })
 })

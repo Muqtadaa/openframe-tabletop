@@ -79,7 +79,7 @@ export function resolveLine(
       : style.strokeColor !== undefined
         ? lineOf(style.strokeColor)
         : outer
-          ? 'var(--of-control-border)'
-          : 'var(--of-edge-inner)'
+          ? 'var(--sc-control-border)'
+          : 'var(--sc-edge-inner)'
   return { width: STROKE_WIDTHS[weight], color, dash: stored?.dash }
 }

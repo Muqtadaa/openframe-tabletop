@@ -4,12 +4,12 @@ import { CANVAS, goto, viewOf } from './fixtures.js'
 import { BOARD_URL } from './routes.js'
 
 /**
- * A frame nobody has coloured is laid on the world's paper (audit 2026-09-27).
- *
- * After Hours it was white paper under a lamp — dimmed, and still a bright
- * slab the size of a region of the board, under everything placed on it. It
- * is the panel stock at night now; by day it is white, as it always was. A
- * white somebody CHOSE stays white in both.
+ * A frame nobody has coloured is laid on the scene's paper, which is white in
+ * every theme (ADR T010). It used to follow the theme, so at night it became the
+ * panel stock: a bright slab turned into a dark one, and a map's own frame
+ * changed colour because somebody chose a different interface. The paper is
+ * scene content now, so a dark application around a frame still shows white.
+ * A white somebody CHOSE stays white, as it always did.
  */
 const EDITOR = '[contenteditable="true"]'
 
@@ -33,7 +33,7 @@ const token = (page: Page, name: string) =>
       // frame's rather than the stylesheet's hex.
       (() => {
         const probe = document.createElement('div')
-        probe.style.background = `var(--of-${name})`
+        probe.style.background = `var(--${name})`
         document.body.append(probe)
         const colour = getComputedStyle(probe).backgroundColor
         probe.remove()
@@ -42,33 +42,39 @@ const token = (page: Page, name: string) =>
     name,
   )
 
-test.describe('after hours', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.addInitScript(() => {
-      localStorage.setItem('openframe:theme', 'after-hours')
+for (const theme of ['dark', 'light'] as const) {
+  test.describe(`in the ${theme} theme`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.addInitScript((chosen) => {
+        localStorage.setItem('openframe:theme', chosen)
+      }, theme)
+    })
+
+    test('an uncoloured frame is the scene’s white, not the application’s panel', async ({
+      page,
+    }) => {
+      await placeFrame(page)
+      expect(await paper(page)).toBe(await token(page, 'sc-s-white'))
+      expect(await paper(page)).toBe('rgb(255, 255, 255)')
+    })
+
+    test('marks no colour for it, and a chosen white is white', async ({ page }) => {
+      await placeFrame(page)
+      await page.getByTestId('frame-title').click()
+      await expect(page.getByTestId('inspector')).toBeVisible()
+      // No swatch is what it is drawn in, so none claims to be.
+      await expect(page.locator('[data-testid^="swatch-"][aria-pressed="true"]')).toHaveCount(0)
+
+      await page.getByTestId('swatch-white').click()
+      await expect(page.getByTestId('swatch-white')).toHaveAttribute('aria-pressed', 'true')
+      expect(await paper(page)).toBe(await token(page, 'sc-s-white'))
     })
   })
+}
 
-  test('an uncoloured frame is the panel stock, not white paper', async ({ page }) => {
-    await placeFrame(page)
-    expect(await paper(page)).toBe(await token(page, 'panel'))
-    expect(await paper(page)).not.toBe(await token(page, 's-white'))
-  })
-
-  test('marks no colour for it, and a chosen white is white', async ({ page }) => {
-    await placeFrame(page)
-    await page.getByTestId('frame-title').click()
-    await expect(page.getByTestId('inspector')).toBeVisible()
-    // No swatch is what it is drawn in, so none claims to be.
-    await expect(page.locator('[data-testid^="swatch-"][aria-pressed="true"]')).toHaveCount(0)
-
-    await page.getByTestId('swatch-white').click()
-    await expect(page.getByTestId('swatch-white')).toHaveAttribute('aria-pressed', 'true')
-    expect(await paper(page)).toBe(await token(page, 's-white'))
-  })
-})
-
-test('by day an uncoloured frame is still white paper', async ({ page }) => {
+test('in the dark theme the frame is not cut from the application’s panel stock', async ({
+  page,
+}) => {
   await placeFrame(page)
-  expect(await paper(page)).toBe('rgb(255, 255, 255)')
+  expect(await paper(page)).not.toBe(await token(page, 'of-panel'))
 })

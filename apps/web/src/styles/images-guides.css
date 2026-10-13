@@ -24,15 +24,15 @@
   padding: var(--of-space-8);
   font-size: var(--of-type-record);
   text-align: center;
-  color: var(--of-ink-muted);
-  background: var(--of-s-gray);
-  border: 1px dashed var(--of-panel-border);
+  color: var(--sc-ink-muted);
+  background: var(--sc-s-gray);
+  border: 1px dashed var(--sc-panel-border);
 }
 
 .of-image--missing {
-  color: var(--of-danger);
-  border-color: var(--of-danger-edge);
-  background: var(--of-danger-wash);
+  color: var(--sc-danger);
+  border-color: var(--sc-danger-edge);
+  background: var(--sc-danger-wash);
 }
 
 /* Toast ------------------------------------------------------------------- */
@@ -81,9 +81,9 @@
   top: 0;
   left: 0;
   z-index: var(--of-z-guide);
-  background: var(--of-guide);
+  background: var(--sc-guide);
   /* The same halo as the selection, for the same reason: see `.of-selection`. */
-  box-shadow: 0 0 0 1px var(--of-page);
+  box-shadow: 0 0 0 1px var(--sc-halo);
   /* Guides are feedback, never a target. */
   pointer-events: none;
 }
@@ -102,9 +102,9 @@
   font-family: var(--of-mono);
   font-size: var(--of-type-record);
   line-height: 1.5;
-  color: var(--of-page);
+  color: var(--sc-halo);
   white-space: nowrap;
-  background: var(--of-guide);
+  background: var(--sc-guide);
   border-radius: var(--of-radius-apparatus);
   pointer-events: none;
 }
@@ -118,7 +118,7 @@
   top: 0;
   left: 0;
   z-index: var(--of-z-guide);
-  border: 0 dashed var(--of-guide);
+  border: 0 dashed var(--sc-guide);
   pointer-events: none;
 }
 
@@ -145,20 +145,20 @@
 }
 
 .of-relation {
-  stroke: var(--of-ink-muted);
+  stroke: var(--sc-ink-muted);
   stroke-width: 1.5;
   stroke-dasharray: 5 4;
   fill: none;
 }
 
 .of-relation__halo {
-  stroke: var(--of-page);
+  stroke: var(--sc-ground);
   stroke-width: 4;
   fill: none;
 }
 
 .of-relation__head {
-  fill: var(--of-ink-muted);
+  fill: var(--sc-ink-muted);
 }
 
 .of-relation__label {
@@ -169,9 +169,9 @@
   font-family: var(--of-mono);
   font-size: var(--of-type-record);
   line-height: 1.5;
-  color: var(--of-ink-muted);
+  color: var(--sc-ink-muted);
   white-space: nowrap;
-  background: var(--of-page);
+  background: var(--sc-ground);
   border-radius: var(--of-radius-apparatus);
   pointer-events: none;
 }
@@ -184,7 +184,7 @@
   left: 0;
   z-index: var(--of-z-grip);
   background: var(--of-panel);
-  border: 1.5px solid var(--of-accent);
+  border: 1.5px solid var(--sc-select);
   border-radius: var(--of-radius-round);
   cursor: crosshair;
   /*
@@ -199,5 +199,5 @@
 
 /* A filled dot means this end is attached to an object rather than floating. */
 .of-endpoint--attached {
-  background: var(--of-accent);
+  background: var(--sc-select);
 }

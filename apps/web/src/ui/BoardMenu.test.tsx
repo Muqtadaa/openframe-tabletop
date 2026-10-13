@@ -40,7 +40,7 @@ describe('the board menu', () => {
     ui.act(() => {
       theme?.click()
     })
-    expect(document.documentElement.dataset.theme).toBe('after-hours')
+    expect(document.documentElement.dataset.theme).toBe('light')
   })
 
   /*

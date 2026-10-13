@@ -50,7 +50,10 @@ function seedOf(kind: SwatchKind, current: ColorValue | undefined): HexColor {
 export function groundOf(surface: ColorValue | undefined): HexColor | null {
   if (typeof window === 'undefined') return null
   const root = window.document.documentElement
-  return resolveCssColor(surface === undefined ? 'var(--of-bg)' : surfaceOf(surface, 'gray'), root)
+  return resolveCssColor(
+    surface === undefined ? 'var(--sc-ground)' : surfaceOf(surface, 'gray'),
+    root,
+  )
 }
 
 /**
@@ -94,10 +97,10 @@ function SpectrumMark() {
   return (
     <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
       <g fill="none" strokeWidth="3.2" strokeLinecap="butt">
-        <path d="M12 4.5a7.5 7.5 0 0 1 7.5 7.5" stroke="var(--of-c-red)" />
-        <path d="M19.5 12a7.5 7.5 0 0 1-7.5 7.5" stroke="var(--of-c-yellow)" />
-        <path d="M12 19.5A7.5 7.5 0 0 1 4.5 12" stroke="var(--of-c-green)" />
-        <path d="M4.5 12A7.5 7.5 0 0 1 12 4.5" stroke="var(--of-c-blue)" />
+        <path d="M12 4.5a7.5 7.5 0 0 1 7.5 7.5" stroke="var(--sc-c-red)" />
+        <path d="M19.5 12a7.5 7.5 0 0 1-7.5 7.5" stroke="var(--sc-c-yellow)" />
+        <path d="M12 19.5A7.5 7.5 0 0 1 4.5 12" stroke="var(--sc-c-green)" />
+        <path d="M4.5 12A7.5 7.5 0 0 1 12 4.5" stroke="var(--sc-c-blue)" />
       </g>
     </svg>
   )

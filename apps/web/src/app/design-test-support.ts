@@ -36,8 +36,14 @@ export interface Theme {
 
 function blockOf(source: string): Map<string, string> {
   const values = new Map<string, string>()
-  for (const [, name, value] of source.matchAll(/--of-([\w-]+):\s*(#[0-9a-fA-F]{6})/g)) {
-    if (name !== undefined && value !== undefined) values.set(name, value)
+  // Application tokens are keyed by their bare name; scene tokens keep their
+  // `sc-` prefix, so a pair names which namespace each side is from.
+  for (const [, space, name, value] of source.matchAll(
+    /--(of|sc)-([\w-]+):\s*(#[0-9a-fA-F]{6})/g,
+  )) {
+    if (name !== undefined && value !== undefined) {
+      values.set(space === 'sc' ? `sc-${name}` : name, value)
+    }
   }
   return values
 }
@@ -66,7 +72,7 @@ function readThemes(): Theme[] {
       // Falls back to the base palette exactly as the cascade does, so a theme
       // that overrides only part of the world is still measured whole.
       const value = values.get(name) ?? base.get(name)
-      if (value === undefined) throw new Error(`token --of-${name} is not defined as a hex colour`)
+      if (value === undefined) throw new Error(`token ${name} is not defined as a hex colour`)
       return value
     }
 
@@ -97,6 +103,9 @@ export const HUES = COLOR_TOKENS.filter(
   (token): token is Exclude<(typeof COLOR_TOKENS)[number], 'black' | 'white'> =>
     !(NEUTRAL as readonly string[]).includes(token),
 )
+
+/** A token as the CSS names it (`of-accent`, `sc-c-red`) to the key `token()` takes. */
+export const tk = (full: string): string => full.replace(/^of-/, '')
 
 export function channels(hex: string): [number, number, number] {
   const n = Number.parseInt(hex.slice(1), 16)

@@ -7,7 +7,7 @@ import { useIdentity } from '../hooks/use-identity.js'
 import { useInteractionStore } from '../interaction/interaction-store.js'
 import { useServices } from '../runtime/services.js'
 import { AccountForm } from './AccountForm.js'
-import { WorldSwitch } from './WorldSwitch.js'
+import { ThemeSwitch } from './ThemeSwitch.js'
 import { hueVar, initialOf } from '../scene/presence.js'
 import type { Size } from '../scene/anchoring.js'
 
@@ -144,7 +144,7 @@ function SignInSheet({
         data-testid="account-dialog"
       >
         <AccountForm onDone={onClose} />
-        <WorldSwitch />
+        <ThemeSwitch />
       </div>
     </AnchoredSurface>
   )
@@ -214,7 +214,7 @@ export function AccountSheet({
             Sign out
           </button>
         </div>
-        <WorldSwitch />
+        <ThemeSwitch />
       </div>
     </AnchoredSurface>
   )

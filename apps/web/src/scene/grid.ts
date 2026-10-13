@@ -85,7 +85,7 @@ export function gridStyle(viewport: { x: number; y: number; zoom: number }): Gri
      * far through the decade this layer's cells are.
      */
     const weight = Math.min(1, Math.max(0, (step + 1) / 2))
-    const ink = `color-mix(in srgb, var(--of-rule-decade) ${String(Math.round(weight * 100))}%, var(--of-rule))`
+    const ink = `color-mix(in srgb, var(--sc-rule-decade) ${String(Math.round(weight * 100))}%, var(--sc-rule))`
     const paint = `color-mix(in srgb, ${ink} ${String(Math.round(alpha * 100))}%, transparent)`
 
     layers.push(

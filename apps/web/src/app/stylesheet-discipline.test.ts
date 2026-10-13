@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { createDefaultRegistry } from '@openframe/core'
 import { describe, expect, it } from 'vitest'
 
@@ -270,5 +272,78 @@ describe('a fresh text box', () => {
     expect(size).toBeGreaterThan(0)
     expect(leading).toBeGreaterThan(0)
     expect(text?.create().frame.height).toBeGreaterThanOrEqual(2 * size * leading)
+  })
+})
+
+/**
+ * The record panel's columns have to add up.
+ *
+ * Its width was chosen so a full row of the swatch grid fits, and the swatches
+ * live in the control column — so the label column is spending the same
+ * budget. Widening labels (which had to happen: they come from the registry
+ * now, and "participant" was being clipped to "participa") silently takes
+ * space from the swatches, and a grid that wraps short of its own column count
+ * reads as an accident rather than a palette.
+ *
+ * The column count is read from the grid rather than written here. This test
+ * was named for SEVEN swatches after the palette had become a 6×2 grid, so it
+ * went on proving room for a row that no longer existed.
+ *
+ * The numbers live in two files — the panel's width in `Inspector.tsx`, the
+ * columns in the stylesheet — so nothing but arithmetic connects them. This is
+ * that arithmetic, run on every build.
+ */
+describe('the record panel fits what it promises to show', () => {
+  /*
+   * Resolves a token, because these sizes ARE tokens now.
+   *
+   * The interface scale moved onto a tokenised rhythm and every height became
+   * `var(--of-hit-sm)` and friends, at which point this arithmetic stopped
+   * being able to read its own inputs. Teaching it the token table is the only
+   * version that survives the next change; matching literal pixels would have
+   * meant un-tokenising the stylesheet to keep a test happy.
+   */
+  const SIZES = new Map<string, number>()
+  for (const [, name = '', value = ''] of CSS.matchAll(/(--of-[\w-]+):\s*(\d+)px;/g)) {
+    SIZES.set(name, Number(value))
+  }
+
+  const px = (pattern: RegExp): number => {
+    const match = pattern.exec(CSS)
+    const value = match?.[1]
+    if (value === undefined) throw new Error(`No match for ${String(pattern)}`)
+    const token = SIZES.get(value.replace(/^var\(|\)$/g, ''))
+    if (token !== undefined) return token
+    const literal = Number(value.replace(/px$/, ''))
+    if (Number.isNaN(literal)) throw new Error(`Cannot read a size from "${value}"`)
+    return literal
+  }
+
+  it('leaves room for a full row of the swatch grid', () => {
+    const inspector = readFileSync(resolve(process.cwd(), 'src/ui/Inspector.tsx'), 'utf8')
+    const widthMatch = /const PANEL_WIDTH = (\d+)/.exec(inspector)
+    expect(widthMatch?.[1]).toBeDefined()
+    const panelWidth = Number(widthMatch?.[1])
+
+    const size = String.raw`(\d+px|var\(--of-[\w-]+\))`
+    const read = (pattern: string): number => px(new RegExp(pattern.replace('SIZE', size)))
+
+    const labelColumn = read(String.raw`\.of-field \{[^}]*grid-template-columns:\s*SIZE`)
+    const columnGap = read(String.raw`\.of-field \{[^}]*\n\s*gap:\s*SIZE`)
+    const columns = /\.of-swatches \{[^}]*grid-template-columns:\s*repeat\((\d+),/.exec(CSS)?.[1]
+    expect(columns).toBeDefined()
+    const perRow = Number(columns)
+    const swatch = read(
+      String.raw`\.of-swatches \{[^}]*grid-template-columns:\s*repeat\(\d+,\s*SIZE`,
+    )
+    const swatchGap = read(String.raw`\.of-swatches \{[^}]*gap:\s*SIZE`)
+    const sidePadding = read(String.raw`\.of-inspector \{[^}]*\n\s*padding:\s*SIZE`)
+    // The panel's own 1px border, both sides.
+    const border = 2
+
+    const control = panelWidth - border - sidePadding * 2 - labelColumn - columnGap
+    const swatchRow = swatch * perRow + swatchGap * (perRow - 1)
+
+    expect(swatchRow).toBeLessThanOrEqual(control)
   })
 })

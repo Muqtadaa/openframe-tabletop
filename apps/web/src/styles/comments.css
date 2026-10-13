@@ -36,7 +36,7 @@
   /* A speech-bubble tail: round but for the corner that points at the spot. */
   border-radius: var(--of-radius-round) var(--of-radius-round) var(--of-radius-round)
     var(--of-radius-slip);
-  box-shadow: var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-shadow);
   transform-origin: top left;
   /*
    * Lifted by its own height, so the pointed corner — bottom left — is the

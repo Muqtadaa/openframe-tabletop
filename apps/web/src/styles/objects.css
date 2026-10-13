@@ -10,7 +10,7 @@
   border-radius: var(--of-radius-slip);
   /* A slip laid on the page. Shared token so every placed object sits at the
      same height above the rule. */
-  box-shadow: var(--of-slip-ring), var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-ring), var(--sc-slip-shadow);
 }
 
 /*
@@ -56,7 +56,7 @@
   padding: var(--of-space-12);
   overflow: hidden;
   border-radius: var(--of-radius-slip);
-  box-shadow: var(--of-slip-ring), var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-ring), var(--sc-slip-shadow);
 }
 
 .of-poll__question {
@@ -262,7 +262,7 @@
   font-family: inherit;
   border: none;
   resize: none;
-  outline: 2px solid var(--of-accent);
+  outline: 2px solid var(--sc-select);
 }
 
 .of-text {
@@ -277,7 +277,7 @@
 
 .of-text--empty {
   /* Muted, not faded: faded ink was 1.95:1, and this is text to be read. */
-  color: var(--of-ink-muted);
+  color: var(--sc-ink-muted);
 }
 
 .of-text__editor {
@@ -369,22 +369,22 @@
   height: 100%;
   padding: var(--of-space-8);
   font-size: var(--of-type-record);
-  color: var(--of-ink-muted);
+  color: var(--sc-ink-muted);
   text-align: center;
   background: repeating-linear-gradient(
     45deg,
-    var(--of-page),
-    var(--of-page) 8px,
-    var(--of-bg) 8px,
-    var(--of-bg) 16px
+    var(--sc-ground),
+    var(--sc-ground) 8px,
+    var(--sc-ground-deep) 8px,
+    var(--sc-ground-deep) 16px
   );
-  border: 1px dashed var(--of-panel-border);
+  border: 1px dashed var(--sc-panel-border);
   border-radius: var(--of-radius);
 }
 
 .of-render-error {
-  color: var(--of-danger);
-  border-color: var(--of-danger);
+  color: var(--sc-danger);
+  border-color: var(--sc-danger);
 }
 
 .of-unknown__badge,

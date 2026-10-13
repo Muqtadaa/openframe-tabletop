@@ -158,16 +158,6 @@
   align-items: center;
 }
 
-/*
- * The third surface the brand paints, after the boot splash and the tab icon —
- * an extension to the rule in DESIGN.md, taken deliberately rather than by
- * drift. An entry page is where a product says its own name.
- */
-.of-home__mark {
-  width: 32px;
-  height: 32px;
-}
-
 .of-home__title {
   margin: 0;
   font-size: var(--of-type-headline);

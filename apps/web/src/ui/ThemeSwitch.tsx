@@ -3,20 +3,18 @@ import { useId, useState, type KeyboardEvent } from 'react'
 import { applyTheme, readTheme, type Theme } from '../app/theme.js'
 import { RADIOS, stepFocus } from '../controls/roving.js'
 
-const WORLDS: readonly { readonly theme: Theme; readonly name: string }[] = [
-  { theme: 'notebook', name: 'Notebook' },
-  { theme: 'after-hours', name: 'After Hours' },
+const THEME_CHOICES: readonly { readonly theme: Theme; readonly name: string }[] = [
+  { theme: 'dark', name: 'Dark' },
+  { theme: 'light', name: 'Light' },
 ]
 
 /**
- * Which world the page is drawn in, named by both of its worlds.
+ * Which theme the application is drawn in, named by both of its themes.
  *
  * In the account sheet rather than on the board's bar: it is chosen once and
- * kept, and on the bar it was an unlabelled moon among the board's own
- * controls. Two named choices rather than a toggle, because "After Hours —
- * off" left the other world without a name.
+ * kept. Two named choices rather than a toggle, so neither is left without a name.
  */
-export function WorldSwitch() {
+export function ThemeSwitch() {
   const [theme, setTheme] = useState<Theme>(readTheme)
   const label = useId()
   const choose = (next: Theme): void => {
@@ -25,7 +23,7 @@ export function WorldSwitch() {
   }
   const step = (event: KeyboardEvent<HTMLDivElement>): void => {
     const moved = stepFocus(event, { items: RADIOS, orientation: 'both' })
-    const next = moved === null ? undefined : WORLDS[moved.index]
+    const next = moved === null ? undefined : THEME_CHOICES[moved.index]
     if (next !== undefined) choose(next.theme)
   }
   return (
@@ -40,17 +38,17 @@ export function WorldSwitch() {
         data-testid="theme-switch"
         onKeyDown={step}
       >
-        {WORLDS.map(({ theme: world, name }) => (
+        {THEME_CHOICES.map(({ theme: choice, name }) => (
           <button
-            key={world}
+            key={choice}
             type="button"
             role="radio"
-            aria-checked={theme === world}
-            tabIndex={theme === world ? 0 : -1}
-            className={`of-choice__item${theme === world ? ' of-choice__item--on' : ''}`}
-            data-testid={`theme-${world}`}
+            aria-checked={theme === choice}
+            tabIndex={theme === choice ? 0 : -1}
+            className={`of-choice__item${theme === choice ? ' of-choice__item--on' : ''}`}
+            data-testid={`theme-${choice}`}
             onClick={() => {
-              choose(world)
+              choose(choice)
             }}
           >
             {name}

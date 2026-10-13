@@ -17,7 +17,7 @@ import { signedIn } from './signed-in.js'
  * was meant to change NOTHING changed nothing, and what shows exactly what a
  * change that was meant to move something moved.
  *
- * Every surface is taken in both worlds. After Hours redefines every colour
+ * Every surface is taken in both themes. The light theme redefines every application colour
  * token, so a surface that hard-codes one is only visible THERE — which is the
  * whole reason a second world needs its own photograph.
  *
@@ -30,12 +30,12 @@ import { signedIn } from './signed-in.js'
 const BOARD = 'brd_abcdefgh12345678'
 const KEY = 'e'.repeat(32)
 
-const WORLDS = ['notebook', 'after-hours'] as const
+const WORLDS = ['dark', 'light'] as const
 
 async function inWorld(page: Page, world: (typeof WORLDS)[number]): Promise<void> {
-  if (world === 'notebook') return
+  if (world === 'dark') return
   await page.addInitScript(() => {
-    localStorage.setItem('openframe:theme', 'after-hours')
+    localStorage.setItem('openframe:theme', 'light')
   })
 }
 
@@ -500,28 +500,17 @@ for (const world of WORLDS) {
     })
 
     /*
-     * The splash, held still by an entry module that never arrives: the
-     * artwork a tab sees first, and the quiet sheet every later load gets —
-     * photographed with the watchdog's words and Reload on it, since the
-     * sheet alone is one flat colour.
+     * The splash, held still by an entry module that never arrives and
+     * photographed with the watchdog's words and Reload on it, since the sheet
+     * alone is one flat colour.
      */
-    test('the splash, first load in a tab', async ({ page }) => {
-      await page.route('**/main.tsx*', (route) => route.abort())
-      await gotoBeforeInput(page, BOARD_URL)
-      await page.locator('#of-splash img[data-loaded="true"]').waitFor()
-      await snap(page, `${world}-splash-artwork`)
-    })
-
-    test('the quiet splash, stalled', async ({ page }) => {
-      await page.addInitScript(() => {
-        sessionStorage.setItem('openframe:splash-seen', 'yes')
-      })
+    test('the splash, stalled', async ({ page }) => {
       await page.clock.install()
       await page.route('**/main.tsx*', (route) => route.abort())
       await gotoBeforeInput(page, BOARD_URL)
       await page.clock.fastForward(13_000)
       await page.locator('#of-splash button').waitFor()
-      await snap(page, `${world}-splash-quiet-stalled`)
+      await snap(page, `${world}-splash-stalled`)
     })
   })
 }

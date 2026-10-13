@@ -38,11 +38,11 @@ const production = contentSecurityPolicy({
 })
 
 describe('the scripts the page runs before the application', () => {
-  it('finds the schema mode, the splash, its label and the watchdog, and not the entry module', () => {
+  it('finds the schema mode, the saved theme, the splash label and the watchdog, and not the entry module', () => {
     const scripts = inlineScripts(HTML)
     expect(scripts).toHaveLength(4)
     expect(scripts.join('')).toContain('__zod_globalConfig')
-    expect(scripts.join('')).toContain('splash-seen')
+    expect(scripts.join('')).toContain('openframe:theme')
     expect(scripts.join('')).toContain('Opening the board')
     expect(scripts.join('')).toContain('Still opening')
     expect(scripts.join('')).not.toContain('main.tsx')
@@ -76,12 +76,9 @@ describe('the scripts the page runs before the application', () => {
     expect(HTML).toMatch(/__zod_globalConfig[^]*?\.jitless = true/)
   })
 
-  it('allows the splash artwork’s onload by its hash', () => {
-    const handlers = inlineHandlers(HTML)
-    expect(handlers).toEqual(["this.dataset.loaded = 'true'"])
-    const scripts = directive(production, 'script-src')
-    expect(scripts).toContain("'unsafe-hashes'")
-    expect(scripts).toContain(`'sha256-${sha256("this.dataset.loaded = 'true'")}'`)
+  it('has no inline handler, so allows none by hash', () => {
+    expect(inlineHandlers(HTML)).toEqual([])
+    expect(directive(production, 'script-src')).not.toContain("'unsafe-hashes'")
   })
 
   it('hashes a handler as the browser reads it, entities decoded', () => {

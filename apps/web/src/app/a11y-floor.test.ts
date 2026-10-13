@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { COLOR_TOKENS } from '@openframe/core'
 import { describe, expect, it } from 'vitest'
 
-import { CSS, HUES, THEMES, channels, contrast } from './design-test-support.js'
+import { CSS, HUES, THEMES, channels, contrast, tk } from './design-test-support.js'
 
 /**
  * What WCAG 2.2 AA asks of the palette and the stylesheet, WHATEVER the world.
@@ -56,8 +56,18 @@ const TEXT: readonly (readonly [string, string])[] = [
    * The block sits on `s-gray` rather than the panel, so `ink` and `ink-muted`
    * on that surface are two more pairs nothing had measured.
    */
-  ['ink', 's-gray'],
-  ['ink-muted', 's-gray'],
+  ['sc-ink', 'sc-s-gray'],
+  ['sc-ink-muted', 'sc-s-gray'],
+  /*
+   * Content that carries its own surface, on the scene: text objects and
+   * placeholders on the ground, tables and code on their paper. The scene has
+   * its own ink and does not follow the application's theme (ADR T010).
+   */
+  ['sc-ink', 'sc-ground'],
+  ['sc-ink-muted', 'sc-ground'],
+  ['sc-ink', 'sc-panel'],
+  ['sc-ink-muted', 'sc-panel'],
+  ['sc-danger', 'sc-danger-wash'],
   /*
    * A guide's distance: the measurement is read, mid-drag, in the page's
    * colour on the guide's own.
@@ -132,7 +142,7 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
    * A shape's stroke and label on its own fill.
    */
   it.each(HUES)('%s ink on its own surface meets AA for text', (name) => {
-    expect(contrast(token(`c-${name}`), token(`s-${name}`))).toBeGreaterThanOrEqual(4.5)
+    expect(contrast(token(`sc-c-${name}`), token(`sc-s-${name}`))).toBeGreaterThanOrEqual(4.5)
   })
 
   /**
@@ -146,7 +156,7 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
    * because `s-*` and `ink` are now both moving.
    */
   it.each(HUES)('sticky text on a %s surface meets AA for text', (name) => {
-    expect(contrast(token('ink'), token(`s-${name}`))).toBeGreaterThanOrEqual(4.5)
+    expect(contrast(token('sc-ink'), token(`sc-s-${name}`))).toBeGreaterThanOrEqual(4.5)
   })
 
   /**
@@ -168,7 +178,7 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
   it.each(HUES.flatMap((ink) => HUES.map((surface) => [ink, surface] as const)))(
     '%s text on a %s surface meets AA for text',
     (ink, surface) => {
-      expect(contrast(token(`c-${ink}`), token(`s-${surface}`))).toBeGreaterThanOrEqual(4.5)
+      expect(contrast(token(`sc-c-${ink}`), token(`sc-s-${surface}`))).toBeGreaterThanOrEqual(4.5)
     },
   )
 
@@ -178,7 +188,7 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
    * the line over the board itself.
    */
   it.each(HUES)('%s text on the board meets AA for text', (ink) => {
-    expect(contrast(token(`c-${ink}`), token('bg'))).toBeGreaterThanOrEqual(4.5)
+    expect(contrast(token(`sc-c-${ink}`), token('sc-ground'))).toBeGreaterThanOrEqual(4.5)
   })
 
   /**
@@ -194,8 +204,8 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
    * stylesheet and could drift apart from the function that pairs them.
    */
   it('reads white ink on the black surface and black ink on the white one', () => {
-    expect(contrast(token('c-white'), token('s-black'))).toBeGreaterThanOrEqual(4.5)
-    expect(contrast(token('c-black'), token('s-white'))).toBeGreaterThanOrEqual(4.5)
+    expect(contrast(token('sc-c-white'), token('sc-s-black'))).toBeGreaterThanOrEqual(4.5)
+    expect(contrast(token('sc-c-black'), token('sc-s-white'))).toBeGreaterThanOrEqual(4.5)
   })
 
   /**
@@ -213,8 +223,11 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
    * to give, not this suite's to prevent.
    */
   it.each(HUES)('leaves a readable neutral for the %s surface', (hue) => {
-    const surface = token(`s-${hue}`)
-    const best = Math.max(contrast(token('c-black'), surface), contrast(token('c-white'), surface))
+    const surface = token(`sc-s-${hue}`)
+    const best = Math.max(
+      contrast(token('sc-c-black'), surface),
+      contrast(token('sc-c-white'), surface),
+    )
     expect(best).toBeGreaterThanOrEqual(4.5)
   })
 
@@ -230,7 +243,7 @@ describe.each(THEMES)('palette contrast — $name', ({ token }) => {
   it.each(['violet', 'green', 'orange', 'blue', 'gray', 'red'])(
     'code highlighted in %s is readable on the code surface',
     (name) => {
-      expect(contrast(token(`c-${name}`), token('s-gray'))).toBeGreaterThanOrEqual(4.5)
+      expect(contrast(token(`sc-c-${name}`), token('sc-s-gray'))).toBeGreaterThanOrEqual(4.5)
     },
   )
 
@@ -475,24 +488,25 @@ describe('face initials', () => {
  */
 describe.each(THEMES)('the apparatus reads on anything — $name', ({ token }) => {
   const LINES: readonly { readonly rule: string; readonly ink: RegExp }[] = [
-    { rule: '.of-selection', ink: /(?<![\w-])outline:[^;]*var\(--of-([\w-]+)\)/ },
-    { rule: '.of-guide', ink: /(?<![\w-])background:\s*var\(--of-([\w-]+)\)/ },
-    { rule: '.of-endpoint--leg', ink: /(?<![\w-])background:[^;]*var\(--of-([\w-]+)\)/ },
+    { rule: '.of-selection', ink: /(?<![\w-])outline:[^;]*var\(--((?:of|sc)-[\w-]+)\)/ },
+    { rule: '.of-guide', ink: /(?<![\w-])background:\s*var\(--((?:of|sc)-[\w-]+)\)/ },
+    { rule: '.of-endpoint--leg', ink: /(?<![\w-])background:[^;]*var\(--((?:of|sc)-[\w-]+)\)/ },
     // A table's selected cell: its ring sat on the grid lines and got lost.
-    { rule: '.of-table-ring', ink: /(?<![\w-])border:[^;]*var\(--of-([\w-]+)\)/ },
+    { rule: '.of-table-ring', ink: /(?<![\w-])border:[^;]*var\(--((?:of|sc)-[\w-]+)\)/ },
   ]
+  // Apparatus is drawn over the SCENE, so its grounds are the scene's.
   const GROUNDS = [
-    'page',
-    'bg',
-    ...COLOR_TOKENS.map((hue) => `s-${hue}`),
-    ...COLOR_TOKENS.map((hue) => `c-${hue}`),
+    'sc-ground',
+    'sc-ground-deep',
+    ...COLOR_TOKENS.map((hue) => `sc-s-${hue}`),
+    ...COLOR_TOKENS.map((hue) => `sc-c-${hue}`),
   ]
 
   describe.each(LINES)('$rule', ({ rule, ink }) => {
     const escaped = rule.replace(/[.-]/g, (c) => `\\${c}`)
     const body = new RegExp(`${escaped}\\s*\\{([^}]*)\\}`).exec(CSS)?.[1] ?? ''
     const line = ink.exec(body)?.[1]
-    const halo = /box-shadow:[^;]*var\(--of-([\w-]+)\)/.exec(body)?.[1]
+    const halo = /box-shadow:[^;]*var\(--((?:of|sc)-[\w-]+)\)/.exec(body)?.[1]
 
     it('names its colour and its halo as tokens', () => {
       expect(line, `${rule} names its colour`).toBeDefined()
@@ -500,13 +514,13 @@ describe.each(THEMES)('the apparatus reads on anything — $name', ({ token }) =
     })
 
     it('shows on its own halo (3:1)', () => {
-      expect(contrast(token(line ?? ''), token(halo ?? ''))).toBeGreaterThanOrEqual(3)
+      expect(contrast(token(tk(line ?? '')), token(tk(halo ?? '')))).toBeGreaterThanOrEqual(3)
     })
 
     it.each(GROUNDS)('shows, or its halo does, over %s (3:1)', (ground) => {
       const best = Math.max(
-        contrast(token(line ?? ''), token(ground)),
-        contrast(token(halo ?? ''), token(ground)),
+        contrast(token(tk(line ?? '')), token(ground)),
+        contrast(token(tk(halo ?? '')), token(ground)),
       )
       expect(best).toBeGreaterThanOrEqual(3)
     })
@@ -534,48 +548,47 @@ describe.each(THEMES)('edges that never vanish — $name', ({ token }) => {
     .map((path) => readFileSync(resolve(process.cwd(), path), 'utf8'))
     .join('\n')
 
-  it.each(['line-black', 'line-white'])('a %s stroke shows on the page and the board', (line) => {
-    expect(contrast(token(line), token('page'))).toBeGreaterThanOrEqual(3)
-    expect(contrast(token(line), token('bg'))).toBeGreaterThanOrEqual(3)
+  it.each(['line-black', 'line-white'])('a %s stroke shows on the ground', (line) => {
+    expect(contrast(token(`sc-${line}`), token('sc-ground'))).toBeGreaterThanOrEqual(3)
+    expect(contrast(token(`sc-${line}`), token('sc-ground-deep'))).toBeGreaterThanOrEqual(3)
   })
 
   // PRODUCT.md's recorded gap: a fresh shape's outline on its own default fill.
   it("a default shape's outline shows on its fill and on the page", () => {
-    expect(contrast(token('c-gray'), token('s-gray'))).toBeGreaterThanOrEqual(3)
-    expect(contrast(token('c-gray'), token('page'))).toBeGreaterThanOrEqual(3)
+    expect(contrast(token('sc-c-gray'), token('sc-s-gray'))).toBeGreaterThanOrEqual(3)
+    expect(contrast(token('sc-c-gray'), token('sc-ground'))).toBeGreaterThanOrEqual(3)
   })
 
   it("a frame's edge shows on the page", () => {
     const body = /\.of-frame__edge\s*\{([^}]*)\}/.exec(CSS)?.[1] ?? ''
-    const edge = /(?<![\w-])border:[^;]*var\(--of-([\w-]+)\)/.exec(body)?.[1] ?? ''
-    expect(contrast(token(edge), token('page'))).toBeGreaterThanOrEqual(3)
+    const edge = /(?<![\w-])border:[^;]*var\(--((?:of|sc)-[\w-]+)\)/.exec(body)?.[1] ?? ''
+    expect(contrast(token(tk(edge)), token('sc-ground'))).toBeGreaterThanOrEqual(3)
   })
 
   it("a table's lines show on its ground, inside and out", () => {
     const resolve = /function resolveLine[\s\S]*?\n}/.exec(TABLE)?.[0] ?? ''
-    const [outer, inner] = [...resolve.matchAll(/'var\(--of-([\w-]+)\)'/g)].map((m) => m[1] ?? '')
+    const [outer, inner] = [...resolve.matchAll(/'var\(--((?:of|sc)-[\w-]+)\)'/g)].map(
+      (m) => m[1] ?? '',
+    )
     expect(outer, 'the outer line names a token').toBeDefined()
     expect(inner, 'the inner line names a token').toBeDefined()
-    expect(contrast(token(outer ?? ''), token('panel'))).toBeGreaterThanOrEqual(3)
-    expect(contrast(token(inner ?? ''), token('panel'))).toBeGreaterThanOrEqual(3)
+    expect(contrast(token(tk(outer ?? '')), token('sc-panel'))).toBeGreaterThanOrEqual(3)
+    expect(contrast(token(tk(inner ?? '')), token('sc-panel'))).toBeGreaterThanOrEqual(3)
   })
 })
 
 /*
  * A frame's default paper is a surface text and objects sit on, and its edge is
- * how you find it: it takes the control border, which must show on it (3:1).
- * The paper is whatever stock the theme names; WHICH stock is the world's call.
+ * how you find it: it takes the scene's control border, which must show on it
+ * (3:1). The paper is scene content, so it is the same in every theme.
  */
-describe.each(THEMES)("a frame's paper edge — $name", ({ name, token }) => {
-  const block =
-    name === 'default'
-      ? [...CSS.matchAll(/:root\s*\{([^}]*)\}/g)].map((match) => match[1] ?? '').join('\n')
-      : (new RegExp(`:root\\[data-theme=['"]${name}['"]\\]\\s*\\{([^}]*)\\}`).exec(CSS)?.[1] ?? '')
-  const paper = /--of-frame-paper:\s*var\(--of-([\w-]+)\)/.exec(block)?.[1]
+describe("a frame's paper edge", () => {
+  const block = [...CSS.matchAll(/:root\s*\{([^}]*)\}/g)].map((match) => match[1] ?? '').join('\n')
+  const paper = /--sc-frame-paper:\s*var\(--((?:of|sc)-[\w-]+)\)/.exec(block)?.[1]
 
-  // Its edge is the control border (the Edge Rule), and it must show on it.
-  it('shows its edge (3:1)', () => {
-    expect(contrast(token('control-border'), token(paper ?? ''))).toBeGreaterThanOrEqual(3)
+  it.each(THEMES)('shows its edge (3:1) — $name', ({ token }) => {
+    expect(paper, 'the frame paper names the stock it is').toBeDefined()
+    expect(contrast(token('sc-control-border'), token(tk(paper ?? '')))).toBeGreaterThanOrEqual(3)
   })
 })
 
@@ -588,7 +601,7 @@ describe('an empty text', () => {
   it("an empty text's placeholder is muted ink, not a faded one", () => {
     const body = rule('.of-text--empty')
     expect(body).not.toMatch(/opacity/)
-    expect(body).toMatch(/(?<![\w-])color:\s*var\(--of-ink-muted\)/)
+    expect(body).toMatch(/(?<![\w-])color:\s*var\(--sc-ink-muted\)/)
   })
 })
 
@@ -670,9 +683,9 @@ describe.each(THEMES)("a poll's controls — $name", ({ token }) => {
   // The pairs the card can be drawn in: what `readableInkOn` gives a neutral
   // card, and the board's ink on every hue.
   const cards: readonly (readonly [string, string, string])[] = [
-    ['white', token('s-white'), token('c-black')],
-    ['black', token('s-black'), token('c-white')],
-    ...HUES.map((hue) => [hue, token(`s-${hue}`), token('ink')] as const),
+    ['white', token('sc-s-white'), token('sc-c-black')],
+    ['black', token('sc-s-black'), token('sc-c-white')],
+    ...HUES.map((hue) => [hue, token(`sc-s-${hue}`), token('sc-ink')] as const),
   ]
 
   it.each(['of-poll__option', 'of-poll__close'])('%s shows on every card (3:1)', (selector) => {

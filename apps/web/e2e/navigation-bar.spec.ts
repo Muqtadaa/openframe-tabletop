@@ -81,10 +81,10 @@ test.describe('the board menu', () => {
    * (owner, 10-07): neither carried the surface every other menu and sheet
    * does.
    */
-  for (const world of ['notebook', 'after-hours'] as const) {
+  for (const world of ['dark', 'light'] as const) {
     test(`sits on paper, and so does the history it opens (${world})`, async ({ page }) => {
       await page.addInitScript((theme) => {
-        if (theme === 'after-hours') localStorage.setItem('openframe:theme', theme)
+        if (theme === 'light') localStorage.setItem('openframe:theme', theme)
       }, world)
       await openBoard(page)
       const papered = (locator: Locator) =>
@@ -135,14 +135,14 @@ test.describe('the board menu', () => {
     await openBoard(page)
     const bar = page.getByTestId('status-bar')
     await expect(bar.getByRole('button', { name: 'Version history' })).toHaveCount(0)
-    await expect(bar.getByRole('button', { name: 'After Hours theme' })).toHaveCount(0)
+    await expect(bar.getByRole('button', { name: 'Light theme' })).toHaveCount(0)
     // Signed out, the theme is in the sign-in sheet.
     await page.getByTestId('sign-in').click()
-    await page.getByTestId('theme-after-hours').click()
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'after-hours')
+    await page.getByTestId('theme-light').click()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
     await expect(
       page.getByRole('radiogroup', { name: 'Theme' }).getByRole('radio', { checked: true }),
-    ).toHaveText('After Hours')
+    ).toHaveText('Light')
   })
 
   test('the theme is in the account sheet when signed in', async ({ page }) => {
@@ -153,11 +153,11 @@ test.describe('the board menu', () => {
     // The sheet takes the keyboard on arrival; the theme is one Tab on.
     await expect(sheet.getByRole('button', { name: 'Sign out' })).toBeFocused()
     await page.keyboard.press('Tab')
-    await expect(sheet.getByTestId('theme-notebook')).toBeFocused()
+    await expect(sheet.getByTestId('theme-dark')).toBeFocused()
     await page.keyboard.press('ArrowRight')
-    await expect(sheet.getByTestId('theme-after-hours')).toBeFocused()
-    await expect(sheet.getByTestId('theme-after-hours')).toHaveAttribute('aria-checked', 'true')
-    await expect(page.locator('html')).toHaveAttribute('data-theme', 'after-hours')
+    await expect(sheet.getByTestId('theme-light')).toBeFocused()
+    await expect(sheet.getByTestId('theme-light')).toHaveAttribute('aria-checked', 'true')
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   })
 })
 

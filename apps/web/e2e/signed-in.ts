@@ -429,7 +429,6 @@ export async function signedIn(
   const expiresAt = Math.floor(Date.now() / 1000) + 3600
   await page.addInitScript(
     ([ref, name, exp, uid]) => {
-      window.localStorage.setItem('openframe:splash-hold', 'off')
       window.localStorage.setItem(
         `sb-${String(ref)}-auth-token`,
         JSON.stringify({

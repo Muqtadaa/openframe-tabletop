@@ -52,7 +52,7 @@ export function BoardMenu({ onRename }: { readonly onRename: (() => void) | null
     stepFocus(event, { items: MENU_ITEMS, onTab: close })
   }
 
-  const afterHours = readTheme() === 'after-hours'
+  const light = readTheme() === 'light'
 
   return (
     <>
@@ -151,17 +151,17 @@ export function BoardMenu({ onRename }: { readonly onRename: (() => void) | null
                 type="button"
                 role="menuitemcheckbox"
                 tabIndex={-1}
-                aria-checked={afterHours}
+                aria-checked={light}
                 className="of-menu__item"
                 data-testid="board-menu-theme"
                 onClick={() => {
-                  applyTheme(afterHours ? 'notebook' : 'after-hours')
+                  applyTheme(light ? 'dark' : 'light')
                   close()
                 }}
               >
-                After Hours theme
+                Light theme
                 <span className="of-menu__shortcut" aria-hidden="true">
-                  {afterHours ? 'On' : 'Off'}
+                  {light ? 'On' : 'Off'}
                 </span>
               </button>
             )}

@@ -1,23 +1,27 @@
 /**
- * Which world the board is drawn in.
+ * Which theme the application is drawn in.
  *
- * Two, and they are not light-and-dark variants of one palette: they are two
- * complete worlds that happen to share token NAMES, which is the whole reason
- * a saved board never has to be touched when one is swapped for the other.
- * `notebook` is the engineering quadrille; `after-hours` is the same notebook
- * at night, lit by its own grid.
+ * Two: dark, the default, and light. They are themes of the APPLICATION only
+ * (ADR T010): navigation, panels, docks and menus. The scene (the ground a
+ * board is drawn on and every colour authored into it) belongs to no theme, so
+ * a saved board is the same board under either.
  *
- * Opt-in on purpose, and not wired to `prefers-color-scheme`. The default world
- * is the one the product was designed around, and a system preference set for
- * reading email at night is not a statement about how somebody wants to look at
- * their research.
+ * Opt-in on purpose, and not wired to `prefers-color-scheme`: a system setting
+ * chosen for reading email at night is not a statement about how somebody wants
+ * to run a table.
  */
-export const THEMES = ['notebook', 'after-hours'] as const
+export const THEMES = ['dark', 'light'] as const
 export type Theme = (typeof THEMES)[number]
 
-export const DEFAULT_THEME: Theme = 'notebook'
+export const DEFAULT_THEME: Theme = 'dark'
 
 const STORAGE_KEY = 'openframe:theme'
+
+/**
+ * The names OpenFrame stored before Tabletop, read as what they were: its
+ * default world was light and its night world was dark.
+ */
+const LEGACY: Readonly<Record<string, Theme>> = { notebook: 'light', 'after-hours': 'dark' }
 
 function isTheme(value: unknown): value is Theme {
   return typeof value === 'string' && (THEMES as readonly string[]).includes(value)
@@ -26,7 +30,8 @@ function isTheme(value: unknown): value is Theme {
 export function readTheme(): Theme {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
-    return isTheme(stored) ? stored : DEFAULT_THEME
+    if (isTheme(stored)) return stored
+    return (stored !== null ? LEGACY[stored] : undefined) ?? DEFAULT_THEME
   } catch {
     // Private mode, blocked storage, a locked-down embed. A preference that
     // cannot be read is a preference that is simply not set.
@@ -37,10 +42,9 @@ export function readTheme(): Theme {
 /**
  * Applies a theme to the document and remembers it.
  *
- * The default world carries NO attribute rather than `data-theme="notebook"`,
- * so the base `:root` block stays the thing that defines it. An attribute for
- * the default would make two selectors responsible for one palette, and the
- * next person would have to discover which one wins.
+ * The default carries NO attribute rather than `data-theme="dark"`, so the base
+ * `:root` block stays the thing that defines it. An attribute for the default
+ * would make two selectors responsible for one palette.
  */
 export function applyTheme(theme: Theme): void {
   const root = document.documentElement
@@ -56,13 +60,9 @@ export function applyTheme(theme: Theme): void {
 }
 
 /**
- * Paints the browser's own chrome — a phone's address bar, some desktop tab
- * strips — in the world's page colour.
- *
- * `index.html` starts it at the splash's void, which is right for the artwork
- * and wrong for everything after: it stayed violet over the Notebook's pale
- * page for the life of the tab. Read from the token rather than written
- * again, so the world stays the one place its colours are decided.
+ * Paints the browser's own chrome (a phone's address bar, some desktop tab
+ * strips) in the theme's surface colour. Read from the token rather than
+ * written again, so the theme stays the one place its colours are decided.
  */
 function tellBrowserChrome(): void {
   const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')

@@ -159,16 +159,16 @@
 .of-table-ring {
   position: absolute;
   box-sizing: border-box;
-  background: color-mix(in srgb, var(--of-accent) 16%, transparent);
-  border: 2px solid var(--of-accent);
+  background: color-mix(in srgb, var(--sc-select) 16%, transparent);
+  border: 2px solid var(--sc-select);
   box-shadow:
-    0 0 0 1px var(--of-page),
-    inset 0 0 0 1px var(--of-page);
+    0 0 0 1px var(--sc-halo),
+    inset 0 0 0 1px var(--sc-halo);
   pointer-events: none;
 }
 
 .of-table-ring--range {
-  background: color-mix(in srgb, var(--of-accent) 20%, transparent);
+  background: color-mix(in srgb, var(--sc-select) 20%, transparent);
 }
 
 /*

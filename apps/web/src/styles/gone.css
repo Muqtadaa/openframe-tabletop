@@ -24,7 +24,7 @@
   background: var(--of-panel);
   border: 1px solid var(--of-panel-border);
   border-radius: var(--of-radius-surface);
-  box-shadow: var(--of-slip-shadow);
+  box-shadow: var(--sc-slip-shadow);
 }
 
 .of-gone__title {

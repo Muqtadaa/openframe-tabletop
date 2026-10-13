@@ -246,11 +246,11 @@
 }
 
 .of-status__dot--connected {
-  background: var(--of-c-green);
+  background: var(--sc-c-green);
 }
 
 .of-status__dot--connecting {
-  background: var(--of-c-orange);
+  background: var(--sc-c-orange);
 }
 
 .of-status__dot--offline {

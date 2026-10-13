@@ -7,8 +7,26 @@ name: Deploy rooms
 # to deploy to one that does not exist. Restore the path-filtered push trigger
 # from git history (`apps/rooms/**`, `packages/collab/**`, `packages/core/**`,
 # the lockfile and this file, from `main` only) when the resources are real.
+#
+# THE KILL SWITCH IS HERE. Cloudflare will not stop spending at a number, so
+# shared play is paused by running this workflow with `paused` set to true: the
+# Worker is redeployed with ROOMS_PAUSED set and answers every request itself,
+# waking no room (apps/rooms/src/limits.ts). Run it again with `paused` false to
+# resume. It is the one lever on purpose: a value changed in the Cloudflare
+# dashboard is overwritten by the next deploy, and `keep_vars` would let a stale
+# one outlive a deploy, which is worse for a switch. A pause skips the tests,
+# because the pause is the safe state and the test suite takes about half an
+# hour; a resume runs them.
 on:
   workflow_dispatch:
+    inputs:
+      paused:
+        description: 'Pause shared play (true), or run it (false)'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+        default: 'false'
 
 concurrency:
   group: deploy-rooms
@@ -34,9 +52,11 @@ jobs:
       # so a broken deploy is not a percentage of traffic — it is the room. The
       # protocol and the room logic are tested here before anything is uploaded.
       - name: Test the room
+        if: inputs.paused != 'true'
         run: pnpm --filter @openframe/collab test
 
       - uses: ./.github/actions/playwright
+        if: inputs.paused != 'true'
 
       # The unit tests above test the protocol; these drive two browsers and an
       # MCP peer through a real workerd and Durable Object, which is the room
@@ -44,14 +64,17 @@ jobs:
       # again here because a deploy is of main as it stands after the merge,
       # not of any one PR's head.
       - name: Two windows, one board
+        if: inputs.paused != 'true'
         run: pnpm test:rooms
 
       - name: Typecheck the Worker
+        if: inputs.paused != 'true'
         run: pnpm --filter @openframe/rooms typecheck
 
       # Builds and validates the bundle and its bindings without uploading, so a
       # configuration mistake fails before it can touch a live room.
       - name: Dry run
+        if: inputs.paused != 'true'
         run: pnpm --filter @openframe/rooms exec wrangler deploy --dry-run
 
       - name: Deploy
@@ -59,6 +82,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: apps/rooms
+          # `false` runs shared play; anything else pauses it (limits.ts `isPaused`).
+          command: deploy --var ROOMS_PAUSED:${{ inputs.paused == 'true' && 'paused' || 'false' }}
           # Only needed when the token can see more than one account, in which
           # case wrangler cannot guess. Add CLOUDFLARE_ACCOUNT_ID as a
           # repository variable and this picks it up.

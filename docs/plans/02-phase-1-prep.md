@@ -61,33 +61,31 @@ makes cost control a requirement of Phase 1, set out below, and a gate on the fi
    rather than quietly continue, and that would take the rooms down. I have not verified Cloudflare's
    exact behaviour on a declined payment; check their billing documentation, and decide whether a
    stopped service is the failure you would rather have.
-3. **Per-room limits in the room server, built in Phase 1.** Today the room bounds a message's size
-   (close code 1009) and the connections still waiting for a hello (`MAX_PENDING`). It does **not** bound
-   how many sockets a room holds or how often one may send. To add, each with a test that shows it
-   firing and a test that a normal table never trips it:
-   - a ceiling on live connections per room (a table is 3 to 6 people, plus spectators and a cast
-     screen);
-   - a per-socket message rate and a per-room rate over a sliding window, closing the offender
-     (close code 1008) rather than relaying;
-   - a ceiling on a document's size and on its update log, so a room cannot grow without bound;
-   - a ceiling on rooms and Scenes a Game may hold, and on uploaded bytes per Game (enforced where
-     the Game catalogue is, in Postgres, and at upload).
+3. **Per-room limits in the room server. Built (2026-10-13).** A ceiling on live connections and on new
+   connections per minute, per-socket and per-room message rates, a per-socket byte rate, a ceiling on the
+   stored document, images held to 36 megapixels and (for a GIF) 6 MiB, and a cap of 200 images and 256 MiB
+   per board. The values, why each was chosen, and the tests that hold them are in
+   [09 · Collaboration](../architecture/09-collaboration.md#what-a-room-will-carry-the-cost-guard).
 4. **A budget the room enforces itself.** Counters kept in the room's own storage (never a timer):
    requests, awake time as far as it can be known, bytes written. A Game past its daily allowance has
    its rooms refuse new work with a plain message instead of spending more. The allowance is a value
    we set from the **plan's** included amounts divided over the Games we expect, never "today's
    reading plus a margin" (the rule the benchmark budgets already follow).
-5. **A kill switch.** One environment variable the Worker reads on every request: set it and every
-   room refuses new connections and uploads, cheaply, at the edge, before reaching a Durable Object.
-   It must be flippable from a phone (the dashboard, or the deploy workflow's manual run) and it has a
-   test.
-6. **No timers, held by tests.** `room.test.ts` already asserts a room keeps none (rule 29). Phase 1
-   adds a test that a room holding open but silent sockets reports itself eligible to hibernate.
+5. **A kill switch. Built (2026-10-13).** Run the **Deploy rooms** workflow (GitHub, Actions, Deploy
+   rooms, Run workflow) with `paused` set to **true**; set it back to **false** to resume. It works from a
+   phone browser on github.com. A paused Worker wakes no room, closes sockets with a code the client words as
+   "Paused · saved here", and refuses everything else with a five-minute wait. A pause skips the tests so it
+   takes a couple of minutes, not half an hour. It needs the Worker deployed once first, with
+   `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` set (step "What the owner creates", item 3). Details:
+   [09 · Collaboration](../architecture/09-collaboration.md#what-a-room-will-carry-the-cost-guard).
+6. **No timers, held by tests. Built (2026-10-13).** `tools/rooms/no-timers.test.ts` reads every room-server
+   source for `setTimeout` or `setInterval`; the limits are computed from the clock when something happens.
 
 ### Gate
 
 **No deploy of the Tabletop rooms Worker to the owner's account until steps 1, 3 and 5 exist and
-pass their tests,** and step 2 has been decided one way or the other. The deploy workflow stays
+pass their tests,** and step 2 has been decided one way or the other. Steps 3 and 5 are built; step 1 (the
+alerts) and step 2 are the owner's. The deploy workflow stays
 manual-only until then. Step 4 follows once there are real counters to read; until it does, the daily
 budget alert is the only signal, so keep the first deployed Games small and watch the Billable Usage
 page daily.

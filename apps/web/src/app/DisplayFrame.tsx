@@ -43,11 +43,19 @@ export function DisplayFrame() {
       <main className="of-board-main" aria-label="Board">
         <Canvas />
       </main>
-      {room !== null && room !== 'connected' && room !== 'gone' && room !== 'locked' && (
-        <p className="of-display-status" role="status" data-testid="display-status">
-          {room === 'connecting' ? 'Reconnecting…' : 'Offline. Showing the last table received.'}
-        </p>
-      )}
+      {room !== null &&
+        room !== 'connected' &&
+        room !== 'gone' &&
+        room !== 'locked' &&
+        room !== 'full' && (
+          <p className="of-display-status" role="status" data-testid="display-status">
+            {room === 'connecting'
+              ? 'Reconnecting…'
+              : room === 'paused'
+                ? 'Shared play is paused. Showing the last table received.'
+                : 'Offline. Showing the last table received.'}
+          </p>
+        )}
       <BoardGone />
       <BoardLocked />
     </div>

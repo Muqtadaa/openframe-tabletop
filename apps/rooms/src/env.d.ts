@@ -16,4 +16,16 @@ export interface Env {
    * minutes for a version (ADR 0019). Never set in `wrangler.toml`.
    */
   readonly HISTORY_TIMING?: string
+  /**
+   * A lower ceiling on a stored document, in bytes, for the rooms suite only
+   * (`limits.ts`). Never set in `wrangler.toml`.
+   */
+  readonly DOCUMENT_CEILING_BYTES?: string
+  /**
+   * The kill switch (`limits.ts` `isPaused`). Anything but empty or an explicit
+   * no pauses shared play: the Worker answers before any room is woken. Set by
+   * the deploy workflow's `paused` input, since a value changed in the
+   * dashboard is overwritten by the next deploy.
+   */
+  readonly ROOMS_PAUSED?: string
 }

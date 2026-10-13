@@ -1,4 +1,7 @@
+import { CLOSE_ROOMS_PAUSED } from '@openframe/collab'
+
 import type { Env } from './env.js'
+import { pauseDecision } from './limits.js'
 import { routeRequest } from './route.js'
 
 export { BoardRoomObject } from './room-object.js'
@@ -21,6 +24,38 @@ export { BoardRoomObject } from './room-object.js'
 export default {
   fetch(request: Request, env: Env): Response | Promise<Response> {
     const route = routeRequest(new URL(request.url), request.headers.get('Upgrade'), request.method)
+
+    /*
+     * THE KILL SWITCH, before any room is looked up. Cloudflare will not stop
+     * spending at a number, so this is how the operator does (`limits.ts`): a
+     * paused Worker wakes no Durable Object, whatever the request. Health
+     * checks, preflights and malformed paths still answer as ever, since none
+     * of them names a room.
+     */
+    if (route.kind !== 'health' && route.kind !== 'preflight' && route.kind !== 'refuse') {
+      const paused = pauseDecision(env.ROOMS_PAUSED, route.kind === 'room' ? 'room' : 'other')
+      if (paused.kind === 'socket') {
+        // Accepted here and closed at once, so the client reads a code rather
+        // than a failed handshake (which reaches a browser as a bare 1006,
+        // indistinguishable from the wifi). Never `acceptWebSocket`: nothing
+        // here should outlive this call.
+        const pair = new WebSocketPair()
+        const client = pair[0]
+        const server = pair[1]
+        server.accept()
+        server.close(CLOSE_ROOMS_PAUSED, 'Shared play is paused')
+        return new Response(null, { status: 101, webSocket: client })
+      }
+      if (paused.kind === 'refuse') {
+        return new Response(paused.reason, {
+          status: paused.status,
+          headers: {
+            'Retry-After': String(paused.retryAfterSeconds),
+            'access-control-allow-origin': '*',
+          },
+        })
+      }
+    }
 
     switch (route.kind) {
       case 'health':

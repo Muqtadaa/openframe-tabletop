@@ -1,6 +1,7 @@
 import {
   BoardRoom,
   CLOSE_BOARD_DELETED,
+  CLOSE_BOARD_FULL,
   CLOSE_PASSWORD_REQUIRED,
   decodeHello,
   documentFromSnapshot,
@@ -43,6 +44,17 @@ import { readBounded } from './body.js'
 import { DocumentStore } from './document-store.js'
 import { RoomHistory, timingFrom } from './history.js'
 import { InFlight } from './in-flight.js'
+import {
+  admitDecision,
+  assetQuotaDecision,
+  AttemptWindow,
+  CLOSE_POLICY,
+  documentCeiling,
+  documentIsFull,
+  LIMITS,
+  TokenBucket,
+  type AssetTally,
+} from './limits.js'
 import type { Env } from './env.js'
 
 /**
@@ -107,6 +119,13 @@ const UNLOCK_THROTTLE = 'unlock-throttle'
  * writes it down.
  */
 const BOARD_ID = 'board-id'
+/**
+ * How many images this board has stored and how many bytes they come to
+ * (`AssetTally`). Reserved when an upload is admitted, by its declared length,
+ * and put right when the write finishes, so two uploads arriving together
+ * cannot both pass a limit only one of them fits under.
+ */
+const ASSET_TALLY = 'asset-tally'
 
 const CORS = {
   'access-control-allow-origin': '*',
@@ -123,6 +142,19 @@ export class BoardRoomObject extends DurableObject<Env> {
   /** The board's earlier versions (ADR 0019). */
   #history!: RoomHistory
   #knownBoardId: string | null = null
+  /**
+   * What each socket and the room as a whole have sent lately (`limits.ts`).
+   * In memory on purpose: they are only worth anything while sockets are busy,
+   * a busy room is not evicted, and so nothing here needs to survive an
+   * eviction or to be reset by a timer (rule 29).
+   */
+  readonly #sent = new Map<string, { messages: TokenBucket; bytes: TokenBucket }>()
+  readonly #roomRate = new TokenBucket(
+    LIMITS.roomMessages.burst,
+    LIMITS.roomMessages.perSecond,
+    Date.now(),
+  )
+  readonly #attempts = new AttemptWindow(LIMITS.attempts.count, LIMITS.attempts.windowMs)
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env)
@@ -230,6 +262,14 @@ export class BoardRoomObject extends DurableObject<Env> {
       })
     }
 
+    const admitted = admitDecision(this.ctx.getWebSockets().length, this.#attempts, Date.now())
+    if (!admitted.ok) {
+      return new Response(admitted.reason, {
+        status: admitted.status,
+        headers: { 'Retry-After': String(admitted.retryAfterSeconds) },
+      })
+    }
+
     const pair = new WebSocketPair()
     const client = pair[0]
     const server = pair[1]
@@ -305,6 +345,16 @@ export class BoardRoomObject extends DurableObject<Env> {
      * board that locks out the person whose board it is — on a new machine, or
      * after they have forgotten it — is a board they have lost.
      */
+    // An editor is not let in to a board the room will not keep growing: they
+    // are told why, and keep their own copy. Viewers read it as ever.
+    if (
+      role === 'editor' &&
+      documentIsFull(this.#document.storedBytes, documentCeiling(this.env.DOCUMENT_CEILING_BYTES))
+    ) {
+      socket.close(CLOSE_BOARD_FULL, 'This board is full')
+      return
+    }
+
     const verifier = await this.ctx.storage.get<PasswordVerifier>(PASSWORD)
     const owner = isOwnerKey(await this.ctx.storage.get<AccessKeys>(KEYS), hello.ownerKey)
     if (!owner && !tokenAdmits(verifier, hello.token)) {
@@ -326,6 +376,16 @@ export class BoardRoomObject extends DurableObject<Env> {
   }
 
   override async webSocketMessage(socket: WebSocket, message: ArrayBuffer | string): Promise<void> {
+    /*
+     * BEFORE anything reads the message, hello included: a flood of frames is
+     * paid for whether or not they would have been understood. The sender is
+     * put out and nobody else is touched.
+     */
+    if (!this.#withinRate(socket, message)) {
+      this.#room.leave(this.#peer(socket))
+      socket.close(CLOSE_POLICY, 'Sending too fast')
+      return
+    }
     // Not yet admitted: this is its hello, or it is closed.
     if (this.#pending(socket)) {
       await this.#admit(socket, message)
@@ -335,6 +395,20 @@ export class BoardRoomObject extends DurableObject<Env> {
     // a proxy or a stray client should not be able to close a room.
     if (typeof message === 'string') return
     const peer = this.#peer(socket)
+    /*
+     * A board past what a room keeps takes no more from an editor, and says so
+     * rather than dropping their change in silence: their device keeps its own
+     * copy, and the client stops trying (`CLOSE_BOARD_FULL`). Everyone who only
+     * reads carries on.
+     */
+    if (
+      peer.role === 'editor' &&
+      documentIsFull(this.#document.storedBytes, documentCeiling(this.env.DOCUMENT_CEILING_BYTES))
+    ) {
+      this.#room.leave(peer)
+      socket.close(CLOSE_BOARD_FULL, 'This board is full')
+      return
+    }
     const received = this.#room.receive(peer, new Uint8Array(message))
     if (received === 'accepted') return
     /*
@@ -349,11 +423,42 @@ export class BoardRoomObject extends DurableObject<Env> {
   }
 
   override webSocketClose(socket: WebSocket): void {
-    this.#room.leave(this.#peer(socket))
+    this.#forget(socket)
   }
 
   override webSocketError(socket: WebSocket): void {
-    this.#room.leave(this.#peer(socket))
+    this.#forget(socket)
+  }
+
+  #forget(socket: WebSocket): void {
+    const peer = this.#peer(socket)
+    this.#room.leave(peer)
+    this.#sent.delete(peer.id)
+  }
+
+  /**
+   * Whether this message is within what the socket, and the room, may send.
+   * Bytes are counted for the socket, messages for both, so that one client
+   * cannot spend the room's allowance and a room full of ordinary clients
+   * cannot be tipped over by none of them misbehaving.
+   */
+  #withinRate(socket: WebSocket, message: ArrayBuffer | string): boolean {
+    const now = Date.now()
+    const id = (socket.deserializeAttachment() as { id?: string } | null)?.id ?? 'unknown'
+    let sent = this.#sent.get(id)
+    if (sent === undefined) {
+      sent = {
+        messages: new TokenBucket(
+          LIMITS.socketMessages.burst,
+          LIMITS.socketMessages.perSecond,
+          now,
+        ),
+        bytes: new TokenBucket(LIMITS.socketBytes.burst, LIMITS.socketBytes.perSecond, now),
+      }
+      this.#sent.set(id, sent)
+    }
+    const size = typeof message === 'string' ? message.length : message.byteLength
+    return sent.messages.take(1, now) && sent.bytes.take(size, now) && this.#roomRate.take(1, now)
   }
 
   /** Whether a socket has yet to say who it is. */
@@ -414,6 +519,21 @@ export class BoardRoomObject extends DurableObject<Env> {
        */
       const contentType = decision.contentType
       const declared = Number(request.headers.get('content-length'))
+
+      /*
+       * The board's allowance, judged on the declared length and RESERVED
+       * before the body is read: a board at its limit spends nothing on a
+       * refusal, and two uploads arriving together cannot both pass a limit
+       * only one fits under. Put back below if the upload does not land.
+       */
+      const tally = (await this.ctx.storage.get<AssetTally>(ASSET_TALLY)) ?? { count: 0, bytes: 0 }
+      const quota = assetQuotaDecision(tally, declared)
+      if (!quota.ok) return new Response(quota.reason, { status: quota.status, headers: CORS })
+      await this.ctx.storage.put(ASSET_TALLY, {
+        count: tally.count + 1,
+        bytes: tally.bytes + declared,
+      } satisfies AssetTally)
+
       const stored = await this.#uploads.track(
         (async () => {
           const upload = await checkUpload(contentType, declared, request.body)
@@ -423,6 +543,11 @@ export class BoardRoomObject extends DurableObject<Env> {
         })(),
       )
       if (!stored.ok) {
+        const now = (await this.ctx.storage.get<AssetTally>(ASSET_TALLY)) ?? { count: 0, bytes: 0 }
+        await this.ctx.storage.put(ASSET_TALLY, {
+          count: Math.max(0, now.count - 1),
+          bytes: Math.max(0, now.bytes - declared),
+        } satisfies AssetTally)
         return new Response(stored.reason, { status: stored.status, headers: CORS })
       }
       /*

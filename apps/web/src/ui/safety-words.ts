@@ -44,6 +44,24 @@ const RECONNECTING_TIP =
 export function safetyWords(save: SaveState, room: RoomStatus | null): SafetyWords {
   // A failure, or a board that is never written, says so whatever the room.
   if (room === null || save === 'failed' || save === 'read-only') return LOCAL[save]
+  // Past the size a room keeps: still saved here, no longer sent. Said apart
+  // from "offline", because waiting will not change it.
+  if (room === 'full') {
+    return {
+      label: 'Not shared · board full',
+      tip: 'This board has reached the size a room keeps. Changes are saved on this device and are not sent.',
+      tone: 'away',
+    }
+  }
+  // The operator has paused shared play: kept here, sent when it resumes. Said
+  // apart from "offline", which is a fault, so nobody goes looking for one.
+  if (room === 'paused') {
+    return {
+      label: save === 'saved' ? 'Paused · saved here' : 'Paused · saving…',
+      tip: 'Shared play is paused. Changes are kept on this device and sent when it resumes.',
+      tone: 'away',
+    }
+  }
   const settled = save === 'saved'
   if (room === 'connected') {
     return settled

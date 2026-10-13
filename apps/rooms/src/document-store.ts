@@ -66,12 +66,24 @@ const bufferOf = (bytes: Uint8Array): ArrayBuffer =>
 
 export class DocumentStore {
   #sequence = 0
+  /**
+   * What the document takes in storage: the snapshot and the log since, as far
+   * as this object has seen. Kept as a running total rather than measured on
+   * demand, because the room asks on every message and a measurement would be
+   * a read of storage each time.
+   */
+  #bytes = 0
 
   constructor(
     private readonly storage: DocumentStorage,
     /** The whole document as it is now, for a compaction. */
     private readonly snapshot: () => Uint8Array,
   ) {}
+
+  /** The stored document's size, for the room's ceiling (`limits.ts`). */
+  get storedBytes(): number {
+    return this.#bytes
+  }
 
   /** Whether anything has been written: a room that holds a board is not a fresh one. */
   async holdsBoard(): Promise<boolean> {
@@ -101,6 +113,7 @@ export class DocumentStore {
       out.push(whole)
     }
     for (const value of updates.values()) out.push(new Uint8Array(value))
+    this.#bytes = out.reduce((total, part) => total + part.byteLength, 0)
     return out
   }
 
@@ -116,6 +129,7 @@ export class DocumentStore {
       return
     }
     await this.storage.put({ [keyOf(UPDATE_PREFIX, this.#sequence++)]: bufferOf(update) })
+    this.#bytes += update.byteLength
     if (this.#sequence >= COMPACT_AFTER) await this.compact()
   }
 
@@ -153,5 +167,6 @@ export class DocumentStore {
       await this.storage.delete(stale.slice(at, at + KEYS_PER_CALL))
     }
     this.#sequence = 0
+    this.#bytes = whole.byteLength
   }
 }

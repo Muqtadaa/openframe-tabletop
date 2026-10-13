@@ -6,6 +6,7 @@ const launchOverrides =
   chromiumPath === undefined ? {} : { launchOptions: { executablePath: chromiumPath } }
 
 const ROOM_SERVER = 'http://127.0.0.1:8787'
+const PAUSED_SERVER = 'http://127.0.0.1:8788'
 
 /**
  * A production build, served as the host serves it.
@@ -51,10 +52,22 @@ export default defineConfig({
       // `--local` is the point: a real workerd with a real SQLite-backed
       // Durable Object, and no Cloudflare account involved. History runs on
       // seconds rather than minutes, so `history.spec.ts` sees a version
-      // without waiting two minutes for editing to settle.
+      // without waiting two minutes for editing to settle. The document ceiling is
+      // 10 MiB here rather than 24, so `limits.spec.ts` can reach it with a board
+      // a browser can hold; the largest board any other spec makes is 6 MB.
       command:
-        'pnpm --filter @openframe/rooms exec wrangler dev --port 8787 --local --var HISTORY_TIMING:1000,3000',
+        'pnpm --filter @openframe/rooms exec wrangler dev --port 8787 --local --var HISTORY_TIMING:1000,3000 --var DOCUMENT_CEILING_BYTES:10485760',
       url: `${ROOM_SERVER}/health`,
+      reuseExistingServer: !isCI,
+      timeout: 120_000,
+    },
+    {
+      // A second room server with the kill switch thrown, for `paused.spec.ts`.
+      // Its own state directory and inspector port, so the two workerds do not
+      // share storage or fight over a port.
+      command:
+        'pnpm --filter @openframe/rooms exec wrangler dev --port 8788 --inspector-port 9230 --local --persist-to .wrangler/paused --var ROOMS_PAUSED:1',
+      url: `${PAUSED_SERVER}/health`,
       reuseExistingServer: !isCI,
       timeout: 120_000,
     },

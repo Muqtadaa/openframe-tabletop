@@ -6,6 +6,8 @@ import { applyPatchesToDoc, objectsFromDoc } from './document-map.js'
 import { createAwareness, decodeHello, type RoomRole } from './protocol.js'
 import {
   CLOSE_BOARD_DELETED,
+  CLOSE_BOARD_FULL,
+  CLOSE_ROOMS_PAUSED,
   CLOSE_PASSWORD_REQUIRED,
   RoomProvider,
   type RoomSocket,
@@ -334,6 +336,78 @@ describe('a board that wants its password', () => {
 
     expect(visitor.provider.status).toBe('locked')
     expect(visitor.wires.length).toBe(attempts)
+  })
+})
+
+/**
+ * A board past the size a room keeps (the cost guard).
+ *
+ * The room closes the editor with 4006 rather than applying a change it will
+ * not store. Retrying cannot help, since the board is the same size next time,
+ * so the provider stops and says so; the device's own copy is untouched.
+ */
+describe('a board that has outgrown the room', () => {
+  it('stops and says it is full, rather than retrying into the same refusal', async () => {
+    const room = new BoardRoom()
+    const editor = client(room, 'editor')
+    editor.provider.start()
+    await settle()
+
+    const attempts = editor.wires.length
+    editor.wires[0]?.drop(CLOSE_BOARD_FULL)
+    await settle()
+
+    expect(editor.provider.status).toBe('full')
+    expect(editor.wires.length).toBe(attempts)
+  })
+})
+
+/**
+ * Shared play paused by its operator (the cost guard's kill switch).
+ *
+ * The Worker closes the socket with 4005 before any room wakes. The provider
+ * says so and waits a long, fixed time rather than backing off from a second:
+ * every retry is a request to a server that has just asked to be left alone, and
+ * a pause that ends should be picked up without a reload.
+ */
+describe('shared play that is paused', () => {
+  it('says paused and waits a minute or so, rather than retrying like a dropped connection', async () => {
+    const room = new BoardRoom()
+    const wires: Wire[] = []
+    const statuses: string[] = []
+    const waits: number[] = []
+    const doc = new Y.Doc()
+    const provider = new RoomProvider({
+      doc,
+      awareness: createAwareness(doc),
+      onStatus: (status) => statuses.push(status),
+      connect: () => {
+        const wire = new Wire()
+        wires.push(wire)
+        queueMicrotask(() => {
+          wire.connectTo(room, `paused-${String(wires.length)}`)
+        })
+        return wire.client
+      },
+      // Recorded, not run: what matters is how long it asks to wait.
+      setTimer: (_run, ms) => {
+        waits.push(ms)
+        return waits.length
+      },
+      clearTimer: () => undefined,
+    })
+    provider.start()
+    await settle()
+
+    wires[0]?.drop(CLOSE_ROOMS_PAUSED)
+    await settle()
+
+    expect(provider.status).toBe('paused')
+    expect(wires.length).toBe(1)
+    // A minute, give or take the jitter; a dropped connection would ask for about a second.
+    expect(waits).toHaveLength(1)
+    expect(waits[0]).toBeGreaterThanOrEqual(45_000)
+    expect(waits[0]).toBeLessThanOrEqual(75_000)
   })
 })
 

@@ -256,6 +256,69 @@ single transaction (`seedDoc`) and sets `room.seeded`.
 
 ---
 
+## What a room will carry (the cost guard)
+
+Cloudflare bills Durable Object time and requests past the plan's included
+amounts automatically, and nothing on its side stops at a number: a budget alert
+is informational and arrives the day after
+([the preparation notes](../plans/02-phase-1-prep.md) have the sources). So the
+stop is the room's own, in `apps/rooms/src/limits.ts`, as values in and a
+decision out like `access.ts`, so it can be run without deploying.
+
+Every limit bounds a WORST CASE, and is set well above what three to six people
+do. An eight-hour session on eight devices with a cursor at ten a second is
+about 3,600 GB-s and 115,000 billed requests, under one per cent of a month's
+included allowance: ordinary play is not what these are for.
+
+| Limit                              | Value                            | Refusal                            |
+| ---------------------------------- | -------------------------------- | ---------------------------------- |
+| Live connections in a room         | 24                               | 503 and `Retry-After: 30`          |
+| New connections, rolling minute    | 60                               | 429 and `Retry-After: 60`          |
+| Messages from one socket           | burst 120, 60 a second sustained | close 1008 "Sending too fast"      |
+| Messages from all sockets together | burst 1,200, 400 a second        | the sender that trips it is closed |
+| Bytes from one socket              | burst 32 MiB, 512 KiB a second   | close 1008                         |
+| The stored document                | 24 MiB (snapshot and log)        | editors closed with 4006 (`full`)  |
+| A still image                      | 12 MiB and 36 megapixels         | 413                                |
+| An animated GIF                    | 6 MiB                            | 413                                |
+| Images on one board                | 200 files and 256 MiB            | 507                                |
+
+- **Waiting connections** (`MAX_PENDING`, 16) count against the room's 24, so a
+  stranger who knows only a board id can never hold the seats the table needs.
+  It was 32 before the room had a total ceiling, and a cap above the ceiling is
+  a rule nothing can reach.
+- **The kill switch.** `ROOMS_PAUSED` on the Worker. Unset, empty or an explicit
+  no runs shared play; ANY other value pauses it, so a typo cannot leave it
+  running. A paused Worker answers before it looks up a room, so it wakes no
+  Durable Object: a socket is accepted by the Worker itself and closed with
+  `CLOSE_ROOMS_PAUSED` (4005), and everything else gets 503 and
+  `Retry-After: 300`. The health check and CORS preflights still answer. The
+  client says "Paused · saved here" and tries again about once a minute, so a
+  pause that ends is picked up without a reload and a paused room is not hammered.
+  It is thrown by running **Deploy rooms** (`.github/workflows/deploy-rooms.yml`)
+  with `paused` set to true; a pause skips the half-hour of tests, a resume runs
+  them. That workflow is the one lever: Cloudflare overwrites a value changed in
+  its dashboard on the next deploy unless `keep_vars` is set, and that would let a
+  stale value outlive a deploy.
+- **No timers (rule 29).** Buckets and windows are worked out from the clock when
+  a message arrives; nothing wakes to reset them. They live in memory, because
+  they only matter while sockets are busy and a busy room is not evicted.
+- **A refusal never loses work (rule 7).** A board past its ceiling closes its
+  editors with `CLOSE_BOARD_FULL` rather than dropping their changes in silence.
+  The client stops retrying (`ConnectionStatus` `full`), the bar says
+  "Not shared · board full", and the device keeps its own copy. Viewers carry on.
+- **One image policy.** The browser and the room read the same
+  `@openframe/core/uploads`, so neither promises what the other refuses. A
+  picture's size is read from its header, and an unreadable header is refused, since
+  a limit that skips what it cannot read is not one. The room's refusals reach the
+  person who dropped the file in as `AssetRefused`, in the room's words, and the
+  picture is not kept to be retried.
+- **Held by tests.** Each limit has a unit test for its arithmetic, a test that a
+  busy table never trips it, and a rooms spec (`e2e-rooms/limits.spec.ts`,
+  `uploads.spec.ts`, `paused.spec.ts`) against a real Durable Object, and
+  `tools/rooms/no-timers.test.ts` reads the room server's source for a timer. Each
+  check was removed once to see its test fail. The rooms suite lowers the document ceiling to 10 MiB
+  (`DOCUMENT_CEILING_BYTES`, never set in `wrangler.toml`) so a browser can reach it.
+
 ## Open problems
 
 ### Concurrent edits to the same object

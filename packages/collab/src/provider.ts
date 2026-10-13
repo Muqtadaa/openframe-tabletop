@@ -62,12 +62,40 @@ export const CLOSE_BOARD_DELETED = 4004
 export const CLOSE_PASSWORD_REQUIRED = 4003
 
 /**
- * `gone` and `locked` are TERMINAL. The others are stages of trying; these two
+ * The room's code for "this board has outgrown what a room keeps", sent to an
+ * editor instead of applying their change.
+ *
+ * Terminal, because retrying cannot succeed: the board is the same size on the
+ * next attempt. The client's own copy is untouched (it is saved on the device
+ * first), so nothing is lost; it is just no longer sent. Defined here beside
+ * the others so the two ends cannot drift.
+ */
+export const CLOSE_BOARD_FULL = 4006
+
+/**
+ * The room server's code for "shared play is paused", sent by the Worker itself
+ * before any room is woken (the cost guard's kill switch).
+ *
+ * Not terminal: a pause ends, and the people at the table should not have to
+ * reload to find out. But not retried like a dropped connection either, since
+ * every retry is a request to a server that has just asked to be left alone.
+ * The provider says `paused` and tries again at a slow, fixed pace.
+ */
+export const CLOSE_ROOMS_PAUSED = 4005
+
+/** How long a paused room is left alone before the next attempt. */
+const PAUSED_RETRY_MS = 60_000
+
+/**
+ * `paused` is waiting, not stopped: it is retried slowly (`CLOSE_ROOMS_PAUSED`).
+ *
+ * `gone`, `locked` and `full` are TERMINAL. The others are stages of trying; these two
  * mean there is nothing left to try without something changing outside the
  * connection — a room that has been destroyed, or a password nobody has
  * entered yet. Retrying either is a loop with no exit.
  */
-export type ConnectionStatus = 'connecting' | 'connected' | 'offline' | 'gone' | 'locked'
+export type ConnectionStatus =
+  'connecting' | 'connected' | 'offline' | 'gone' | 'locked' | 'full' | 'paused'
 
 export interface RoomProviderOptions {
   readonly doc: Y.Doc
@@ -327,6 +355,14 @@ export class RoomProvider {
         this.#stop('locked')
         return
       }
+      if (code === CLOSE_BOARD_FULL) {
+        this.#stop('full')
+        return
+      }
+      if (code === CLOSE_ROOMS_PAUSED) {
+        this.#paused()
+        return
+      }
       this.#dropped()
     })
     socket.onError(() => {
@@ -395,6 +431,20 @@ export class RoomProvider {
       this.#retryHandle = null
       this.start()
     }, wait)
+  }
+
+  /** Waits out a pause at a fixed pace, with jitter so a table does not return on one millisecond. */
+  #paused(): void {
+    if (this.#stopped) return
+    this.#closeSocket()
+    this.#setStatus('paused')
+    this.#retryHandle = this.#setTimer(
+      () => {
+        this.#retryHandle = null
+        this.start()
+      },
+      PAUSED_RETRY_MS * (0.75 + Math.random() / 2),
+    )
   }
 
   #closeSocket(): void {

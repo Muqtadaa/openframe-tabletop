@@ -1,5 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
-import { asAssetId, type AssetBlob, type AssetId, type AssetRef } from '@openframe/core'
+import {
+  AssetRefused,
+  asAssetId,
+  type AssetBlob,
+  type AssetId,
+  type AssetRef,
+} from '@openframe/core'
 
 import { isLocalOnly, RoomAssetStore, type LocalAssetStore } from './room-asset-store.js'
 
@@ -109,6 +115,40 @@ describe('putting an image', () => {
       fetch: () => Promise.resolve(new Response('no', { status: 403 })),
     })
     expect(isLocalOnly(await store.put(ID, blobOf(10)))).toBe(true)
+  })
+
+  /**
+   * The room's limits are final answers, not failures to retry: keeping the
+   * picture would be an upload that can never land, tried again on every open.
+   */
+  it.each([
+    [413, 'That image is too large'],
+    [415, 'That is not an image this board accepts'],
+    [507, 'This board has reached its image limit'],
+  ])(
+    "says so, in the room's words, and keeps nothing, when the room answers %i",
+    async (status, words) => {
+      const local = new FakeLocal()
+      const store = new RoomAssetStore(local, {
+        url,
+        credentials,
+        fetch: () => Promise.resolve(new Response(words, { status })),
+      })
+      await expect(store.put(ID, blobOf(10))).rejects.toThrow(AssetRefused)
+      await expect(store.put(ID, blobOf(10))).rejects.toThrow(`${words}.`)
+      expect(local.held.has(ID)).toBe(false)
+    },
+  )
+
+  it('still keeps the picture, to try again, when the room is merely down', async () => {
+    const local = new FakeLocal()
+    const store = new RoomAssetStore(local, {
+      url,
+      credentials,
+      fetch: () => Promise.resolve(new Response('busy', { status: 503 })),
+    })
+    expect(isLocalOnly(await store.put(ID, blobOf(10)))).toBe(true)
+    expect(local.held.has(ID)).toBe(true)
   })
 })
 

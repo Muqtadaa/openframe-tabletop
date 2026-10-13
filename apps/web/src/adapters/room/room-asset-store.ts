@@ -1,3 +1,4 @@
+import { AssetRefused } from '@openframe/core'
 import type { AssetBlob, AssetId, AssetRef, AssetStore } from '@openframe/core'
 
 /**
@@ -50,6 +51,9 @@ export interface RoomAssetStoreOptions {
   readonly fetch?: typeof globalThis.fetch
 }
 
+/** The statuses that are the room's final answer, not a failure to try again: 413, 415, 507. */
+const REFUSALS: ReadonlySet<number> = new Set([413, 415, 507])
+
 export class RoomAssetStore implements AssetStore {
   readonly #local: LocalAssetStore
   readonly #options: RoomAssetStoreOptions
@@ -73,7 +77,13 @@ export class RoomAssetStore implements AssetStore {
    */
   async put(id: AssetId, blob: AssetBlob): Promise<AssetRef> {
     const ref = await this.#local.put(id, blob)
-    return (await this.#upload(id, blob)) ? { ...ref, locator: remoteLocator(id) } : ref
+    try {
+      return (await this.#upload(id, blob)) ? { ...ref, locator: remoteLocator(id) } : ref
+    } catch (error) {
+      // Final, so the local copy goes too: it would only ever be retried.
+      if (error instanceof AssetRefused) await this.#local.delete(id)
+      throw error
+    }
   }
 
   /**
@@ -135,8 +145,9 @@ export class RoomAssetStore implements AssetStore {
    * different question, and one that answers itself later.
    */
   async #upload(id: AssetId, blob: AssetBlob): Promise<boolean> {
+    let response: Response
     try {
-      const response = await this.#fetch(this.#options.url(id), {
+      response = await this.#fetch(this.#options.url(id), {
         method: 'PUT',
         headers: {
           'content-type': blob.type,
@@ -147,10 +158,18 @@ export class RoomAssetStore implements AssetStore {
         },
         body: await blob.arrayBuffer(),
       })
-      return response.ok
     } catch {
       return false
     }
+    // The room's own limits (`apps/rooms/src/limits.ts`): too large, not an
+    // image it takes, or a board with all the images it will keep. Said in the
+    // room's words, since they name which.
+    if (REFUSALS.has(response.status)) {
+      throw new AssetRefused(
+        `${(await response.text().catch(() => '')) || 'The room refused that image'}.`,
+      )
+    }
+    return response.ok
   }
 
   #headers(): Record<string, string> {

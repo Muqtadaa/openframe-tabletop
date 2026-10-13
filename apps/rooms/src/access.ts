@@ -378,11 +378,14 @@ export function pendingTooLong(attached: unknown, now: number = Date.now()): boo
 }
 
 /**
- * The most connections a room keeps waiting for a hello at once. Far more
- * than people open a board at the same moment, and far fewer than the
- * platform's limit on a room's sockets.
+ * The most connections a room keeps waiting for a hello at once: two thirds of
+ * the room's whole allowance (`LIMITS.connections`), so a stranger who knows
+ * only a board id can never hold the sockets the people at the table need.
+ * Far more than people open a board at the same moment — a client says hello
+ * as soon as it connects, and a whole table clicking a link together is
+ * a handful.
  */
-export const MAX_PENDING = 32
+export const MAX_PENDING = 16
 
 /**
  * What a new connection finds among those still waiting to say who they are:

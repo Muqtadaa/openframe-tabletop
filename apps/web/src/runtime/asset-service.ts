@@ -1,3 +1,4 @@
+import { AssetRefused } from '@openframe/core'
 import type {
   AssetBlob,
   AssetId,
@@ -102,11 +103,18 @@ export class AssetService {
     }
 
     const id = this.#ids.assetId()
-    const ref = await this.#store.put(id, {
-      size: file.size,
-      type: validation.type,
-      arrayBuffer: () => Promise.resolve(bytes),
-    })
+    let ref: AssetRef
+    try {
+      ref = await this.#store.put(id, {
+        size: file.size,
+        type: validation.type,
+        arrayBuffer: () => Promise.resolve(bytes),
+      })
+    } catch (error) {
+      // The room said no, in words meant for whoever dropped the file in.
+      if (error instanceof AssetRefused) return { ok: false, message: error.message }
+      throw error
+    }
 
     return {
       ok: true,

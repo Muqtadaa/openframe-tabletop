@@ -25,4 +25,23 @@ describe('the safety readout', () => {
     expect(safetyWords('failed', 'connected')).toMatchObject({ label: 'Not saved', tone: 'failed' })
     expect(safetyWords('failed', 'offline').label).toBe('Not saved')
   })
+
+  /** The cost guard: past the size a room keeps, waiting changes nothing, so it does not say "offline". */
+  it('says a full board is saved here and not sent, apart from being offline', () => {
+    const full = safetyWords('saved', 'full')
+    expect(full.label).toBe('Not shared · board full')
+    expect(full.tip).toMatch(/saved on this device/i)
+    expect(full.label).not.toMatch(/offline/i)
+    // A failed save still comes first.
+    expect(safetyWords('failed', 'full').label).toBe('Not saved')
+  })
+
+  it('says a paused room is paused, kept here and sent later, apart from being offline', () => {
+    const paused = safetyWords('saved', 'paused')
+    expect(paused.label).toBe('Paused · saved here')
+    expect(paused.tip).toMatch(/sent when it resumes/)
+    expect(paused.tone).toBe('away')
+    expect(safetyWords('pending', 'paused').label).toBe('Paused · saving…')
+    expect(safetyWords('failed', 'paused').label).toBe('Not saved')
+  })
 })

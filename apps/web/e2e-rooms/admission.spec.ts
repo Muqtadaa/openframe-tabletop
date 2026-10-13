@@ -110,9 +110,9 @@ test('turns a newcomer away while too many are waiting to say who they are', asy
         oneMoreRefused: oneMore === 'refused',
       }
     },
-    { id: room, waiting: 32 },
+    { id: room, waiting: 16 },
   )
 
-  expect(outcome.opened).toBe(32)
+  expect(outcome.opened).toBe(16)
   expect(outcome.oneMoreRefused).toBe(true)
 })

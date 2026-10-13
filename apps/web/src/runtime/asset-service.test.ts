@@ -1,5 +1,6 @@
 import { imageHeader } from '@openframe/core/testing'
 import {
+  AssetRefused,
   createSequentialIdGenerator,
   type AssetId,
   type AssetRef,
@@ -71,6 +72,21 @@ describe('AssetService.upload', () => {
 
     expect(result.ok).toBe(false)
     expect(store.puts).toEqual([])
+  })
+
+  it("passes on the room's refusal, in its words, instead of failing the drop silently", async () => {
+    const refusing: AssetStore = {
+      put: () => Promise.reject(new AssetRefused('This board has reached its image limit.')),
+      resolve: () => Promise.resolve(''),
+      delete: () => Promise.resolve(),
+    }
+    const service = new AssetService(refusing, createSequentialIdGenerator(), () =>
+      Promise.resolve({ width: 640, height: 480 }),
+    )
+    await expect(service.upload(file())).resolves.toEqual({
+      ok: false,
+      message: 'This board has reached its image limit.',
+    })
   })
 
   it('rejects a file that passes the signature check but will not decode', async () => {

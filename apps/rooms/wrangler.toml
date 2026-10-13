@@ -7,6 +7,12 @@ compatibility_date = "2026-09-18"
 # The Worker's name is its DNS label: <name>.<your-subdomain>.workers.dev.
 workers_dev = true
 
+# The kill switch (`src/limits.ts`). Empty is running. The deploy workflow sets
+# it from its `paused` input, so pausing shared play is one manual run; a value
+# changed in the dashboard would be overwritten by the next deploy.
+[vars]
+ROOMS_PAUSED = ""
+
 [observability]
 enabled = true
 

@@ -29,3 +29,20 @@ export interface AssetStore {
   resolve(ref: AssetRef): Promise<string>
   delete(id: AssetId): Promise<void>
 }
+
+/**
+ * An upload the store was told NO to, for a reason somebody can act on.
+ *
+ * Distinct from a failure of the network, which the store survives by keeping
+ * the picture on this device and trying again later. A refusal is final: the
+ * room will give the same answer next time (the image is too large, or the
+ * board has all the images it will keep), so keeping it and retrying on every
+ * open would be an upload that can never land. `message` is written for the
+ * person who dropped the file in.
+ */
+export class AssetRefused extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'AssetRefused'
+  }
+}

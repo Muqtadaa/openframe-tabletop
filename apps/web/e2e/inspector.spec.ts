@@ -181,7 +181,7 @@ test.describe('inspector', () => {
     await expect(page.getByTestId('ink-blue')).toBeVisible()
 
     await page.getByTestId('ink-blue').click()
-    await expect(viewOf(page, 'text')).toHaveCSS('color', 'rgb(23, 82, 158)')
+    await expect(viewOf(page, 'text')).toHaveCSS('color', 'rgb(21, 75, 145)')
   })
 
   /**
@@ -204,8 +204,8 @@ test.describe('inspector', () => {
      */
     await expect(page.getByTestId('paint-color')).toHaveCount(0)
     await page.getByTestId('ink-green').click()
-    await expect(viewOf(page, 'sticky')).toHaveCSS('color', 'rgb(20, 96, 69)')
-    await expect(viewOf(page, 'text')).toHaveCSS('color', 'rgb(20, 96, 69)')
+    await expect(viewOf(page, 'sticky')).toHaveCSS('color', 'rgb(18, 85, 61)')
+    await expect(viewOf(page, 'text')).toHaveCSS('color', 'rgb(18, 85, 61)')
   })
 
   /**

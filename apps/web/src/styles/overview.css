@@ -23,19 +23,18 @@
 }
 
 /*
- * A bottom sheet on a phone, as the record panel is, and never both at once:
- * opening the outline puts the selection away (BoardOverview), so the Scene
- * keeps more than half the screen.
+ * On a phone it sits low, beside the tool rail rather than over it and above the
+ * zoom cluster, and never with the record panel: opening the outline puts the
+ * selection away (BoardOverview), so the Scene keeps more than half the screen.
  */
 @media (width < 520px) {
   .of-overview {
     top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    right: var(--of-gutter);
+    bottom: var(--of-zoom-band);
+    left: var(--of-rail-reach);
     width: auto;
     max-height: 45dvh;
-    border-radius: var(--of-radius-surface) var(--of-radius-surface) 0 0;
   }
 }
 

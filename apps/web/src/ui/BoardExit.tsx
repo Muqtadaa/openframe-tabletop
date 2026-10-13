@@ -9,8 +9,8 @@ import { BackIcon } from '../controls/icons.js'
  *
  * Until this existed there was none: you entered a board and the only exit was
  * editing the URL. It sits at the head of the navigation bar, before the board
- * names itself, because that is the order a bound notebook reads — which index
- * this page is in, then which page it is.
+ * names itself, because that is the order a document reads — which collection
+ * this is in, then which it is.
  *
  * A real anchor, not a button that navigates. Cmd-click, middle-click and
  * "open in new tab" are how people keep the board they are on while looking at

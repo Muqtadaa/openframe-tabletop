@@ -365,11 +365,14 @@ the stylesheet and fails the build when a pair drops below its floor. It restate
 no hex values: a duplicated palette drifts, and the test then passes against
 colours the app stopped using.
 
-The floors are kept apart from the look. `a11y-floor.test.ts` and
-`stylesheet-discipline.test.ts` hold for ANY world and may not name the incumbent
-one (`design-test-split.test.ts` enforces it); `incumbent-world.test.ts` and
-`incumbent-splash.test.ts` are OpenFrame's inherited look and are retired with it,
-so replacing a world cannot take a floor with it.
+Two token spaces, and the line between them is a test. `--of-*` is the
+application and a theme may move it; `--sc-*` is the scene (the ground, the grid,
+every authored colour, and the apparatus drawn over content) and no theme may
+(`theme-boundary.test.ts`, ADR T010). The floors are kept apart from the look:
+`a11y-floor.test.ts` and `stylesheet-discipline.test.ts` may not name any
+particular world (`design-test-split.test.ts` enforces it), so replacing a world
+cannot take a floor with it. A custom property the stylesheet reads must be defined
+or be one the interface sets inline, or the build fails.
 
 The stylesheet is `apps/web/src/styles/`, one part per surface, and
 `styles/index.css` imports them in cascade order — that list IS the order the
@@ -381,15 +384,15 @@ everywhere to animate them.
 
 Know which floor applies. 4.5:1 is text; 3:1 is a **UI component you must
 perceive to operate** — a control's boundary, a handle, a focus ring. The page
-rule is neither, so it sits below 3:1 on purpose and the test asserts that
-CEILING as well: a later "improve contrast" pass would otherwise turn the ground
+rule is neither, so it sits below 3:1 on purpose and `theme-boundary.test.ts`
+asserts that CEILING as well: a later "improve contrast" pass would otherwise turn the ground
 into a cage the content has to fight.
 
 Functional text has a 12px floor. That covers shortcuts, field labels and
 readouts, and the same file measures it: no absolute `font-size` in the
 stylesheet goes below 12px, with no exemptions — the one there was, a size
 specimen in the record panel, went with the control. The floor was eleven until the
-interface scale moved onto the quadrille, and DESIGN.md said twelve for a week
+interface scale moved onto a tokenised rhythm, and DESIGN.md said twelve for a week
 while 27 rules still said eleven, because nothing read the stylesheet.
 
 ### 23. Break a new architectural rule once, and watch it fail

@@ -23,7 +23,7 @@
 /*
  * The tools step down a decade of the rule at a time as the window shortens —
  * 50, then 40, then 30, which is still the secondary-control target — rather
- * than shrinking continuously to sizes off the quadrille. Each threshold is
+ * than shrinking continuously to sizes off the rule. Each threshold is
  * the height at which the larger rail stops fitting its band, so each moves
  * by one tool and its gap whenever a tool is added (52, 42 and 32px): the poll
  * tool ran the comment tool off the end of a 720px window until they did.

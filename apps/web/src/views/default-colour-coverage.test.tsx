@@ -36,10 +36,9 @@ describe('a fresh object is drawn in the colour its view declares', () => {
    * (ADR 0015), and the second test below holds them to both halves: no
    * palette colour when unset, the chosen one when set.
    *
-   * A frame joined them when its default became the world's paper: white in
-   * the Notebook, the panel stock After Hours. At night no swatch is what an
-   * unset frame is drawn in, so marking `white` would be marking a colour that
-   * pressing would CHANGE the frame to.
+   * A frame joined them when its default became the world's paper: white,
+   * the scene's paper. No swatch is what an unset frame is drawn in, so marking
+   * `white` would be marking a colour that pressing would CHANGE the frame to.
    */
   const ON_THE_PANEL = new Set(['table', 'frame'])
 

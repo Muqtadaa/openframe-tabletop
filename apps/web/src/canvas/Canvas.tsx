@@ -48,12 +48,12 @@ import { useMoving } from './use-moving.js'
  * repositioning every element.
  */
 /**
- * The quadrille: the ruled ground the board is written on.
+ * The ruled ground the board is drawn on.
  *
  * Two weights, and the heavier one is not decoration. `GRID_SIZE` is 10 world
  * units and snapping lands on it, so the decade line marks the rule you are
- * actually aiming at — the same relationship a computation pad has between its
- * fine grid and its heavier tenth.
+ * actually aiming at. (The scene's own grid replaces this with a Scene's grid
+ * in Phase 2, ADR T005.)
  *
  * Painted on the canvas element rather than the world layer: a background that
  * scaled with the transform would blur, and would repaint an enormous area when

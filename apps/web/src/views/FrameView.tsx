@@ -15,10 +15,9 @@ import { FRAME_PAPER, inkColor, surfaceOf } from '../scene/style-tokens.js'
  * A filled frame is a sheet laid on the page — the world's paper until
  * somebody colours it. It was gray, the same stock as a shape, a code block
  * and an evidence slip, so a filled frame read as one more of them rather than
- * as the place they sit; then white, which After Hours turned into a bright
- * slab under everything on it (audit 2026-09-27). The paper is white by day
- * and the panel stock at night, and a colour somebody chose — white included —
- * is painted exactly as chosen.
+ * as the place they sit; then white. The paper is the scene's white in every
+ * theme (ADR T010), and a colour somebody chose — white included — is painted
+ * exactly as chosen.
  */
 function frameSurface(style: FrameViewStyle): string {
   if ((style.fill ?? 'solid') === 'none') return 'transparent'

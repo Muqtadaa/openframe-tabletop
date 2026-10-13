@@ -76,8 +76,8 @@ export function TableGrid({
           ['--of-valign' as string]: verticalAlign(style.verticalAlign),
           /*
            * The table's colour is its GROUND — what every cell stands on
-           * unless it has a fill of its own. Unset, it is the panel, which is
-           * what a table always stood on and which follows After Hours.
+           * unless it has a fill of its own. Unset, it is the scene's panel
+           * paper, which no theme moves.
            */
           ...(style.color === undefined ? {} : { background: surfaceOf(style.color, 'gray') }),
           // On the table, not on each cell: one declaration the cells inherit,

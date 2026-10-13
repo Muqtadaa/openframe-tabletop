@@ -45,10 +45,10 @@ export const SURFACE_VARS: Record<ColorToken, string> = {
 }
 
 /**
- * The paper a frame nobody has coloured is laid on: white in the Notebook, the
- * panel stock After Hours. It belongs to the WORLD, not the palette — which is
- * why it is not `SURFACE_VARS.white`: a white somebody chose stays white, at
- * night included, and only the default follows the lamp being off.
+ * The paper a frame nobody has coloured is laid on: white, in every theme (it is
+ * scene content, ADR T010). It is a token of its own rather than
+ * `SURFACE_VARS.white` so a default frame and a frame somebody chose to make
+ * white stay distinguishable: the inspector marks no swatch for the default.
  */
 export const FRAME_PAPER = 'var(--sc-frame-paper)'
 

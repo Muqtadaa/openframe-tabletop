@@ -27,7 +27,7 @@ export interface ObjectFrame {
  * eyedropper, because "the exact colour of that logo" is a real thing to want
  * and no fixed palette can answer it. What a literal costs is stated rather
  * than hidden: it does not follow a theme — a colour chosen on the light page
- * is that same colour in After Hours — and its contrast cannot be proven by a
+ * is that same colour in the dark theme — and its contrast cannot be proven by a
  * build-time test the way a token pair is, so the picker warns while you are
  * choosing instead. Only colours may be literal; weights, dashes, fonts and
  * radii stay tokens, where a free value buys nothing and costs the same.

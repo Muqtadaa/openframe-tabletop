@@ -121,9 +121,9 @@ test.describe('links that already exist', () => {
 })
 
 /*
- * The world was chosen only on a board, so the front door — the first thing
- * anybody sees — was always the Notebook, and somebody who works at night met
- * a white page every time they went home.
+ * The theme was chosen only on a board, so the library — the first thing
+ * anybody sees — was always the default, and somebody who works in daylight met
+ * a dark page every time they went home.
  */
 test.describe('the world, from the front door', () => {
   test('is chosen here, and the board opens in it', async ({ page }) => {

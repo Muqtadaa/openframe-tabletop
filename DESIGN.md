@@ -1,86 +1,89 @@
 ---
-name: OpenFrame
-description: An engineering quadrille page that treats every mark on it as a record, with a second world for after hours.
+name: OpenFrame Tabletop
+description: A quiet dark workspace that frames a light, authored table; the category standard played straight.
 colors:
-  bg: '#eef2f6'
-  page: '#f7f9fb'
-  rule: '#e4ebf2'
-  rule-decade: '#c9d6e4'
-  panel: '#ffffff'
-  panel-border: '#c7d2de'
-  control-border: '#758596'
-  ink: '#16202b'
-  ink-muted: '#4e6070'
-  accent: '#1450b5'
-  accent-soft: '#e4ecfa'
-  guide: '#b0197a'
-  danger: '#a3231b'
-  danger-wash: '#f9ebea'
-  danger-edge: '#e0bcb8'
-  hover: '#e8edf3'
-  c-yellow: '#7a5c00'
-  c-green: '#146045'
-  c-blue: '#17529e'
-  c-red: '#8a4038'
-  c-violet: '#5b3ba8'
-  c-orange: '#8c4715'
-  c-gray: '#3f5163'
-  c-pink: '#8f2a67'
-  c-brown: '#6a4a2a'
-  c-black: '#16202b'
-  c-white: '#ffffff'
-  s-yellow: '#ffe9a3'
-  s-green: '#bff0d4'
-  s-blue: '#cfe2ff'
-  s-red: '#ffd5d0'
-  s-violet: '#e3daff'
-  s-orange: '#ffddb8'
-  s-gray: '#dfe5ec'
-  s-pink: '#ffd4ef'
-  s-brown: '#e8dcc6'
-  s-black: '#16202b'
-  s-white: '#ffffff'
+  workspace: '#0f1216'
+  page: '#161a1f'
+  panel: '#1d2228'
+  panel-border: '#2c333c'
+  control-border: '#7d8896'
+  ink: '#e8ebef'
+  ink-muted: '#a4adba'
+  accent: '#6ba3ff'
+  accent-soft: '#1a2b49'
+  hover: '#272d35'
+  danger: '#ff7b6c'
+  danger-wash: '#3a1d20'
+  guide: '#f26fcf'
+  light-workspace: '#e8ebef'
+  light-page: '#f4f6f8'
+  light-panel: '#ffffff'
+  light-panel-border: '#d2d8df'
+  light-control-border: '#667283'
+  light-ink: '#14181d'
+  light-ink-muted: '#4a5563'
+  light-accent: '#1c4fb5'
+  light-accent-soft: '#e3ebfa'
+  light-danger: '#b3261b'
+  scene-ground: '#f2f4f7'
+  scene-ground-deep: '#e6eaf0'
+  scene-rule: '#e1e7ee'
+  scene-rule-decade: '#c7d3e0'
+  scene-panel: '#ffffff'
+  scene-ink: '#16202b'
+  scene-ink-muted: '#4e6070'
+  scene-select: '#1450b5'
+  scene-guide: '#b0197a'
+  scene-halo: '#f7f9fb'
+  ink-yellow: '#7a5c00'
+  paper-yellow: '#ffe9a3'
+  ink-green: '#146045'
+  paper-green: '#bff0d4'
+  ink-blue: '#17529e'
+  paper-blue: '#cfe2ff'
+  ink-red: '#8a4038'
+  paper-red: '#ffd5d0'
+  ink-violet: '#5b3ba8'
+  paper-violet: '#e3daff'
+  ink-orange: '#8c4715'
+  paper-orange: '#ffddb8'
+  ink-gray: '#3f5163'
+  paper-gray: '#dfe5ec'
+  ink-pink: '#8f2a67'
+  paper-pink: '#ffd4ef'
+  ink-brown: '#6a4a2a'
+  paper-brown: '#e8dcc6'
+  ink-black: '#16202b'
+  paper-white: '#ffffff'
 typography:
-  display:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '22px'
-    fontWeight: 400
+  headline:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: '1.1875rem'
+    fontWeight: 600
+    lineHeight: 1.35
+  title:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: '1.0625rem'
+    fontWeight: 600
     lineHeight: 1.3
   body:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '15px'
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: '0.9375rem'
     fontWeight: 400
-    lineHeight: 1.35
-  shape-label:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '14px'
-    fontWeight: 400
-    lineHeight: 1.3
-  ui:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '15px'
-    fontWeight: 400
-    lineHeight: 1.3
-  ui-small:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '13px'
-    fontWeight: 400
+  control:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: '0.875rem'
+    fontWeight: 500
     lineHeight: 1
-  title:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '17px'
-    fontWeight: 600
-    lineHeight: 1.3
-  headline:
-    fontFamily: 'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif'
-    fontSize: '19px'
-    fontWeight: 600
-    lineHeight: 1.35
+  small:
+    fontFamily: "ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: '0.8125rem'
+    fontWeight: 400
+    fontFeature: 'tabular-nums'
   record:
-    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace'
-    fontSize: '12px'
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace"
+    fontSize: '0.75rem'
     fontWeight: 400
-    lineHeight: 1
     letterSpacing: '0.02em'
 rounded:
   hair: '1px'
@@ -88,89 +91,25 @@ rounded:
   apparatus: '4px'
   control: '6px'
   surface: '10px'
-  grip: '25%'
-  round: '50%'
   capsule: '999px'
 spacing:
   space-2: '2px'
   space-4: '4px'
   space-6: '6px'
   space-8: '8px'
-  step: '10px'
   space-12: '12px'
   space-16: '16px'
+  step: '10px'
   gutter: '20px'
+  hit-min: '24px'
+  hit-sm: '30px'
+  hit: '40px'
+  hit-lg: '50px'
 components:
-  tool:
-    backgroundColor: 'transparent'
-    textColor: '{colors.ink-muted}'
-    rounded: '{rounded.control}'
-    size: '50px'
-  tool-hover:
-    backgroundColor: '{colors.accent-soft}'
-    textColor: '{colors.ink}'
-  tool-active:
-    backgroundColor: '{colors.accent-soft}'
-    textColor: '{colors.accent}'
-  tool-tip:
-    backgroundColor: '{colors.ink}'
-    textColor: '{colors.page}'
-    typography: '{typography.ui-small}'
-    rounded: '{rounded.control}'
-    padding: '5px 8px'
-  rail:
-    backgroundColor: '{colors.page}'
-    rounded: '{rounded.apparatus}'
-    padding: '5px'
-  status:
-    backgroundColor: '{colors.page}'
-    textColor: '{colors.ink-muted}'
-    typography: '{typography.record}'
-    rounded: '{rounded.apparatus}'
-    padding: '5px 10px'
-  zoom:
-    backgroundColor: '{colors.page}'
-    textColor: '{colors.ink-muted}'
-    rounded: '{rounded.apparatus}'
-    padding: '5px'
-  inspector:
-    backgroundColor: '{colors.panel}'
-    textColor: '{colors.ink}'
-    rounded: '{rounded.surface}'
-    padding: '10px'
-    width: '360px'
-  field-label:
-    textColor: '{colors.ink-muted}'
-    typography: '{typography.record}'
-    width: '82px'
-  swatch:
-    rounded: '{rounded.slip}'
-    size: '30px'
-    layout: '6-column grid'
-  choice-item:
-    backgroundColor: 'transparent'
-    textColor: '{colors.ink-muted}'
-    rounded: '{rounded.apparatus}'
-    width: '28px'
-    height: '26px'
-  choice-item-on:
-    backgroundColor: '{colors.panel}'
-    textColor: '{colors.accent}'
-  menu:
-    backgroundColor: '{colors.panel}'
-    rounded: '{rounded.surface}'
-    padding: '5px'
-  menu-item:
-    backgroundColor: 'transparent'
-    textColor: '{colors.ink}'
-    typography: '{typography.ui}'
-    rounded: '{rounded.control}'
-    padding: '6px 9px'
-  menu-item-hover:
-    backgroundColor: '{colors.accent-soft}'
   button:
     backgroundColor: '{colors.panel}'
     textColor: '{colors.ink}'
+    typography: '{typography.control}'
     rounded: '{rounded.control}'
     padding: '0 12px'
     height: '30px'
@@ -180,1829 +119,241 @@ components:
     backgroundColor: '{colors.accent}'
     textColor: '{colors.panel}'
     rounded: '{rounded.control}'
-    padding: '0 12px'
-    height: '30px'
-  button-primary-large:
-    backgroundColor: '{colors.accent}'
-    textColor: '{colors.panel}'
-    rounded: '{rounded.control}'
-    padding: '0 18px'
-    height: '40px'
-  button-ghost:
-    backgroundColor: 'transparent'
-    textColor: '{colors.ink-muted}'
-    rounded: '{rounded.control}'
-    height: '30px'
-  icon-button:
-    backgroundColor: 'transparent'
-    textColor: '{colors.ink-muted}'
-    rounded: '{rounded.control}'
-    size: '30px'
-  icon-button-hover:
-    backgroundColor: '{colors.hover}'
-    textColor: '{colors.ink}'
-  icon-button-on:
+  button-pressed:
     backgroundColor: '{colors.accent-soft}'
     textColor: '{colors.accent}'
-  field:
+  library-open-label:
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.panel}'
+    typography: '{typography.control}'
+    rounded: '{rounded.control}'
+    padding: '6px 12px'
+  library-sheet:
     backgroundColor: '{colors.page}'
+    rounded: '{rounded.apparatus}'
+    padding: '20px'
+  tool-rail:
+    backgroundColor: '{colors.page}'
+    rounded: '{rounded.apparatus}'
+    padding: '6px'
+  rail-tool:
+    textColor: '{colors.ink-muted}'
+    rounded: '{rounded.control}'
+    size: '50px'
+  dock-rail:
+    backgroundColor: '{colors.page}'
+    rounded: '{rounded.apparatus}'
+    padding: '6px'
+  prep-nav:
+    backgroundColor: '{colors.page}'
+    width: '240px'
+    padding: '20px'
+  prep-nav-item:
     textColor: '{colors.ink}'
     rounded: '{rounded.control}'
-    padding: '5px 10px'
-    height: '30px'
-  field-large:
-    backgroundColor: '{colors.page}'
-    textColor: '{colors.ink}'
-    rounded: '{rounded.control}'
-    padding: '8px 12px'
     height: '40px'
-  tip:
-    backgroundColor: '{colors.ink}'
-    textColor: '{colors.page}'
-    typography: '{typography.record}'
-    rounded: '{rounded.control}'
-    padding: '6px 8px'
-  sticky:
-    typography: '{typography.body}'
-    rounded: '{rounded.slip}'
-    padding: '13px'
-  frame:
-    backgroundColor: 'transparent'
+  prep-nav-item-current:
+    backgroundColor: '{colors.accent-soft}'
+    textColor: '{colors.accent}'
+  prep-card:
+    backgroundColor: '{colors.page}'
+    textColor: '{colors.ink}'
+    rounded: '{rounded.surface}'
+    padding: '16px'
+  display-status:
+    backgroundColor: '{colors.panel}'
+    textColor: '{colors.ink}'
+    rounded: '{rounded.surface}'
+    padding: '12px 16px'
+  slip-sticky:
+    backgroundColor: '{colors.paper-yellow}'
+    textColor: '{colors.ink-yellow}'
     rounded: '{rounded.slip}'
 ---
 
-> **Historical for OpenFrame Tabletop (2026-10-13).** This is the design contract of
-> **OpenFrame**, the whiteboard Tabletop was derived from: "The Notebook" and its
-> second world, After Hours. It is **not** the Tabletop design contract. It stays in
-> place only as the incumbent evidence the Impeccable replacement-world process reads
-> (WP 0.12), and is replaced by a new `DESIGN.md` when that process has been run and
-> a shell has been built from it (WP 0.13). A copy with a plain historical banner is
-> kept in [`docs/legacy/openframe-whiteboard-design.md`](docs/legacy/openframe-whiteboard-design.md).
-> Generic accessibility rules in it (contrast tiers, the 12px floor, target sizes,
-> reduced motion) are product commitments that carry over; the visual world is not.
->
-> Test names below predate WP 0.11: `design-tokens.test.ts` is now `a11y-floor.test.ts`
-> and `stylesheet-discipline.test.ts` (any world) plus `incumbent-world.test.ts` (this
-> one), and `brand-splash.test.ts` is `boot-splash.test.ts` plus `incumbent-splash.test.ts`.
-
-# Design System: OpenFrame
+# Design System: OpenFrame Tabletop
 
 ## Overview
 
-**Creative North Star: "The Notebook"**
+**Creative North Star: "The Quiet Workspace Around a Lit Table"**
 
-The board is a laboratory record, not a drawing surface. The register is the
-engineering computation pad: cold blue-grey stock, a cyan-grey quadrille ruling
-at world scale, blue-black ink that is never pure black, and one correction red
-that appears only where something is being undone or removed. Content arrives as
-coloured index slips laid _on_ the page — the one place in the system that is
-allowed real physical depth.
+This is the category standard played straight at full craft, and the record says so plainly: the owner chose it on 2026-10-13 as a standing exit, in preference to two directions the replacement-world process offered (a cartographic one and a game-table one). The seed key was 518dfea8 and the roll service was unreachable, so the round ran degraded with no challengers. It is therefore a deliberate, conventional answer, not a discovered one. The craft bar named in the contract is Owlbear Rodeo for restraint, Roll20 for familiarity, Figma or Linear for the finish of dense work.
 
-It refuses two things explicitly. The first is the canvas-app default: a neutral
-void with floating candy chrome, white capsules blurred over the artboard. Chrome
-here is page apparatus — it takes the page's own stock, a hairline margin rule and
-a contact shadow just deep enough to separate it from the ruling. Three floating
-white capsules at once was the single biggest reason an earlier pass read as a
-toy. The second refusal is stationery: cream, parchment, serif display,
-handwriting, paper texture and torn edges are the twee rendition of a notebook and
-are banned. This is the pad an engineer computes on, not the diary.
+The application is a near-black cool-neutral workspace: flat panels cut from three steps of one neutral, 1px hairlines, one calm blue accent, a system sans for everything you read and a system mono only for records (counts, readouts, shortcuts). Floating chrome carries a soft contact shadow; nothing glows, nothing is a gradient. The scene is a separate namespace and a separate material: a fixed light ground with a quadrille grid, with authored content (eleven ink-on-paper pairs) laid on it like stock. Application theme never reaches it.
 
-Density is measured and quiet. The empty board is almost entirely board; chrome
-sits in the margins and the corners, and the panel that names a selection only
-exists while there is a selection. Nothing decorative is ever loud enough to
-compete with what the user put down.
-
-**It used to say high.** The first build was quiet and genuinely cramped —
-22px controls, 11px readouts, a 28px text field — each defensible alone and
-collectively hard to use. The owner called it on 2026-09-19 and the scale
-moved onto the quadrille (below). Quiet is the commitment; small was never the
-commitment, and the two had been confused.
+There is no Tabletop logo, wordmark or brand identity. The product name in the library header is the working title set in the headline style; the favicon is a placeholder. Nothing in this system should be read as a brand to extend. Only what is built is recorded: a library, a prep shell, the board frame (tool rail, name bar, zoom cluster, record panel), a dock rail whose only dock is the Outline, and a chrome-free display route. There is no player toolset, layers, initiative, turn strip or GM docks beyond the registry, and the display has no turn order yet.
 
 **Key Characteristics:**
 
-- Ruled ground at every reachable zoom, in three weights, all faint
-- Page apparatus in the page's own stock, never floating cards
-- Ink is blue-black; red is reserved for correction
-- Coloured slips with real elevation; everything else flat
-- System faces only — no webfont request leaves the machine
-- Mono for records and measurement, never as a costume
-- WCAG 2.2 AA enforced against the stylesheet by a build test
-
-## Two worlds
-
-The board ships in two, and they are not a light palette and a dark variant of
-it. They share token NAMES and nothing else, which is the entire reason a saved
-board never has to be touched when one is swapped for the other: documents store
-`color: 'blue'`, and what blue IS belongs to the world.
-
-**The Notebook** is the default and the one above: the engineering computation
-pad, cold stock, printed rule.
-
-**After Hours** (`:root[data-theme='after-hours']`) is the same notebook at
-night, lit by its own grid. The quadrille stops being printed rule and becomes a
-lit horizon; ink inverts to a violet-white that never reaches pure white; the
-synthwave palette earns its place because the GROUND is doing the glowing. It is
-opt-in from the navigation bar and remembered, and it is deliberately not wired to
-`prefers-color-scheme` — a system preference set for reading email at night is
-not a statement about how somebody wants to look at their research.
-
-Three things carried across rather than being redesigned:
-
-- **Content hues keep their meaning.** A red slip is still red — inverted to
-  light ink on a deep body, not re-hued. `danger` moved instead: on a dark
-  ground a content red and a correction red must both be light, which put them
-  18 sRGB units apart until the correction red was pushed to a hot red-orange.
-- **Depth needs a lit edge, not a deeper shadow.** A cast shadow works by being
-  darker than what it falls on and there is very little room below the night
-  page, so slips read as holes cut in it. A hairline highlight on the top edge
-  is where light catches a raised edge — the physics the default world gets free
-  from a white page.
-- **Chrome still does not glow.** Saturated colour belongs to the user's
-  material in both worlds. Glowing apparatus would compete with a magenta slip
-  that MEANS something, which is the whole reason the neon lives on the ground
-  and in the brand rather than on the controls.
-
-Every pair in both worlds is measured by the same build test.
-`design-tokens.test.ts` walks EVERY theme block rather than the first it finds —
-it took the first `--of-x:` in the file until After Hours arrived, which would
-have let a second world ship unreadable while the suite went on measuring the
-first one and passing.
-
-## The brand
-
-The mark, the wordmark and the synthwave hero are one supplied artwork
-(`src/assets/PROVENANCE.md`). They are the source of the `--of-brand-*` tokens,
-and those tokens paint exactly two things: the boot splash and the browser tab
-icon.
-
-The **front door carries the mark as artwork** — a third brand surface, taken
-deliberately by the owner on 2026-09-19 rather than reached by drift. An entry
-page is where a product says its own name. It is the mark only, at 32px, beside
-a wordmark set in ordinary type: no brand COLOUR enters the page, so the rule
-that matters is intact. The workspace is still quiet.
-
-That restraint is the point. The identity is loud on purpose and the workspace
-is quiet on purpose, and the boundary between them is where a brand stops being
-decoration.
-
-The splash is the one full-bleed brand moment the product has. It lives in
-`index.html` and paints before the module graph loads, carrying its own first
-frame as a 146-byte inlined thumbnail — a loading screen that waits on the
-network to prove it is loading has the logic backwards.
-
-It then **holds for two seconds, once per tab session**. On a warm load the
-board is ready well inside that, so on the first load the hold IS the loading
-time. It was chosen knowingly: a moment nobody sees is not a moment, and the
-first build flashed the artwork past in under 300ms. Whichever finishes last
-wins, so a slow board is never delayed further. It used to be paid on every
-page load, which cost about 1.2s of pure waiting every time a board was opened
-from the front door. So the moment is now spent once, as this section always
-said it should be if it began to grate: a shorter splash is worse than no
-splash.
-
-Every later load in the tab gets the **quiet sheet**. An inline head script
-reads the session flag before the body is parsed. The splash is then the
-world's own page colour with nothing on it, and it leaves on the first frame the
-page is ready. The handover is from the page to the page. `theme-color` matches
-it from the first frame, and after load `applyTheme` keeps the browser's chrome
-on the world's page colour rather than the splash's violet.
-
-The line under the artwork says what is actually opening: "Opening the board"
-for a `board` or `room` link, and otherwise "Opening OpenFrame", the markup's
-own neutral words. It sits on the void scrim with the control radius, not a
-capsule, and in portrait it sits just under the letterboxed picture.
-
-**The splash always ends.** Every await before the first render sits in one
-try, so a start-up failure takes the splash away for the StartFailed panel, and
-so does a crash caught by the error boundary. Bad news is never held behind the
-artwork. The front door's own failure does the same, because an alert rendered
-under the splash sits in an inert root and is never announced. For the case no
-try can catch, such as an entry module the network dropped, an inline watchdog
-admits it after twelve seconds: the live label says it is taking longer than
-usual, and a Reload button appears.
-
-Two things follow from covering a live board. `#root` is `inert` until the
-splash goes, because a sheet blocks the mouse but not the Tab key. And the
-end-to-end suite turns the hold off through `storageState`, since every spec
-waiting behind it would add minutes to the run; the splash still appears there
-and is still really removed. Its fades are `--of-settle` on `--of-ease`, as
-literals pinned to those tokens like its colours.
+- Two namespaces: `--of-*` application tokens (dark default, light theme block) and `--sc-*` scene tokens (defined once, never themed).
+- Depth by lightness step first, a hairline second, a shadow only for what floats.
+- One accent (calm blue) meaning "yours / what you are acting on"; danger red is reserved for destructive meaning.
+- Everything measures on a 10px quadrille (`--of-step`), the same as the scene's 10-unit grid.
+- Targets are 40px (30px under a fine pointer for secondary controls); functional text never goes below 12px.
 
 ## Colors
 
-Cold, low-chroma stock and ruling under a small set of saturated content slips;
-the only insistent hues in the whole system belong to the user's material.
+A cool, blue-leaning near-black workspace with one blue accent, set around a deliberately light, separately defined scene.
 
 ### Primary
 
-- **Record Blue** (`accent`): the working blue of selection, focus, active tools,
-  connector endpoints, caret and slider accent. Held at 3:1 against the page and
-  4.5:1 against panel white by test.
-- **Record Blue Wash** (`accent-soft`): the active and hover bed under tools,
-  menu items and the zoom input, and the text-selection highlight. It carries
-  ink and accent at text contrast, so it is a surface, not a glow.
+- **Calm Table Blue** (`accent`, light: `light-accent`): the single accent. Primary action ("Open table", Sign in), current navigation item, pressed and selected state, focus, caret. Always paired with a shape or word where it carries status.
 
 ### Secondary
 
-- **Correction Red** (`danger`): destructive and corrective meaning only —
-  delete affordances, render errors, missing assets, failure toasts.
-- **Guide Magenta** (`guide`): alignment guides while a gesture is running, and
-  measurements while Alt is held. It is transient feedback, never a target and
-  never chrome. A measured stretch is a solid hairline with its length in board
-  units on it; a shared edge or centre is a dashed hairline. Two things apart
-  on both axes are measured as one L from corner to corner — across along the
-  selection's near edge, then along the target's — never as two spokes from
-  their middles that meet nowhere — and so is every pair of neighbours on a
-  diagonal inside a selection, each drawn whole. A turned object is measured
-  from its own edge — where the line crosses its outline — not from the
-  upright box around it, so a line always starts on what it measures and its
-  number is the length drawn. While Alt is held
-  the record panel fades and lets the pointer through, because what you measure
-  to is usually beside the selection, under the panel. Nudging with the arrows
-  shows the same lines on every press — the distance to the nearest neighbour
-  in line on each side, dashed where an edge or centre lines up — until the
-  pointer moves, another key is pressed, or a moment and a half passes. Resize
-  by keyboard is Cmd/Ctrl with an arrow, so Alt with an arrow nudges while
-  measuring.
+- **Guide Magenta** (`guide`; scene `scene-guide`): alignment and measurement guides. Distinct from the accent so the two never confuse.
+- **Danger Coral** (`danger`, light `light-danger`): destructive and corrective meaning only; never decoration.
 
 ### Neutral
 
-- **Desk Blue-Grey** (`bg`): the surface the page sits on; also the bed inside
-  segmented controls and the hover bed for record-line actions.
-- **Page Stock** (`page`): the board itself, and the stock every piece of
-  apparatus is cut from.
-- **Fine Rule** / **Decade Rule** (`rule`, `rule-decade`): the quadrille. Both sit
-  deliberately below the 3:1 UI floor (see the named rule below).
-- **Panel White** (`panel`): the record panel, menus, flyouts and editors — the
-  one surface allowed to be lighter than the page, because it overlays it.
-- **Margin Rule** (`panel-border`): hairline borders and ledger dividers on all
-  apparatus.
-- **Control Edge** (`control-border`): boundaries you must see to operate a
-  control, plus the scrollbar thumb. Held at 3:1 against page, panel and desk.
-- **Blue-Black Ink** (`ink`): all primary text, the slider index, tooltip bodies.
-- **Muted Ink** (`ink-muted`): field labels, navigation bar, inactive tools, frame
-  titles, shortcut glyphs.
+- **Workspace** (`workspace`): the ground behind everything (library page, prep main area).
+- **Page Stock** (`page`): the surface chrome is cut from: rails, docks, library sheet, prep navigation and cards.
+- **Panel** (`panel`): raised panels, menus, buttons at rest.
+- **Hairline** (`panel-border`): decorative dividers and panel edges; deliberately below 3:1.
+- **Control Edge** (`control-border`): the boundary of anything you must see to operate; held at 3:1 by test.
+- **Ink / Muted Ink** (`ink`, `ink-muted`): text. Muted is for second lines and hints and still passes 4.5:1.
+- **Hover Bed** (`hover`) and **Accent Wash** (`accent-soft`): the bed under a hovered control and under a selected one.
+- **Presence seats** (`--of-p-1` to `--of-p-6`, themed): six person hues, separate from content hues, never the only signal. Tested for 3:1 on the page, 60 sRGB units apart, and clear of accent, guide and danger.
 
-### Content Colours
+### The Scene (never themed)
 
-Eleven, laid out neutrals first and then the spectrum: black, gray, white, red,
-pink, orange, yellow, green, blue, violet, brown. `violet` IS the purple and
-keeps its name, because documents store token names and a rename is a migration
-that can only lose.
-
-**Nine are pairs**, an ink (`c-*`) and its paper (`s-*`). That pairing is what
-makes a coloured note a slip laid on the page rather than a block of paint, and
-every ink is tested against every paper at 4.5:1 — 81 combinations per world,
-because a text colour is the user's choice and any ink can land on any slip.
-
-**Two are not.** Black and white mean themselves rather than naming a hue: a
-black fill has to be black and white text is only white, so their ink and paper
-are one value and the hue grid cannot hold them. What is guaranteed instead is
-that one of the two always reads on any slip, in either world, and
-`readableInkOn` returns it without being asked — which is why a black sticky
-comes out legible rather than needing to be fixed.
-
-As a LINE, each of the two is the page in one world — a white outline in the
-notebook, a black connector After Hours — so a stroke, outline or connector
-drawn in either goes through `lineOf` and takes `--of-line-*`, which is the
-gray ink where the colour would vanish. Fills keep the colour chosen; only the
-edge moves. And After Hours, white PAPER is paper under a lamp (`#d6d9e2`): at
-full white it was 18:1 on the night page, brighter than the ink and the
-brightest thing on any board. A white line stays white. A frame nobody has
-coloured is not white at all but the world's paper (`--of-frame-paper`):
-white in the Notebook and the panel stock After Hours, because even dimmed,
-white paper under a frame was a bright slab the size of a region of the board.
-A white somebody chose stays white, and the record panel marks no swatch for
-an uncoloured frame, since at night none is what it is drawn in.
-
-The values were searched rather than picked. Brown's paper is the
-best-separated tan that all eleven inks still read on; constrained only by
-contrast, the search returned a pale olive, which separates beautifully and is
-not brown. Pink is a deep raspberry because a lighter one sits on top of the
-guide magenta.
-
-**A literal colour** may also be set, from the wheel or the eyedropper. It does
-not follow a theme — there is no second value to switch to — and its contrast
-cannot be proven at build time, so the picker states the ratio against the
-ground the colour will actually sit on and says when it falls below 4.5:1. A
-warning, never a refusal: somebody matching a brand colour is making a choice
-the panel is not entitled to overrule.
+- **Daylight Ground** (`scene-ground`, `scene-ground-deep`) with a **quadrille** (`scene-rule`, `scene-rule-decade`, below 3:1 on purpose: ground, not control).
+- **Scene paper and ink** (`scene-panel`, `scene-ink`, `scene-ink-muted`): for content that carries its own surface (tables, code, images).
+- **Eleven authored colours**, each an ink over a pale paper: yellow, green, blue, red, violet, orange, gray, pink, brown, plus black and white (whose ink and paper are the same value; `inkFor` picks the readable one). Black is a blue-black, never `#000000`. Lines in black or white are drawn in `--sc-line-black` and `--sc-line-white` (`#3f5163`) so a white line does not vanish on the ground.
+- **Apparatus over content** (`scene-select`, `scene-guide`, `scene-halo`): selection, handles and guides carry their own colour and a halo so they read over dark ink and pale paper alike.
 
 ### Named Rules
 
-**The Ground Is Not A Control Rule.** The quadrille is ruled below the 3:1
-non-text floor on purpose, and the build asserts a _ceiling_ as well as a floor:
-the fine rule stays under 2:1 against the page and the decade rule between 1.2:1
-and 2.5:1. Ground you cannot ignore is a cage the content has to fight. A future
-"improve contrast" pass must not raise it.
+**The Two Namespaces Rule.** `--of-*` is the application and may be themed. `--sc-*` is the scene and is defined once, in `tokens.css`, by nothing else. A theme block that assigns a `--sc-*` token fails `app/theme-boundary.test.ts`. Documents store token names, so a saved board is the same board under either theme.
 
-**The One Red Rule.** There is exactly one corrective red in the world.
-Content red is held more than 30 units of sRGB distance away from it, because
-when the two sat close a red slip on the page read as a correction mark and the
-record panel offered the correction hue as an ordinary choice.
+**The One Voice Rule.** The blue accent marks the one thing you are acting on or the one primary action on a surface. Two filled accent buttons on one surface means neither is primary.
 
-**The Token Name Rule.** Documents store token _names_, never colour values. The
-one place a name becomes a CSS variable is `scene/style-tokens.ts`. This is
-load-bearing: a theme can change without touching a single saved board, and any
-restyle must preserve it.
-
-**The Never-Black Rule.** Ink carries a blue cast and never reaches `#000000`;
-the build fails if the blue and red channels of ink are within 4 of each other.
-
-**The Edge Rule.** An object's edge is how it is found, so it is a graphic you
-must perceive: 3:1 against what it sits on. A black or white line, a frame's
-edge (the control border), a table's outer and inner lines (`--of-edge-inner`
-inside) and a default shape's outline on its default fill are all read off
-the rule or view that draws them and held there by `design-tokens.test`.
-
-**The Distinct Defaults Rule.** No two slips share a default colour, and a
-filled frame (the world's paper) shares none with any other type. Colour is the second
-signal of a type, after its word; two types in one colour make it a
-misleading one.
+**The Tested Contrast Rule.** Pairs are not asserted here, they are tested: `app/a11y-floor.test.ts` checks application pairs and scene pairs in every theme (4.5:1 for text, 3:1 for a control's boundary, a handle or a focus ring, and a ceiling for the page rule and grid). Change a colour and that test is the authority, not this file.
 
 ## Typography
 
-**Body Font:** system UI sans (`--of-font`: `ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto`)
-**Record Font:** system mono (`--of-mono`: `ui-monospace, SFMono-Regular, Menlo, Consolas, Liberation Mono`)
-**Object Faces:** the same sans, plus the serif (`--of-serif`: `ui-serif, Georgia,
-Times New Roman`) and the mono, offered per object through the record panel's
-face field. The board sets them from the same tokens as the face picker's
-specimens, so a sample never shows a face the note would not get; each face and
-each weight (`--of-weight-regular/medium/semibold/bold`, 400–700) is written
-once, and `stylesheet-drift.test.ts` fails on one spelled out.
+**Display Font:** none. There is no display face; the largest interface step is the headline.
+**Body Font:** the system sans stack (`ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`).
+**Label/Mono Font:** the system mono stack, for records only.
 
-**The Reader's Size Rule.** The interface ramp is set in `rem` — 0.75rem record
-to 1.1875rem headline, the same pixels at the default 16px root — so a browser's
-text-size preference reaches every label, field and menu. The board's ramp is
-redefined in px on `.of-world`: what is on the board is content in world units,
-and a reader's preference must not reflow somebody else's board. The 22px
-display size stays in px on purpose. `design-tokens.test.ts` holds both halves.
-
-**Character:** the faces are the machine's own. Local-first forbids a font
-request, so the type personality comes from scale, rhythm and tabular numerals
-rather than from a licence. Every readout that contains numbers sets
-`font-variant-numeric: tabular-nums`, so counts, zoom and field values read as
-columns rather than as ransom text.
+**Character:** the platform's own voice, unremarkable on purpose. Tabular numerals wherever a number is read down a column (library times, zoom, readouts). A serif stack (`--of-serif`) exists for the board's own text face, not for the interface.
 
 ### Hierarchy
 
-- **Display** (400, 22px, 1.3): free text objects on the board — the largest type
-  in the system, and it belongs to the user's content, not to the interface.
-- **Body** (400, 15px, 1.35): sticky note text.
-- **Shape Label** (400, 14px, 1.3): text inside a shape, centred, inset per shape
-  geometry rather than by a shared box.
-- **UI** (400, 15px): menu items, notices, toasts, frame titles, alt-text editor.
-- **UI Small** (400, 13px): flyout items, fallback and unknown object bodies.
-- **Record** (400, 12px, mono, 0.02em): the navigation bar, the record panel's
-  subject and field labels, slider readings, keyboard shortcuts, the wheel-mode
-  value. Lowercase, never uppercase-tracked.
-- **Title** (600, 17px): the one heading a gate or a sheet carries — "This board
-  has a password".
-- **Headline** (600, 19px): the wordmark on the front door, beside the mark.
-
-In the stylesheet these are seven steps of `--of-type-*` — `record` 12,
-`ui-small` 13, `control` 14 (buttons, fields and a shape's label), `ui` 15
-(which is also a sticky's body), `title` 17, `headline` 19, `display` 22.
+- **Headline** (600, 1.1875rem, 1.35): the product name on the library header and the prep page title.
+- **Title** (600, 1.0625rem): library row names and section headings, prep navigation name.
+- **Body / ui** (400, 0.9375rem): menus, notices, scene names in prep cards, the board name.
+- **Control** (500, 0.875rem): buttons, fields, navigation items.
+- **Small** (400, 0.8125rem, tabular): second lines, "last played" and "last edited" readouts, hints.
+- **Record** (400, 0.75rem mono, 0.02em tracking): counts, shortcut keys, zoom wheel mode and presets.
+- Content inside an object scales in `em` from the object's own size and is not on this ramp; a text object's largest size is 22px in world units.
 
 ### Named Rules
 
-**The Twelve Pixel Floor.** 12px is the smallest functional text in the system,
-shortcuts and readouts included. Nothing a user must read goes below it. It was
-eleven until 2026-09-19; a floor is the least you will accept, and this one had
-become the size of nearly everything, which is a different thing.
+**The Twelve Pixel Floor Rule.** No absolute `font-size` in the stylesheet goes below 12px, with no exemptions; `stylesheet-discipline.test.ts` measures it.
 
-It was also written down a week before it was true: this file said twelve while
-27 rules in the stylesheet still said eleven, because a floor in prose is a
-floor nothing measures. `design-tokens.test.ts` now reads every absolute
-`font-size` in the stylesheet and fails below 12px, with no exemptions.
+**The Mono Means Record Rule.** Mono is for measurement and records. It is not a costume for "technical", and library labels, times and headings read in the sans.
 
-**The Ramp Rule.** Every interface size names a step of `--of-type-*`, and
-`design-tokens.test.ts` fails on a literal. Text INSIDE an object scales in `em`
-from the object's own size and is not on the ramp — that is the user's material.
-
-**The Mono Is A Record Rule.** Mono marks records and measurement — counts, zoom,
-field values, shortcuts — and nothing else. It is never applied to make something
-look technical.
-
-**The No Request Rule.** No webfont, ever. Local-first means the page loads with
-no font fetch; the stacks above are the faces.
+**The Distance Rule.** The display route sets its status words at 1.6em and never conveys state by colour alone.
 
 ## Layout
 
-The board is edge to edge and owns the viewport; chrome is a set of absolutely
-positioned overlays that are click-through except where they paint.
+The interface measures itself on the same 10px step as the scene's grid: `--of-step` between things on a line, `--of-gutter` (20px) from the viewport edge, with a small inner scale of even steps only (2, 4, 6, 8, 12, 16). Odd values are drift, not decisions.
 
-- **Along the top, from the left** — the navigation bar: the way out, the
-  board's name, history, the save state and the app's own apparatus, 20px from
-  both edges at every width. Everything else
-  anchored to the top starts under it, at `--of-nav-band` (80px).
-- **Left margin gutter** — the creation rail, centred in the band from under
-  the navigation bar to the bottom gutter, 50px square tools in a rail with
-  a hairline.
-- **Top centre** — notices and toasts, under the navigation bar, capped at
-  `min(720px, 100vw - 140px)`.
-- **Bottom right** — the zoom cluster, 20px from both edges.
-- **Floating** — the record panel, placed beside the selection with a 42px gap
-  (clear of the connection points, which reach 38px out from the edge),
-  preferring the selection's right edge, falling back to its left, then above or
-  below, always clamped inside the viewport, clear of the rail (100px) and
-  clear of the furniture along both edges — the navigation bar at the top and
-  the zoom cluster at the bottom — unless it hangs from that furniture.
+The board frame is the table with chrome at its edges: tool rail left (tools 50px, stepping to 40 then 30 as the window shortens), name bar top-left, zoom cluster bottom-right, dock rail right edge closed by default and opening one dock at a time. The record panel and the Outline dock are 320px-class surfaces that sit beside the selection or the dock rail and stop above the zoom cluster. On narrow windows (under 520px for the outline, under 820/480 for the record panel) they become bottom sheets limited to 45dvh, so the scene keeps more than half the screen.
 
-**The interface sits on the page's own rule.** `GRID_SIZE` is 10 world units and
-the quadrille draws it, so the chrome measures itself in the same steps — every
-height and offset is a multiple of ten. A control's edge lands where a rule
-does, and the apparatus shares the rhythm of the thing it sits on instead of
-floating at sizes nobody chose.
+The library is one centred column (max 720px) on the workspace ground: a header with the product name, a Prep entry and theme toggle, then one sheet of rows. A row is a grid of title, a tag and time line, and one filled "Open table" label at the end; on phones (560px and under) the row stacks and the name may take two lines. The prep shell is a 240px navigation beside a main area of cards (auto-fill, 240px minimum, 20px gaps); under 720px the navigation becomes a strip along the top.
 
-| Token         | Size | What it is                                            |
-| ------------- | ---- | ----------------------------------------------------- |
-| `--of-step`   | 10px | the rule, and the gap between things on a line        |
-| `--of-hit-sm` | 30px | a secondary control inside apparatus                  |
-| `--of-hit`    | 40px | anything you operate: a field, a button, a record row |
-| `--of-hit-lg` | 50px | a list row, a primary action, and a creation tool     |
-| `--of-gutter` | 20px | from the viewport edge                                |
-
-`--of-hit-lg` clears the 44px AAA target with room over; `--of-hit-sm` is
-comfortably past the 24px AA floor rather than sitting on it. **Board content
-keeps its own sizes** — a sticky is still 15px and a text object still 22px,
-because that is the user's material and changing it would restyle every
-document ever saved.
-
-**Spacing rhythm** runs on even small steps — `--of-space-2/4/6/8/12/16` below
-the rule, `--of-step` and `--of-gutter` on it: 2px between sibling controls, 6px
-of padding inside apparatus, 10px between a label and its value, 20px from the
-viewport edge.
-
-**The Even Step Rule.** Every padding, margin and gap from 2px to 20px names a
-step, and `design-tokens.test.ts` fails on a literal. Sixteen values were in use,
-and a 3, 5, 7 and 9 beside the 2, 4, 6 and 8 they were meant to be was drift
-rather than a decision; they rounded up, onto the scale. Above 20px a length is
-a size, not rhythm. Tool icons are 21px inside a 50px target; secondary icons are
-16–17px; the arrow in a tool's options strip is 10px.
-
-**World rhythm** is the quadrille: `GRID_SIZE` is 10 world units, snapping lands
-on it, and the decade rule marks the line the user is aiming at.
-
-**Responsive.** Breakpoints are structural rather than cosmetic. Below
-**820px** the zoom cluster drops its slider, a coarse control the canvas itself
-already provides, and the account shrinks to its face.
-The navigation bar gives way at 640px and 560px (see Navigation Bar) and never
-leaves the rail's 20px gutter; the controls with no other route always stay.
-Below **560px** the record panel and the comments panel become sheets along the
-bottom, and the front door's rows stack.
-
-**Touch is in scope.** Under a coarse pointer `--of-hit-sm` becomes 40px, so
-every secondary control, the workspace tabs and the rail's smallest tools grow
-with it — and any breakpoint worked out from a 30px size must be re-checked for
-a finger (the rail's was not, and overran its box between 493 and 603px tall).
-Two fingers pinch-zoom and pan about their midpoint; a second finger landing
-abandons whatever the first had started, and a `pointercancel`,
-`lostpointercapture` or window blur puts a gesture back exactly as Escape does
-— an interrupted touch never commits a half-finished drag.
+Targets: 40px operating size, 50px for rows and primary tools, 30px for secondary controls under a fine pointer (raised to 40px under a coarse pointer), 24px as the absolute WCAG 2.5.8 floor.
 
 ### Named Rules
 
-**The Board Is The Product Rule.** Chrome occupies margins and corners only. No
-standing panel taxes board space for something that is only relevant while
-something is selected.
+**The Apparatus Is Outside The World Rule.** Handles and selection draw on a screen-space layer outside the world transform, so every length there is what it says (inherited engineering rule 24).
 
 ## Elevation & Depth
 
-Almost flat. Depth is carried by tonal layering — desk, page, panel — and by
-hairline margin rules. There are exactly two elevations, and they mean different
-things: apparatus is _printed near_ the page, and content slips _sit on_ it.
+Hybrid, mostly tonal. Surfaces are flat at rest: workspace, page stock and panel are three steps of lightness, edged with a 1px hairline. Only chrome that floats over the table (rails, zoom cluster, menus, the dock panel, the record panel) takes a shadow, and it is a hairline plus a soft contact shadow, never a glow. Authored slips on the scene take a separate, tighter shadow because they are paper on a ground, not chrome over a table.
 
 ### Shadow Vocabulary
 
-- **Contact** (`--of-shadow`):
-  every piece of chrome — rail, navigation bar, zoom cluster, record panel, menus,
-  flyouts, notices, toasts. Just deep enough to separate apparatus from the ruling.
-- **Slip** (`--of-slip-shadow`):
-  deeper and tighter. The one place the world asks for physical depth — a placed
-  object lying on the rule rather than printed into it.
-- **Pressed index** (`--of-pressed-shadow`): the selected
-  item in a segmented control, lifted off its recessed bed.
+- **Chrome** (`box-shadow: 0 1px 0 rgb(0 0 0 / 30%), 0 4px 14px rgb(0 0 0 / 45%)`; light: `0 1px 0 rgb(20 24 29 / 5%), 0 2px 10px rgb(20 24 29 / 10%)`): rails, docks, zoom, menus.
+- **Pressed bed** (`0 1px 2px rgb(0 0 0 / 50%)`): a segmented control's selected index.
+- **Slip** (`0 1px 1px rgb(22 32 43 / 18%), 0 3px 7px rgb(22 32 43 / 14%)`): a note laid on the ground.
+- **Scrim** (`rgb(6 8 11 / 62%)`): the dim over a board that can no longer be used.
 
 ### Named Rules
 
-**The Apparatus Rule.** Chrome is page apparatus, never a floating card. It takes
-the page's own stock, a hairline margin rule and the contact shadow. A white
-capsule with a heavy blur over the board is the failure mode this world exists to
-refuse.
+**The Float Only Rule.** A shadow means "this floats over the table". Page-level sheets, library rows and prep cards use a hairline and a tonal step, not a shadow.
 
-**The One Slip Height Rule.** Every placed object shares the one slip shadow, so
-everything on the board sits at the same height above the rule — notes, slips,
-code, images and tables alike. Shapes are held out: a box shadow is a
-rectangle, and a diamond is not.
-
-**The Night Ring Rule.** After Hours a slip is a deep colour on a deep page,
-and violet and blue were 1.2:1 on it. Notes and slips wear `--of-slip-ring`
-there: a hairline at 3:1 on the night page and a second lit top edge, so the
-slip reads as catching the light rather than as outlined. By day the ring is
-nothing. Gates and comment pins share the slip shadow but not the ring; they
-have edges of their own.
-
-## Motion
-
-**Entries are set down on a page.** This is a computation pad where every mark
-is a record, so the one authored moment belongs to the surface whose whole job
-is "here is what you have written down" — the board ledger on the front door,
-settling in a row at a time as if inked. Nothing else there moves.
-
-Everything else is feedback or continuity, and there is not much of it:
-
-- **A sheet comes out of the line it belongs to.** The account, share and
-  session sheets drop 4px out of the top bar with `transform-origin: top left`,
-  so they read as pulled from the bar rather than pasted over the board.
-- **A copied link says so where the click landed.** A 600ms accent wash on the
-  row, not a toast: the acknowledgement belongs where the action was, and this
-  is a control somebody uses twice and never again that session.
-- **Beds transition, they do not snap.** 140ms on hover and active states, and
-  the same for a swatch's selected ring — the ring arrives rather than
-  appearing.
-- **A surface comes out of the thing that opened it.** The colour picker is
-  pulled from the swatch grid, the table's colour bar from the table's top
-  edge. Both use the sheet's raise-and-fade, because a surface that simply
-  appears beside a control leaves you to work out the relationship yourself.
-
-### The session
-
-The same thesis carries onto the board while people work on it: **a mark
-somebody makes is inked in, and a result is set down a row at a time.**
-
-- **A new dot or reaction is inked in** — from nothing at its own centre, with
-  no overshoot. Only a NEW one: the view marks a mark `data-fresh` when it
-  arrives after the note was drawn, so opening a board or scrolling a note into
-  view never sets every dot on it popping at once. Revealing a hidden round is
-  the exception that earns it: the counts nobody could see are inked in then.
-- **The results are the focal moment.** When a round ends or is revealed, the
-  ranked rows settle in like the ledger (same stagger, same cap of six) and
-  each row's wash is drawn out once its row has landed.
-- **A share moves, it does not jump.** Poll and result bars are full width and
-  SCALED to their share, so an answer arriving slides the bar along at
-  `--of-settle` without laying the card out again.
-- **What hangs from the top drops out of it.** Notices, toasts, the voting
-  banner, the cluster panel, the listen prompt, the following bar and the
-  overview drop 4px from the top edge at `--of-quick`.
-- **A menu does not travel.** The context, board and table menus and the emoji
-  library are opened dozens of times a session; they only fade, at the quickest
-  pace there is.
-
-The keyframes move with `translate` and `scale` rather than `transform`, so
-they add to an element's own transform instead of replacing it: the overview
-is centred with one and the vote capsule sits astride its note's edge with
-another, and a keyframe written in `transform` slid them in from the side.
-
-Timing is `--of-quick` (140ms) for feedback, `--of-settle` (240ms) for the
-ledger and `--of-hold` (600ms) for an acknowledgement that stays where the
-click landed, on `cubic-bezier(0.16, 1, 0.3, 1)` — a confident arrival. **No bounce:**
-a ledger entry does not overshoot. The stagger (`--of-stagger`) is 28ms and capped at six rows,
-because an eleventh row arriving eleven beats late is a list that feels slow,
-which is the opposite of what a stagger is for.
-
-### Named Rules
-
-**The Reduced Motion Rule.** Reduced motion means fewer and gentler, not none.
-Under the preference every moving animation is re-pointed at a fade; the colour
-and opacity that carry FEEDBACK stay. An interface that stops acknowledging a
-copied link under that setting has traded an accessibility preference for a
-loss of information. `motion.test.ts` asserts it against the real stylesheet —
-and reads every `prefers-reduced-motion` block, having first been written to
-read only the first one, which was the tool tip's. A TRANSITION that moves
-something (`transform`, `translate`, `scale`, `rotate` or `all`) is held to the
-same rule: its selector is answered under the preference, which is how the
-record panel's turning chevron and the exit's travelling arrow were found.
-
-**Nothing loops.** There is no idle animation anywhere in this product.
-
-## Copy
-
-Interface text names things and states facts. It does not coach. A chip that
-is plainly a button does not say "press to take yours back"; an empty panel
-says it is empty; a failure says what failed — not "try again in a moment",
-which nobody can act on.
-
-An instruction stays when it is the only way to learn something: a held key
-that overrides snapping mid-drag, a double-click that fits a column, typing @
-to mention, how to copy a link by hand when the clipboard refuses, what a
-link gives the person it is sent to. Useful is kept; padding is cut.
-Consequences stay too — a delete that cannot be undone says so, once, where
-it is confirmed.
-
-A tip that is the control's name is not repeated as its description, and a
-keyboard shortcut rides on `aria-keyshortcuts` or the tip, not a sentence.
-`app/copy-rule.test.ts` reads every string the interface can show and fails on
-coaching, apart from the instructions listed there with their reasons.
-
-## Names
-
-A person's name is arbitrary-length content on a fixed-height control, and this
-world has two places that carry one: the account chip on the front door and the
-same chip in the navigation bar. Both cap it, ellipsise it and forbid wrapping,
-because "Muqtadaa Miandara" wrapped to two lines, grew the navigation bar to two
-rows, and starved the board title beside it down to `U…`.
-
-Avatars are `flex: none`. A flex child with no basis becomes an ellipse when
-its row is tight, which is what a long name did to one.
+**The Named Layers Rule.** Stacking uses the `--of-z-*` ladder (lifted, preview, guide, grip, tip, menu, search, chrome 10, panel 40, apparatus 60, reached 70, gate 100). No bare integers.
 
 ## Shapes
 
-Corners are small and get smaller the closer a form is to the page. Anything that
-reads as _stock laid on the page_ — sticky notes, frames, colour swatches — is cut
-at **2px**, essentially square. Apparatus that lives in the margins — rail, record
-line, zoom cluster — is **4px**. A control you press — a button, a field, a
-menu item, a segmented bed — is **6px**, and an item nested inside a bed takes
-the step below (4px), so the curves stay concentric. Overlays that appear over
-the board without belonging to it — menus, flyouts, notices, toasts — are
-**10px**. Round is spent on grab points: connection points and endpoints, with
-the rotate grip and the lock badge on a softer 25%.
-
-**The Radius Scale Rule.** Every corner names a step of `--of-radius-*` in
-`:root`; `design-tokens.test.ts` fails on a literal. The 5–8px band this file
-used to describe was four different numbers for one idea.
-
-Borders are hairlines: 1px `panel-border` on apparatus, 1px `control-border` on
-anything whose edge you must see to operate it, 1px dashed `panel-border` on
-absent or unreadable content over a 45° hatched fill. The selection frame is a
-1.5px accent outline drawn once per selection, never per object.
-
-Icons are drawn, not typed: an inline 24×24 set at a single 1.6 stroke weight,
-round caps and joins, inheriting `currentColor` so active and hover states are
-pure CSS. There is no icon font and no icon library. The set is `controls/icons.tsx` —
-a leaf, so a view can reach it — and an `<svg>` anywhere else must be drawing
-content (a shape, a line, a pointer, a specimen), which `controls/icons.test.ts`
-holds. Letters that ARE the subject stay letters: the format bar's A− and A+
-are type specimens, and "3 × 4" is a readout.
+Corners get smaller the closer a form is to the page: slips and swatches 2px (`slip`), margin chrome, rails and chips 4px (`apparatus`), controls 6px (`control`), floating surfaces 10px (`surface`), grab points round or capsule. Round means "grab me" and is spent on grab points, presence dots and faces. A nested bed takes the next step down so curves stay concentric. Borders are 1px hairlines; a boundary that must be perceived uses the control edge colour.
 
 ## Components
 
-### Tool Rail
+### Buttons
 
-Three runs, with a ruled divider between each, and each a labelled group for a
-screen reader: **navigate** (select, hand), **make** (sticky, text, shape,
-frame, connect, table, code, image) and **annotate** (comment). Image is made
-like everything else in its run; it is a button rather than a mode only because
-it needs a file first. Selection actions are not in the rail.
+- **Shape:** 6px corners (`rounded.control`), 30px minimum height (40px under touch), 12px horizontal padding.
+- **Default:** panel fill, 1px control-edge border, ink text in the control step.
+- **Primary:** accent fill with panel-coloured text; hover moves the accent 16% toward ink. Disabled primary becomes an outlined wash, not faded blue.
+- **Pressed / chosen:** accent wash with accent text and a 2px accent foot bar. Ghost buttons have no border until hovered.
+- **Large:** 40px high, 20px side padding, for the one act a sheet or gate exists for.
 
-Tools are 50px squares (`--of-hit-lg`, a whole decade of the rule; the AA 2.5.8
-target minimum is 24, and a tool reached for constantly deserves more than the
-floor) with 21px icons, muted ink at rest, ink on an accent wash on hover, and
-the page's colour on a **filled ink bed** when armed — different in kind from
-hover, not only in hue, so the tool you are holding reads at a glance. The pair
-is measured off the rule in `design-tokens.test.ts`. The rail is centred in the band between the
-navigation bar and the bottom gutter and never crosses either: as the window
-shortens the tools step down a decade at a time — 40px below 720 tall, 30px
-below 604 — and only below 494 does the rail scroll, because a scrolling box
-clips the tips. Under a finger the smallest tools are still 40px, so there the
-rail scrolls from 645px. A rail that scrolls says so: the end with more beyond
-it fades into the rail's stock (`data-more-before`/`-after`, written by
-`use-scroll-edges`), because a phone draws no scrollbar and a clipped rail
-otherwise looks like a rail with fewer tools.
+### Library rows
 
-Shape and Table have options. Pressing the ARMED tool opens them; a 12px strip
-in the rail's padding, beside the tool and never inside it, is the pointer's
-shortcut to the same menu. Opening moves focus in; Escape or a press elsewhere
-closes it and hands focus back. The shape menu walks with the arrows; the size
-grid is one Tab stop of 24px cells that the arrows resize, read out as
-"4 columns × 2 rows". U still cycles the shape kind; nothing on the rail does.
+One sheet of rows divided by hairlines on page stock. The whole entry is the link; its one primary action is a filled "Open table" label at the end, not a second target. Pin and row actions sit beside the anchor; row actions appear on hover or focus-within and are always visible without hover. Prep is a single header entry shown only to someone who runs a table. Names and states are real data only: the name, a sharing or "this browser" tag, and when it was touched. Seat dots are not built (the list carries no presence), and rows still say "boards".
 
-### Tool Tip
+### Tool rail and dock rail
 
-The label, not a standing caption: eleven standing captions were most of the old
-rail's height. Ink-filled, page-coloured text at 12px, 6px radius, 10px to the
-right of the tool, fading in over `--of-quick` (140ms) and suppressed under
-`prefers-reduced-motion`. It appears on **hover and on keyboard focus** — a
-tooltip only a mouse can summon is not a label. The shortcut inside it is 12px
-mono in decade-rule grey.
+Narrow columns on page stock with a hairline and chrome shadow. Tools are 50px muted-ink icons on no ground; a hovered or focused tool gains a hover bed and its name as an inverted tooltip (ink fill, page-coloured text) that appears on hover and keyboard focus. The dock rail sits on the right edge, centred between the navigation and the foot; its tips open leftward toward the table. Buttons come from a registry filtered by posture and an entry for something unbuilt is not drawn. Today the only dock is the Outline: a 320px panel the height of the table band with a step of air beside the rail, a tree of objects walked by keyboard, closing on Escape.
 
-### Format Bar
+### Record panel and zoom cluster
 
-One bar for every text — a note, a text box, a shape's label, a slip, a
-connector's label, a frame's title and a table cell (ADR 0014). Bold, italic,
-underline and strike as letters that show the mark; A− and A+ stepping the
-size; then bulleted and numbered lists, drawn as icons. It floats above the
-text being edited, and inside a table it is the first row of the cell bar,
-driving the cell with the caret. Its shortcuts are every document editor's:
-Mod+B/I/U, Mod+Shift+X for strike, Mod+Shift+> and < for size, Mod+Shift+8
-and Mod+Shift+7; every tip names its shortcut. "- ", "* " and "1. " start a
-list as you type, Tab nests an item and Enter on an empty one ends the list.
-Lists are drawn by the stylesheet — •, ◦, ▪ and 1., a., i. by depth — never
-typed.
+The record panel floats beside the selection with the surface radius, a head naming the object type in the interface sans, labelled rows, and delete in its top corner. The zoom cluster is a bottom-right bar with tabular numerals, a slider, a typed percentage and presets in mono.
 
-Last comes **Link** (Mod+K). It opens an address field in the bar itself,
-holding the current target; Enter links the selection, an address the board
-may not hold is refused in place, and "Remove link" takes it off. Pasting an
-address over words links them. On the board a link is the text's own ink
-underlined in the accent; a plain click still selects, Mod+click opens it in a
-new tab (ADR 0021).
+### Prep shell
 
-Between A− and A+ sits the size, in 12px mono: the multiple of the object's
-own size (×1, ×1.4 … ×7.6), from the same ladder the `.of-size` rules draw. The
-ends switch their button off. It is a toolbar a keyboard reaches: Alt+F10 from
-the text goes in, the arrows move along it, Escape comes back to the text with
-the selection it had. Going to the bar is not leaving the edit.
+A 240px navigation on page stock whose sections come from a registry (Scenes only today), a current item on the accent wash, "Back to library" as an underlined muted link at the foot with the theme toggle. The main area holds a page title, Create scene, and cards on page stock (10px corners, 16px padding, name over last edited); a hovered card takes the hover bed and the control edge. Cards carry no thumbnail yet.
 
-### Tables (a lightweight spreadsheet)
+### Display status
 
-A table is edited the way a spreadsheet is (ADR 0015), because that is what
-everybody who reaches for one already knows. Double-clicking opens the cell
-under the pointer with a caret; otherwise a cell is SELECTED rather than
-typed in, and the keyboard moves it — arrows, Shift to extend, Tab along the
-row and on to the next, Enter or F2 to type, Delete to clear, Mod+A for
-everything. Typing over a selected cell replaces it; Enter finishes a cell
-and moves down, Escape stops typing and keeps what was typed — no key on the
-board throws words away; undo does that.
+On the display route, a status line in words at 1.6em on the panel with a control-edge border, top centre. The route shows the scene on the daylight ground, view-only, with no rail, bar or dock.
 
-- **The apparatus lines up with the grid.** Column letters and row numbers sit
-  exactly over the tracks they name, in 12px mono at the apparatus radius,
-  and select what they name when pressed. The selection is a 2px accent ring,
-  a range carries a 10% accent wash and the cell the range started from keeps
-  a 1px ring. All of it is in screen space (rule 24): the same thickness at
-  every zoom.
-- **Lines belong to the grid, not to cells.** A table has no border of its
-  own; its outer edge and its inner lines are all grid lines, drawn over the
-  cells in world units like any other object's outline. Unset, the outer edge
-  is the control border and the inner lines the ruled grey — the look a table
-  always had — and the table's line colour and weight in the record panel
-  recolour every line nobody chose separately.
-- **The borders menu** is the one every spreadsheet has: eleven presets drawn
-  as the lines they reach (all, outer, inner, inner horizontal, inner
-  vertical, top, bottom, left, right, none, and the table's own), then the
-  pen — weight, pattern, colour — they draw with.
-- **Sizing a track is done where a spreadsheet does it.** The edge between two
-  letters or two numbers is a grip: drag it to size the track before it, or
-  double-click it to fit that track to its content. The table grows to hold
-  the change rather than squeezing its other tracks, and the new size lands
-  with the rest of the edit. From outside the editor the board's own dividers
-  do the same. Either way a merged cell is left out of the measurement: its
-  width is shared, so it says nothing about any one column.
-- **Rows, columns and merging** live on the table's menu: right-click a cell or
-  a letter, or the `···` in the cell bar. Inserting takes as many rows or
-  columns as are selected and dresses them like their neighbour.
-- **The format bar works with no caret.** With a range selected, bold,
-  size and lists apply to every cell in it, and read as on only when every
-  cell already is.
-- **A cell is aligned on its own.** The cell bar's second row sets across
-  (left, centre, right) and down (top, middle, bottom) for the selected cells,
-  as radios showing what the selection has, or the table's own. A cell's own
-  alignment beats the table's: a column of figures can sit right under
-  headings that sit left, and the record panel then aligns only what nobody
-  aligned separately. Reset gives a cell back its colours AND alignment.
+### Scene stock
 
-### Tips on Everything Else
+A note is a pale paper with a deep ink of the same hue, a 2px corner and the slip shadow. A frame uncoloured is laid on white paper. Table inner lines use `--sc-edge-inner`, held at 3:1.
 
-Every other control that needs a word says it the same way: the label in ink,
-page-coloured 12px text at the control radius, above the control (the zoom
-cluster hangs its tips from their right edge so none leaves the window). It
-answers keyboard focus at once and a resting pointer after `--of-dwell`
-(400ms), so a pointer crossing the chrome is not a flurry. It is `data-tip`
-on the control, drawn by the stylesheet, with the same text as an
-`aria-description` — which is what the browser's `title` had been doing for
-assistive tech while showing sighted keyboard users nothing, on forty-two
-controls. `title` survives only where it reveals content: an ellipsised field
-label and a comment pin's excerpt.
+### Named Rules
 
-### Navigation Bar
+**The Registry Draws The Chrome Rule.** Rails, docks and prep sections come from registries filtered by role and posture; a surface for something that does not exist is absent, not inert.
 
-A bar along the top, where a page's heading is looked for. It is marked as the
-page's `nav` ("Board"), with the board's name as its `h1`. The tab carries the
-name too, as "<name> — OpenFrame": a board found again among several open
-tabs, or in the history a week later, is found by its name.
-
-**Three zones**, each a named `group`, so a screen reader hears the same
-hierarchy a glance sees:
-
-1. **This board** — "All boards", the name, the board's menu (⌄), and the
-   safety readout; "N selected" only while something is.
-2. **Session** — one pill for the timer and the music.
-3. **People** — the other people's faces, Share, the Inbox, your account.
-
-Nothing else is on the bar. Undo and redo are with zoom at the foot of the
-board, because they are how the board is handled; the theme is in the
-account sheet, because it is chosen once and kept. There is no link to the
-source: the owner holds the copyright (PRODUCT.md, Brand Commitments).
-
-**Type.** The name is set in the interface's own voice, 15px sans at 600 in
-full ink, and takes the room the bar has up to 48ch. A name that still does
-not fit is shown whole in its tip. "All boards" is at the control size and 500;
-every readout stays a record, 12px mono and muted, bolded to 600 in full ink
-where it is a number.
-
-**The board's menu.** A chevron beside the name, outside the heading, on the
-menu's paper: Rename (the name also renames on a press), Version history…,
-Board overview (Alt+S, also in the menu on the empty board) and Export as
-Markdown (see Export). It is always there now. Where accounts are
-switched off, so there is no account sheet, it also holds the After Hours
-theme.
-
-**The safety readout** says whether the work is safe, in one place: "Saved"
-on a board of your own; "Saved · Live" on a shared one, with a dot; "Offline ·
-saved here" while the room is out of reach (reconnecting or not — the dot's
-colour and the tip say which); "Not saved" when the write failed; "Read-only".
-Only a failure is inked, in the danger colour at 600, and only a failure is
-announced. Being offline is never hidden for room, because it changes what
-every edit means.
-
-**Share is a verb.** A plain button. The owner gets both links and the
-password; anybody else gets the link they arrived on, copied, and the button
-says so ("Edit link copied"). Sharing a board of your own asks first, then
-moves it. It never reads "Shared" — the room's state is the readout's.
-
-**Faces** are the other people's: yours is the account's. Three at most and a
-count; the count opens everybody, you included (see People and Following,
-below).
-
-**The Inbox** is one count for what is waiting for you — unread mentions plus
-agent changes this browser has not been shown yet (see Inbox, below).
-
-**Your account** is quiet apparatus, never an outlined chip. Pressing your
-name opens a sheet with who you are, "Sign out" (never on the press itself),
-and the theme as two named choices, Notebook and After Hours. Signed out,
-"Sign in" opens the sign-in sheet, which carries the theme too.
-
-**Keyboard.** Enter or Escape in the name or the zoom readout hands focus back
-to the control that opened it. Every sheet takes the keyboard on arrival and
-hands it back on Escape. Every tipped control names itself explicitly, because
-a tip drawn by `::after` is otherwise read into its name. Tips and sheets open
-downward. Shortcuts read "Ctrl+Z" off a Mac and "⌘Z" on one; Alt+T opens the
-Session.
-
-**Narrow windows** are measured, not guessed at (use-squeeze.ts). The bar used
-five breakpoints, each worked out for what it carried at the time and each made
-wrong by the next control to join it. Now, whenever its size or its contents
-change, it steps through what it may give up only as far as it has to: the
-name shortens first; then the account becomes its face; the selection count
-goes; the exit keeps its arrow; the readout its first word ("Offline"); the
-session and the inbox keep their icons and counts; a running pill its time and
-its note; Share becomes its link; the gaps and rules tighten; the name gives a
-few more characters; and, last of all, on a phone's bar with the room out of
-reach, the readout is its dot, its word kept for a screen reader. Every control
-stays, inside the bar and clear of its neighbours, at every width; signed out,
-"Sign in" stays a word.
-
-### Inbox
-
-The Inbox is one count for what is waiting for you — unread mentions plus
-agent changes this browser has not been shown yet — in the accent's wash while
-there is any, plain once there is not, and absent until there has been
-something. A mention is read by following it; an agent change is read by
-being looked at — closing the Inbox reads what was in it, so the count does
-not stay up for as long as the change is on the board. Read rows lose their
-accent edge but stay listed, with Revert, until they leave the log. Its sheet
-has a section each. A mention marks itself read and goes to its remark; an
-agent change has Show, which selects and frames what it touched and puts the
-sheet away, and Revert ("Taken back by <name>" once it is, with "2 objects
-kept, changed since" when a revert left some). A viewer sees the rows without
-Revert. A new agent change also arrives as a toast with
-Revert on it.
-
-On the front door, where there are no agent changes, mentions keep their own
-bell (Discussion and Presence).
-
-### Version History
-
-"Version history…" in the board's menu, on a local board (kept in this
-browser) and a shared one (kept by the room, ADR 0019). A 320px sheet on
-paper, hung from the menu. An editor gets "Name this version" and Save; then
-the versions, newest first, each a full-width row reading its name or its
-time — "14:05 today", "yesterday", "Wed, 7 Oct", the year only when it is
-not this one — with the time under a name. A named version has Delete, which
-asks again as "Delete for good"; an automatic one has none. The newest fifty
-are drawn, and "Show earlier versions" brings the next fifty, the keyboard
-landing on the first of them. "Loading
-versions", "No earlier versions yet." and a failure that names what failed
-are the only other things it ever says. The keyboard lands on the newest
-version and stays inside until Escape hands it back to the menu.
-
-Choosing a version shows it on the canvas, read-only, and the navigation bar
-gives way to the preview's own: "Viewing 14:05 today", "Restore this version"
-for an editor, and "Back to now". The heading takes the keyboard and is
-announced; Escape is Back to now, which puts the keyboard on the board. Below
-520px the bar wraps, the title on its own line. **Restore keeps first:** the
-board as it is now becomes a version before anything is replaced, the toast
-says so, and if it cannot be kept nothing is restored. A restore is one undo
-step.
-
-### Board Overview
-
-What is on the board, in words — for arriving at a board somebody else made,
-and for anybody who cannot scan the canvas by eye. Alt+S, the board's menu,
-or the empty board's menu open it at the top centre, 440px at most; below
-520px it starts after the rail. It is not offered in a preview or on a board
-that cannot be read.
-
-The board's title, then one sentence — "3 objects: 2 sticky notes, 1 frame."
-— and, when something claims without grounds, "Citing nothing: 1 insight."
-Then a tree in reading order, "Citing nothing" first: each row its type and
-gist ("Frame: Interviews"), a container's count in mono at the row's end and
-a drawn chevron that opens it. Two hundred rows a level, then "N more — find
-on board", which opens search. The tree walks as a tree does (arrows, Home and
-End, right opens, left closes); Enter or a press on a row selects that object
-and brings it into view, and the chevron only opens. It drops from the top
-like a notice.
-
-### Export
-
-A board, a frame or a selection leaves as a **Markdown readout**
-([ADR 0020](docs/adr/0020-export-as-a-readout.md)), to the browser's downloads,
-named for the board and the part ("pricing-study-interviews.md"); the board
-says "Exported pricing-study-interviews.md". It is a readout, not a picture:
-loose things first, then each frame as a heading; every object its type and
-its words with their lists and marks; a record's fields under its own labels;
-and what each thing stands on and what stands on it, so an insight leaves with
-its evidence. A board's readout ends with what cites nothing. A bare shape or
-line is counted, not listed. Nothing is written, so a viewer can export.
-
-### People and Following
-
-On a shared board, the people zone's "+N" opens "People on this board":
-everybody, you first as "Ada (you)", each a face in their colour with their
-initial, their name, and either "Follow Ada" — a pressed toggle with one name,
-`aria-pressed` saying whether it is on — or why they cannot be followed
-("Following someone", "No view to follow"). Choosing closes the sheet. The
-person you follow is always among the three faces on the bar.
-
-While you follow somebody, the top of the board says so in the notice's look:
-a dot in their colour, "Following Ada", and Stop; below 520px it runs from the
-rail to the gutter. Your view rides theirs. It stops when you press Stop,
-move the board yourself, or when they leave or follow somebody else, and
-"Following Ada" and "Stopped following Ada" are announced either way.
-
-### Session Timer
-
-One countdown for everybody at the board (ADR 0017), in the **Session pill**
-beside the people — it is about the session, not the board. The pill reads
-"Session" at rest; while the timer runs or is paused it shows the time in
-mono, tabular, so the digits do not jitter, with the control edge — and a note
-after it, "5:00 · ♪", while music plays. Paused, the clock gives way to two
-bars and the time goes muted, and its name says "paused". At zero it takes the accent's wash
-and edge, the Inbox's "look at me", and stays so until somebody resets it.
-Alt+T opens the pill's sheet at the timer.
-
-The sheet's Timer section holds a large readout, who last touched it ("Started by Ada"), and —
-for an editor — five presets in minutes, a duration field that takes minutes or
-`m:ss`, then Start, or Pause / Resume, +1 min and Reset. Reset is outside the
-board's undo, so the sheet offers Undo reset in its place until anything else
-is done to the timer. A viewer gets the
-readout alone, and no button on the bar until there is a timer to watch.
-
-The readout rounds UP, so it reads 0:00 only once time is up. "1 minute left"
-and "Time's up" are announced through the board's live region, once per run on
-every device. At zero a two-note chime is synthesised (no audio file); where the
-page has not been touched since, so the browser will not sound it, the bar
-pulses in colour instead — colour, not movement, so reduced motion keeps it.
-
-### Session Music
-
-The Session pill's second section, and only where there is a library to play
-from: no room server, or nothing approved in it yet, and there is no Music
-section. While music plays or is paused the pill carries a note.
-
-The section holds the genres that have tracks, as a row of pressed toggles —
-the one playing in the accent's wash — then what is playing: title, artist,
-"CC0", and the time into the track in mono. An editor gets Play, or Pause, and
-Stop. Everybody gets this device's sound: Mute and a volume slider, kept in
-this browser and never sent to anyone. An editor also gets the track before
-and the next one, either side of Play — the playlist wraps, and "previous" more
-than three seconds into a track starts it again, as every player does.
-
-A browser makes no sound until somebody on that device presses something, so
-music somebody else starts is OFFERED rather than waited for: a notice under
-the Session pill, "Ada started the music", with Listen and a dismiss. It never
-takes focus, and it is announced once. Waved away, the pill keeps saying so
-— the accent edge and a dot, "not playing here" in its name — and the sheet
-keeps "Listen here". Once somebody in a browser has said yes, later music
-joins on its own, or on their next press anywhere where the browser insists on
-one. A viewer gets everything but the editor's buttons, and no pill on the bar
-until there is a timer to watch or music to hear.
-
-### Poll Card
-
-Made from the rail (Poll, P). It is drawn on the slip's stock and corner, white
-by default, with the question in semibold. Its options are rows that a press
-answers, each with a control edge. A picked row takes a ring in the card's own
-ink and a drawn tick before its label, and the count and its percentage sit in mono at the row's end. Each row's
-bar is that option's share of the people who answered, drawn behind the words
-in a wash of the card's ink so it reads on any paper, in either world. Only the
-rows are controls: a press between them takes hold of the card. Underneath, in
-mono: "Closed", how many have answered — always, results hidden or not — and
-"results when closed" while they are hidden; and, for the person who asked, a
-quiet "Close poll" / "Reopen" on the card itself. A poll records who asked it
-(a poll from before that knew nobody, and anyone may close it). Closed, its
-rows lose their solid edges and read as a result.
-
-One answer each by default, and picking another moves it. Several answers is a
-record field, as is hiding results until the poll closes; each is its box and
-then its whole label, across the row. The options are edited in the record
-panel, as a list: each label commits when you leave it, and Add option and
-remove keep the poll between two and ten. An option somebody has answered is
-fixed — read-only, and not removable. A viewer
-sees the card and the counts, with the rows switched off. While results are
-hidden, each person sees which row is theirs, and nothing else.
-
-### Dot Voting
-
-Started from the context menu: from empty board on the whole board, from a
-frame's menu on what that frame holds, or from the menu of two or more selected
-notes on just those. (One note's menu already fills a laptop window; it gains a
-row only while a round is open.) A note made inside a frame belongs to it, so a
-frame's round covers everything plainly in it. Its setup sits at the top of the
-board, under the navigation bar, in the notice's panel stock: the scope in its
-heading, a title, votes each (5 by default, up to 20), "Hide counts until
-revealed", Start. Escape or Cancel leaves nothing behind.
-
-While a round runs, the same place holds it: the title, "3 of 5 votes left" in
-mono with how many people have voted (never which notes), and the dot tool's
-two modes side by side: **Vote**, which reads "Voting" while pressed, and
-**Take back**, in which a press takes one of your dots off a note. A finger has
-no Alt key, so a misplaced dot on a phone could once only be undone; Alt-click
-still takes one back while adding, and the Take back tip says so. Choosing any
-tool returns the dot tool to adding. A click on a note places a dot when the button comes
-up, so a drag or the first finger of a pinch places none; a double-click is two
-dots and opens nothing; a right-click opens the menu and votes nothing. The
-tool reaches through a group to the note and past a selected note's handles.
-It is armed when a round starts, and put down by Escape or whenever there is no
-open round — ended, cleared, undone, or taken by somebody else. Whoever can edit
-also gets Reveal (while hidden) and End; once ended, Reopen and Clear. Reveal
-and Clear ask in the bar first ("Show everyone the counts?"), with the keyboard
-on the answer that does it. Putting down the last vote lets go of the tool and
-the bar reads "All 5 votes placed". A viewer
-reads "Voting open · view only". The banner is furniture: a selection's floating
-apparatus keeps clear of it. Below 520px wide the round is one line — "3 of 5
-left" and the Vote switch — and the rest is in a menu beside them: Take back
-dots, Reveal, Results, End, Reopen and Clear, under a line naming the round and
-how many have voted. There the results wait to be asked for rather than opening
-on End, since the list would take back the top of the board the line gives. Results lists the notes by dots, most first —
-each with its place (ties share one) and an ink wash for its share of the top
-count — each a row that selects and shows its note, with "Select top 3" (ties
-with third come too). Ending a round opens the results for everybody: they
-follow the round's status, not one person's press.
-The keyboard votes from the context menu — "Dot voting", holding Add vote and
-Remove vote — offered only while a round is open and only on notes it covers. On
-several notes it is one change and one undo step, and all or nothing when dots
-run short.
-
-On a note, its dots sit astride its top edge, clear of its text and of the
-reactions along its bottom edge: up to five accent dots drawn one by one, and
-past five one dot and the count in mono. While counts are
-hidden a person sees only their own; the capsule takes an accent edge when any
-of them are yours.
-
-### Cluster with AI
-
-Offered in the context menu of a selection holding three or more notes with
-text, on a board the person can edit, where the room server has the AI. It
-opens at the top of the board, in the notice's panel stock, like dot voting's
-setup. While it is open it rises above the selection's apparatus, which would
-otherwise float over it. It moves through stages, each with the keyboard on
-its first control:
-
-1. **Before anything is sent:** the note count in the heading, and one line
-   saying the notes' text goes to Anthropic. Cluster, Cancel.
-2. **While asking:** "Clustering 12 notes…" as a status. Cancel stops the
-   request.
-3. **The proposal:** the title and each theme's label are fields. Under each
-   theme sit its summary and its notes' gists, then "Other" with a count, and
-   what Apply does: "Adds a frame with copies of 12 notes; the originals
-   stay". The runs left today are in mono, to the right. Apply, Discard.
-4. **A refusal:** the plain fact ("AI needs an account", "No AI runs left
-   today"), then Close — with Sign in beside it when the account is what is
-   missing.
-
-Apply lays the themes out beside the notes, never over them: one frame
-holding a frame per theme, with copies of the notes inside. The originals stay
-where they were. It is one undo step. Escape closes the panel at any stage and
-leaves nothing behind — except that the first Escape in a field only leaves
-the field. The record panel steps aside while the panel is open.
-
-### Summarise with AI
-
-The same sheet as Cluster with AI — one component, `ui/ai-sheet.tsx`, so the
-stages, keyboard and refusals cannot drift apart — offered beside it for two
-or more notes with text, or for a frame, which stands for every note inside
-it. Opening one AI sheet closes the other.
-
-1. **Before anything is sent:** the note count, and the line saying the notes'
-   text goes to Anthropic. Summarise, Cancel.
-2. **While asking:** "Summarising 12 notes of Interviews…" when it is a frame.
-3. **The summary:** the title, then each point as a two-line field headed
-   "Point 2 · cites 3 notes", with the gists of the notes it cites beneath.
-   Emptying a point takes it out — the one way to drop what the AI got wrong,
-   without a remove button on every row. What Apply does: "Adds a text box
-   citing 5 notes; nothing summarised changes". Runs left in mono. Apply,
-   Discard.
-4. **A refusal:** as for clustering, with "summarise" in the decline.
-
-Apply puts one text box beside the frame or the selection, never over it: the
-title as a bold large line (rich text has no headings), each point a bullet.
-Each note a point cites is linked by a `cites` relation, so the record panel's
-"stands on" lists them and the Markdown export writes them. The box is
-selected and revealed; it is one undo step (ADR 0022).
-
-### Zoom Cluster
-
-Bottom-right, mono throughout. 30px buttons (`--of-hit-sm`) carrying 16px
-icons. Undo and redo come first, then a rule, then two settings, then a rule,
-then zoom itself.
-
-- **History.** Undo and redo, named by what they would undo ("Undo move 2
-  objects"), with ⌘Z / Ctrl+Z in the tip. They are how the board is handled,
-  so they sit with zoom rather than taking the navigation bar's best place
-  beside the name. While a field is being edited they drive its own history.
-
-- **The settings.** "wheel: zoom" (or "wheel: pan") is set as a value in 12px
-  mono beside its mouse icon; a bare "zoom" read as the cluster's heading.
-  Below 480px — a phone, with no wheel to describe — the value goes and the
-  icon keeps its name, so the cluster keeps its gutter.
-  Snap is drawn as a square set down on a grid of points, never as grid lines,
-  which were nearly the Frame tool's glyph. A pressed toggle carries a 2px
-  accent bar along its foot as well as its wash, because the wash alone is not
-  a visible boundary — a bar and not a ring, because a ring is what focus
-  draws, and a pressed toggle must never read as a focused one.
-- **Zoom.** −, a 104px measurement slider read as its percentage, +, a 60px,
-  13px tabular percentage, and fit.
-- **The percentage** becomes an inline editor on an accent-soft bed with a 1px
-  accent outline. While it is open, the common zooms (50%, 100% and 200%) sit
-  above it for a pointer. A zoom it cannot take is refused with the reason
-  where it was typed: "Type a number, like 150" or "Zoom is 5–1600%". It is
-  never silently clamped.
-
-### Icon Buttons
-
-A glyph on no ground that takes a bed when you reach for it: 30px
-(`--of-hit-sm`) at its smallest, muted ink at rest, ink on the hover wash,
-accent on the accent wash when pressed (the state an active tool takes), and
-correction red on hover only when it removes something. A text button
-(`.of-button`) that is pressed or chosen — the dot tool's modes, a timer
-preset, a music genre, Mute — takes the same mark: the accent wash with a bar
-along its foot, never an all-round ring, because a ring is what focus draws.
-Four surfaces had invented their own, Mute as text colour alone at 1.14:1
-(audit 2026-10-08); `design-tokens.test.ts` holds the one rule. The zoom
-cluster's history and settings, the arrange and format bars, the record panel's
-remove and the front door's row actions are all this one control; six private
-versions at 24, 26, 28 and 30px were folded into it, and the three under 30
-were under this world's own target.
-
-### Measurement Sliders
-
-Instruments, not consumer volume controls. A 3px square-ended decade-rule track
-with a 4×14px ink index — a position on a scale. The saturated filled track and
-large round knob of the stock component was the loudest remaining toy tell next
-to a ruled page.
-
-### Record Panel (Inspector)
-
-The signature component. A 360px panel on panel white that floats beside the
-selection and exists only while something is selected, cut from the one
-contextual surface (10px, below).
-
-**It always fits its window.** Its height is capped to the tallest band beside
-the selection, and past that it scrolls, with its rows kept at their own
-height rather than squeezed. Below 560px wide — or when no side of the
-selection has room for it — it docks as a sheet along the bottom, on the chrome
-layer, taking at most half the window. A newly selected thing the sheet would
-cover is slid up into the half above it — the smallest pan, never a zoom, and
-never mid-gesture — so a poll's own Close is not under the panel describing
-the poll. Below 520px tall on a wider window — a phone held sideways — it
-docks down the right edge instead, 320px wide, between the navigation bar and
-the zoom cluster (`--of-nav-band`, `--of-zoom-band`), and a selection it would
-cover slides left the same way. When it goes (Escape, Delete, a click away) and the keyboard was in
-it, the keyboard goes back to the board.
-
-**On a phone, surfaces dock to the edges.** Below 520px wide, everything that
-would float over the board's middle runs instead from the rail's edge to the
-gutter (`--of-rail-reach`): the voting banner and its setup, the cluster
-panel, Find, the board overview. Surfaces anchored to something — the sheets,
-the reaction bar — keep off the rail because the rail is measured furniture
-(`data-keep-clear="left"`) like the bar and the zoom cluster, and are never
-wider than the room beside it. The version bar wraps, its date above its two
-ways out.
-
-**Its head names the thing.** The type as a title in the interface's own
-voice (15px, 600, ink — "Evidence", "Journey stage") with what the object says
-beneath it in one muted line; a mixed selection reads "2 objects" over what it
-is made of ("sticky · shape"). It used to be the type id in 12px muted mono —
-the faintest text in the panel, on the line that should carry the most — and
-this is the one place the panel can show that a note and a piece of evidence
-are the same object with a different payload.
-
-**A record comes before its appearance.** A type that carries semantic fields
-gets two bands, named as specimen labels in the front door's register —
-`record` above, `appearance` below — so the half that means something and the
-half that dresses it no longer share one grammar. An empty record field has a
-dashed edge and an "e.g." example in italic, so an unsourced slip never reads
-as sourced.
-
-Each property is a record row: an 82px right-aligned mono label column and a
-value column, 40px (`--of-hit`) minimum row height. The width is arithmetic,
-not taste: 82px holds eleven 12px mono characters, so a type-declared label
-such as "participant" is never clipped into a different word, and what is
-left must still take a full row of the swatch grid. `design-tokens.test.ts`
-does that sum on every build.
-
-**Each word names one thing.** The colour targets are surface, text, outline
-and label; "fill" is only the none / tint / solid row and "dash" the line's
-pattern — they used to share "fill" and "line" between two controls each —
-and vertical alignment is "vertical", not "down". A new object's colour is
-marked even though nobody chose it: each view declares the colour it is drawn
-in (`defaultColor`), and a test renders every one to hold it to that.
-
-**A keyboard crosses it.** Delete is last in the panel's order, drawn in its
-top corner; each radio row is one Tab stop whose arrows move the choice; every
-option is at the 30px secondary target.
-
-**It gets out of the way.** A menu sits over it (`--of-z-menu`), and holding
-Shift — building a selection — makes it step aside, faint and letting the
-pointer through, because the next object is usually under it. Colour and
-opacity preview on the selection while they are aimed and write once, when
-the gesture ends.
-
-**Which fields appear comes from the registry** (`capabilities.styleProps`), never
-from a hardcoded list; adding a property to an object type surfaces it here with
-no change to the panel.
-
-### Swatches and Segmented Controls
-
-Colour swatches are 30px squares at 2px radius with a `control-border` hairline,
-selected by an ink border plus a 2px inset panel ring. They are index-slip stock,
-not paint dots: saturated circles read as a paint app, and the page already
-speaks the language of rectangles.
-
-Eleven colours and the way out of them no longer fit a line, so they are a
-**6x2 grid** — a block you read as a palette. The objection was always to the
-accidental 5 + 2, not to two rows.
-
-An **ink swatch is a specimen**: the letter in that ink, on that ink's own slip,
-which is the pair the palette tests. The two neutrals take the other neutral,
-because their ink and paper are one value and `white` on `white` is an empty
-square — which is what the first build of this grid shipped.
-
-**One palette, and a target.** Where more than one property can take a colour,
-the control names what it paints rather than repeating the grid: the record
-panel for surface and text, a table's bar for fill and text. Three grids
-of eleven is thirty-three swatches you have to count columns to navigate, and
-in the record panel it also made a floating panel 68px taller — which covers
-board, and covered an object somebody then could not pick up. The targets come
-from the registry's `styleProps`, so a type declaring one colour gets no
-selector: a choice of one is not a choice. Segmented choices sit on a recessed desk-grey
-bed at 7px radius; the selected item is panel white with accent ink and the
-pressed-index shadow.
-
-### Context Menu
-
-Panel white, 10px radius, 196px minimum. Items are 15px UI text in 30px
-(`--of-hit-sm`) rows at 6px radius, taking the accent wash on hover and on
-keyboard focus, with shortcuts at 12px mono in muted ink, one notation per
-platform. Groups are separated by a hairline margin rule.
-
-A selection's menu leads with what it can become — Derive, Promote — then
-clipboard — with Export as Markdown beside Copy for a frame, a group or
-several things, never for one note, whose menu already fills a laptop window —
-grouping with the stacking order folded into "Arrange ›", lock and hide, and
-Delete alone, which turns danger when aimed at. Empty board gets its
-own: Paste here, Paste special ›, Add a note here, Select all, Zoom to fit.
-**Paste special** makes what another application copied into what is asked
-for, rather than what Mod+V would guess: As notes (one sticky per line, list
-markers dropped, laid out in a block at the point, one undo step), As a text
-box (formatting kept), As a table (tabs, else commas, even prose) and As plain
-text. It reads the system clipboard itself, so the browser may ask; when it
-refuses, a toast says to paste with Mod+V instead. Mod+V reads a CSV as a
-table only when it is plainly one — two or more rows of the same width, no
-spaces after the commas — so a sentence with commas stays a text box. It is an
-ARIA menu:
-focus goes in, the arrows walk it, Escape closes only it and hands focus back,
-unavailable items stay reachable. From the keyboard (Shift+F10) it hangs from
-the selection.
-
-### Discussion and Presence
-
-A remark is about a place on the board and is read in the margin. **Pins** are
-26px speech marks on the apparatus layer whose pointed corner is the spot —
-accent at rest, ink while open, a dashed outline for a comment written and not
-yet posted. The **panel** is a 300px surface at the gutter under the navigation
-bar: a remark is an avatar, the name, and how long ago in 12px mono (the exact
-date in its tip); the list reads author · when · N replies · excerpt. Nothing
-typed is lost: a draft is kept per spot or thread until it is posted. Reading a
-thread puts the keyboard at its heading; "All comments" goes back. Below 560px
-the panel is a sheet along the bottom, sized in `dvh` so a phone's toolbar
-cannot push it off the screen, and clear of the rail and Find. Typing `@`
-makes the composer a combobox for the mention list: `aria-expanded` and
-`aria-controls` only while the list is there, and a count that is announced.
-
-On the front door the **mentions bell** is a quiet chip at control height — the
-accent's wash and a bold count while unread — and opens a sheet like account
-and share. On a board, mentions are a section of the Inbox (Navigation Bar).
-**Presence** names people, not colours: a tag rides each peer's cursor and
-selection, dashed for selected and solid for editing; the bar shows 24px faces
-side by side, three at most and "+N", initials in page or panel colour. "+N" is
-a button that opens a sheet listing everyone on the board, each person someone
-you can follow. The person you follow is always among the three faces.
-
-### Search
-
-Mod+F, top centre under the navigation bar: a surface 440px wide holding one
-box and, once there is a query, a mono count and the results. Each result is
-its kind in 12px mono, then what the object says — never its kind a second
-time. It is a combobox: the keyboard stays in the box, the arrows move the
-highlighted result and say so to assistive tech, Enter reveals it. The panel
-takes the focus ring while the box has the keyboard. A press elsewhere or
-Escape closes it and hands focus back; nothing found suggests `type:`.
-
-### The Front Door
-
-`/` is the entry surface — the only page in the product that is not a board,
-and it is still the page. Ruled page stock in both weights, and one sheet of
-apparatus divided by a rule into a board ledger and sign-in.
-
-It was neither of those things when first built: a flat grey ground carrying
-two same-size panels of white side by side, which is the neutral void this
-world refuses meeting the card scaffold it refuses, on the first screen anybody
-sees. Ruling it and collapsing the panels into one sheet is what made it belong.
-
-- **Ledger rows** — title in UI sans, "how long ago" in 12px mono with tabular
-  numerals, divided by the margin rule, taking the accent wash on hover. A time
-  is a measurement, so it is set as one.
-- **Specimen labels** — section names are 12px mono, lowercase, tracked, muted:
-  the same register the record panel uses to name its subject.
-- **Ground** — tiled `linear-gradient` with `background-size`, never
-  `repeating-linear-gradient`, whose stops accumulate in floating point across
-  the box and band into visible plaid at the 10px pitch.
-- **The account chip** opens the account sheet, exactly as the board's does.
-  It signed you out on one press; a chip that means two things in two places
-  means nothing reliably.
-- **Tags say what is true of the row**: "yours", "shared with you", "view
-  only", "this browser". "shared" was on every row once every board was born
-  in a room.
-- **Signed out**, the door says the one thing it must not imply otherwise: a
-  link somebody sends you opens without an account.
-- **Phone width** — the header wraps, the page never scrolls sideways (a tip
-  is laid out even while invisible), and a row's confirmation says its
-  sentence on a line of its own. A board's name has the whole row and may take
-  two lines; its tag and time flow beneath it, the time never breaking, and the
-  row's actions sit at the end of that line. Pinch-zoom is allowed everywhere;
-  the canvas claims its own touches and pinches the board itself.
-- **Every drawn edge clears 3:1**: the Share and room triggers, Keep and
-  Delete, the mentions badge, the chosen workspace. An unpinned pin is drawn
-  in the control boundary's colour, not faded ink.
-
-### Sharing
-
-Every board is born in a room, so sharing is not an event but a sheet the
-OWNER opens from the bar's Share button: copy edit link, copy view link, each naming
-what it gives away on its second line, at 50px (`--of-hit-lg`) — the largest
-target, because this is the one control where hitting the wrong one has a
-consequence. A copied link keeps its name and says "Copied" underneath.
-
-**The password lives beside the links it protects**, under a rule in the same
-sheet: a neutral "Set password" (never the correction red of a destructive
-act) and a separate "Remove password". Anybody who is not the owner gets no
-sheet: the chip copies the link they arrived on and names it — "Edit link
-copied", "View link copied".
-
-**Moving an old local board into a room asks first**, in the gates' shell,
-with the board inert until the page has left for the board that exists. It
-used to move on the press and leave the old page editable, saying "Saved"
-over edits that were lost.
-
-**View-only is a record, not a badge**: 12px mono on page stock with a hairline
-and the apparatus radius, sitting in the navigation bar beside the other readouts.
-A pill would have been the third fully-round thing in a world where round means
-"grab me".
-
-That refusal was written down and then broken anyway: the workspace filters
-shipped as fully-round pills, and the action beside them as a fourth. Both are
-segmented-choice shapes now. A rule recorded in this file is not a rule the
-next surface inherits automatically — it has to be applied.
-
-### Sheets
-
-Account, sign-in, share, the Inbox, the Session and the people list are one
-kind of thing, and
-behave as one: they take the keyboard as they open (`useFocusOnOpen`), close
-on Escape or a press anywhere else (`useDismiss`, captured before the board's
-keymap can also read the key), and hand the keyboard back to the control
-that opened them. They hang below that control, animate down from it, and
-the control's own tip is hidden while its sheet is open.
-
-### Board Objects
-
-All stock on the page: the page's 2px corner and the one slip height, shapes
-excepted (a box shadow is a rectangle).
-
-- **Sticky** — content surface with its own ink, 12px padding, 2px radius, the
-  slip shadow. 15px/1.35.
-- **Typed slips** (evidence, insight, hypothesis, experiment, decision, task,
-  requirement, journey stage) — the sticky's stock with a record band under a
-  currentcolor hairline, in 12px mono. The band is ALWAYS drawn and always
-  led by the type's name in 600 weight — "evidence", "decision · accepted" —
-  because colour alone said what a slip was, and re-colouring one erased it.
-  Empty fields are dropped, so an empty slip says its type and nothing else.
-  Each type has a default colour no other slip shares (experiment pink,
-  journey stage brown). Evidence reads participant before source.
-- **Text** — transparent, 22px/1.3, in a fresh 240×60 box (two lines). Empty,
-  it shows "Text" in muted ink, never faded ink.
-- **Shape** — SVG stroke and fill from the content pair, with a 14px label
-  CENTRED on both axes until placed elsewhere, inset per shape geometry. The
-  view declares that default, so the panel marks centre and middle.
-- **Frame** — a 1px control-border rectangle at 2px radius, screen-constant at
-  every zoom, filled with the world's paper when filled — white by day, the
-  panel stock at night — or the colour chosen. Its title sits _above_ it in 15px muted
-  ink, counter-scaled and never clipped.
-- **Connector** — a drawn path with a 12px label that grows and shrinks with
-  the board between half and twice its size, with a page-coloured halo; on a
-  plate, it takes the ink that reads on the plate.
-- **Image** — 2px radius, `object-fit: fill`, with dashed hatched placeholders
-  for loading and correction-red ones for missing. An image with no
-  description is still an image to assistive technology.
-- **Code** — `s-gray` stock with a control-border edge, clipped rather than
-  scrolled on the board; the language is named in its corner only when it is
-  not plain text.
-- **Table** — the panel, lines on its grid (control border outside,
-  `edge-inner` within), cells in rows.
-
-Every object is a group named by what it IS, and its record where it has one —
-never by its body, which is the group's content and would otherwise be read
-twice.
-
-A slip DERIVED from a cluster goes beside it: above when that is free, else
-the next side and then further out, preferring a place already on screen so
-the camera does not jump.
-
-### Text That Does Not Fit
-
-Every object that holds text clips it at its own edge and marks the cut with an
-ellipsis. Shape labels used to spill instead — the one type that did — which is
-not just an inconsistency: an object whose text runs outside its bounds
-disagrees with culling, hit testing and marquee selection, all of which ask the
-registry for the extent and get the shape.
-
-The mark is a real line clamp, and the number of lines is derived **in CSS**:
-`round(down, 100cqh / 1lh, 1)` against a `container-type: size` parent. The box
-knows its own height and the text knows its own line height, so nothing is
-measured in JavaScript and no copy of the padding or the font size exists to
-drift when this file's numbers change.
-
-The fix for a clipped object is the gesture, not the panel: **double-click the
-bottom handle to fit the height to the text, the right handle to fit the
-width**. The side handle for the axis being fitted, matching the table
-divider's double-click exactly — one vocabulary for "make this the size of what
-is in it."
-
-### Arrange Bar
-
-Two or more objects selected raises a bar above the selection on the chrome
-layer: six alignments, a rule, then two distributions. Align works on the
-selection's own bounding box — align-left goes to the leftmost edge among the
-things selected, not to the board or to a frame. Distribute equalises the
-**gaps**, leaving the outermost two exactly where they are, so it reads as
-tidying rather than moving.
-
-Alignments come in two groups of three — across, then down — with a rule
-between. Distribution is disabled below three rather than hidden, the same
-call the code box's format button makes, and stays reachable so its reason
-("Needs three or more") is heard. Icons are a rule plus bars that have landed on it,
-at two different lengths: the shape that separates "left" from "centre" is the
-same shape that separates the operations.
-
-The bar is told where the options panel is and stays off it. Two floating
-surfaces placed by separate arithmetic will eventually want the same space, and
-on a selection too wide for the panel to sit beside, the panel takes the whole
-band above — which is where a bar anchored to that selection wants to be.
-
-### Reactions
-
-A note that people can react to (`capabilities.markable`: sticky, the typed
-slips, images) carries its reactions as chips along its bottom edge, inside it:
-the emoji and a count, grouped by kind in the palette's order. A chip you have
-reacted with is pressed (the accent wash), and pressing it takes yours back;
-its tip is who reacted and nothing else — "Otter, Heron and you" — never an
-instruction to press it. A viewer sees the chips, disabled, and no way to add
-one.
-
-Selecting one such object raises the reaction bar beside it on the apparatus
-layer: eight glyphs, each a pressed toggle, placed clear of the connect points
-(`ChromeSurface` `clearance`, in screen pixels) and off the record panel. The
-keyboard reaches the same eight through the context menu's React submenu, which
-also reacts to every note in a selection at once.
-
-Beyond the eight, the bar's last button — a face with a plus — opens the whole
-emoji library, as does "More…" at the foot of the context menu's React submenu:
-a search field over the Unicode list in its usual groups, eight across. Typing
-filters by name; Down goes from the field into the grid and the arrows walk
-it; the wheel scrolls it; Escape closes it and hands focus back. The eight
-columns share what is left beside the scrollbar, so a classic scrollbar never
-cuts one off. The library is loaded only when
-first opened, so nobody pays for it who reacts with the eight.
-
-The eight are stored by KEY (`plus-one`, `idea`…), never as the emoji, so a key
-a later version adds reads as "?" here rather than breaking the board. An emoji
-from the library is stored as its code points (`u-1f680`), and one that is
-also on the bar keeps the bar's key — 👍 picked from the library is the same
-reaction as 👍 on the bar, counted together. A chip is a button in the board's own chrome: a double-click on it is
-two presses, never an edit of the note beneath.
-
-### Connector Bends
-
-An orthogonal or curved connector carries a third draggable point at the middle
-of its route: a hollow, squared handle rather than the filled dot an end gets,
-because it shapes the line between the ends and is not one of them. A straight
-route has none — there is nothing to bend.
-
-The elbow of an orthogonal route slides ALONG the run only; its middle segment
-is perpendicular to the run, so there is no second axis to move it in. A curve's
-apex moves freely and the curve passes exactly under the handle, because a line
-that only follows part of the way slides out from under the pointer and reads as
-broken.
-
-### Selection and Its Apparatus
-
-Everything that manipulates an object is drawn on the apparatus layer, outside
-the world transform, in screen pixels: the same size at 5% and at 1600%
-(rule 24).
-
-**The line.** 2px of the accent, with a 3px page-coloured halo just outside
-it. With the halo, one of the two always reads against whatever the selection
-is over: a black note, a white one After Hours, or a coloured line. The snap
-guides and a route's legs carry the same halo. design-tokens.test measures
-every slip and ink in both worlds.
-
-**The grips.** Each family has its own silhouette:
-
-- Resize: 9px panel squares with an accent edge and a 2px radius.
-- Rotate: a 15px glyph chip.
-- Connect: 8px circles.
-- A line's ends: filled dots. Its bends: hollow squares. Its legs: capsules.
-- Crop: brackets, lying just outside the picture.
-
-Every grip's pointer target is 24px (WCAG 2.5.8). Resize and crop targets
-are spent outside the object, so its face is left for moving it. A grip
-answers the pointer: the accent's wash on hover and the accent while held. A
-handle's cursor turns with the object.
-
-**An earlier version is a different board, read-only.** Choosing one in History
-puts it on the canvas with a bar in place of the navigation: "Viewing {time}",
-**Restore this version** for an editor, and **Back to now**. There are no tools
-and no rail, because nothing on it can be changed. Escape goes back to the board
-as it is now. A restore says where the board it replaced went: kept in the
-history, one undo away. In the History sheet, deleting a named version asks on
-its own button — "Delete for good" — before it goes.
-
-**A frame is held by its title.** Its body passes presses through to the board,
-so working among a frame's contents never picks up the frame: a drag that
-starts on the body draws a marquee, and a right-click there is the board's
-menu. Selecting, moving, renaming and the frame's own menu all start at the
-title.
-
-**Small selections.** Below 48px on screen, in either direction, a selection
-is compact: four corners, drawn just outside it, and nothing else. The rest
-return when there is room.
-
-**What a selection says:**
-
-- A move carries the box with it. Your own box is never left behind.
-- A line on its own is selected by its ends, not by a box.
-- A group reads "Group of N" above its box.
-- Each member of a multi-selection gets a quieter line of its own.
-- A resize shows the size it is reaching for and a turn its angle, below the
-  selection's upright bounds.
-- The object under the pointer gets a half-strength hairline before it is
-  pressed.
-
-**From the keyboard.** The board is a stop in the page's order, and its
-focus ring is drawn inside its edge.
-
-- Tab and Shift+Tab walk its objects in reading order and let go past the
-  last one.
-- Arrows move the selection, and Mod+arrows resize it by the grid step.
-- Alt+S opens the board overview: what is on the board, its frames closed
-  with how much they hold, and anything citing nothing. Choosing an entry
-  selects it, pans to it and gives the keyboard back to the board.
-- Period and comma rotate by 15°, and > and < by 1°.
-- Mod+Shift+L locks and unlocks.
-- A polite announcer says what is selected and what a key did.
-- Escape backs out one step at a time: a drag in flight, then a crop, then
-  the selection.
-
-### Cursors on an Object
-
-An object shows the ARROW at rest and `move` once selected. It never shows a
-caret unless a caret is what you will get: there was no cursor rule at all, so
-it fell through to `auto`, and `auto` over selectable text is an I-beam — every
-note and label promised typing on hover and gave a selection on click. The
-caret now appears only inside an editor, where it is the truth.
-
-### Locked Objects
-
-A lock stops the gesture, not just the command. Pressing a locked object
-selects it and starts nothing: it used to follow the pointer across the board
-and snap back on release, because the handler refused the move only after the
-drag had run — which reads as the app dropping a change rather than as the
-object being held.
-
-A selected locked object carries a **padlock** above its top-left corner, at
-screen size like every other grip. It answers the question the missing handles
-raise; a selection with no grips and no explanation reads as a bug. It is a
-24px button that unlocks, and Mod+Shift+L does the same from the keyboard.
-
-### Cropping an Image
-
-Double-click an image to trim it. The grips are **corner brackets and edge
-bars**, not squares: a square is what a resize handle looks like, and the two
-gestures do different things to the same object. Crop mode REPLACES the resize
-handles and the connection points rather than adding to them — two gestures
-offering a grip in the same place is a coin toss the user has to call.
-
-The handles shrink the visible window and the frame shrinks with it, so what
-you see is the object's size — and the pixels that survive do not move, which
-is the whole point: a crop that rescales what is left feels like stretching a
-rubber sheet rather than using scissors.
-
-The brackets and their 24px targets lie just outside the picture, corners and
-edges alike, so a press on the picture slides it under the window rather than
-catching a grip.
-
-Crop mode belongs to the selected object. It ends the moment the selection
-changes, or on Escape, which leaves the crop and keeps the picture selected.
-
-A trimmed image offers **reset**, which grows the frame back as it restores the
-window. Restoring one without the other would squeeze the whole picture into
-the cropped box.
-
-Images also take a stroke, defaulting to `none` — a shape and a connector are
-lines by nature and default to `medium`, but giving every image already on a
-board a border nobody asked for is a change to somebody's work.
-
-### The Rotate Grip
-
-A **glyph**, not a dot: a 15px curved arrow on a soft-radius chip above the top
-edge. It was a circle with an accent ring, which is precisely what a connect
-point is, sitting a few pixels away on the same edge — silhouette alone now
-separates them before the glyph is even resolved.
-
-### One Contextual Surface
-
-Everything that floats over the board attached to something shares one shell:
-panel white, a 1px margin rule, **10px**, and the contact shadow. The record
-panel, a context menu, a colour picker, a text format bar, a table's colour bar
-and its row and column controls, and a code block's language menu are all that
-one class.
-
-They were six pieces of stock with four radii and two grounds, because each was
-written where it was needed rather than from one place. The record panel was
-6px as the system's nominal radius, and being the signature component turned
-out not to be a reason to be the one surface that does not match the others.
-
-**Placement is one function too.** `scene/anchoring.ts` takes what a surface
-belongs beside, a list of sides to try and the window, and returns a position
-clamped on both axes and clear of the rail. It is pure, so where a surface goes
-is decided against numbers rather than screenshots — including the case that
-used to be impossible to express: an anchor that is itself off the window.
-
-**Apparatus belonging to an object lives in a screen-space LAYER**, never inside
-the object. Inside, it is in world space: it multiplies by the zoom and is
-pinned to an edge that leaves the window as soon as you zoom in, which is how a
-colour bar came to be the size of a dialog at 400%. A view receives the layer as
-a prop and says only what its apparatus belongs beside, as a fraction of its own
-extent — the unit a divider and a comment pin already use. A view is a leaf and
-never learns that a viewport exists.
-
-Anything in that layer carries `.of-editor-chrome`, and this is load-bearing:
-the canvas blurs whatever is being typed into on any press it reads as a board
-gesture, and the marker is what says otherwise. It has been missed four times —
-the format bar, the table's buttons, the code menu, and the layer itself — every
-time presenting as a control that was visible and could not be used.
-`chrome-contract.test.ts` reads it off the source now.
-
-### Editors and Focus
-
-No key throws words away. Every way out of an editor — Escape included —
-commits; undo is how an edit is taken back, and an edit that changed nothing
-commits nothing.
-
-When an edit ends, however it ends, the keyboard goes back to the board, and a
-click on the board takes it there too — never left on the page body, where the
-next Tab started thirty stops away. The board page reads in order: the
-navigation and its h1, then the board as the `main` landmark (canvas, rail and
-zoom), then everything that floats over it.
-
-Every in-place editor inherits the object's own type and drops its border,
-carrying a 2px accent outline instead. Global `:focus-visible` is a 2px accent
-outline at 2px offset with the apparatus radius (4px). Browser surfaces are claimed, not
-defaulted: selection highlight, caret colour and thin `control-border` scrollbars.
-
-### Blocked and Degraded States
-
-Two tiers, and red only for the second.
-
-- **Advice:** the board opened, and something on it could not be read. The
-  notice sits top centre on the panel stock (`--of-panel`, panel hairline,
-  ink text). It counts in words ("1 object", "3 objects"), never "object(s)"
-  or a code.
-- **Failure:** something just tried did not work. The toast sits under the
-  notice with an 8px gap, in the correction wash with correction-red text. Its
-  close is a drawn × on a 24px target. It clears after five seconds, but never
-  while a pointer is over it or the keyboard is in it. Dismissing either one
-  hands focus back to where it came from.
-
-- **News:** something happened that a person may want to take back — an
-  agent changed the board. The toast carries the action ("Revert") as a real
-  button before its close, and it is on the panel stock with the board's
-  ink, like the notice, because a change somebody else made is not a
-  failure. Red is only ever the second tier.
-
-There is still no amber family. The notice left the red because one
-unreadable note is not a board in trouble, not because a warmer colour was
-wanted.
-
-**Gates.** A board nobody can use gets a panel in front of it, never a banner
-above it. The panel is on the panel stock at the surface radius over
-`--of-scrim`, 360px wide:
-
-- a 600-weight title that names the dialog
-- one muted paragraph that describes it
-- a row of actions: the one thing to do (primary), then All boards
-
-Everything else in the app is inert and Tab goes round the panel. The
-keyboard starts on the thing to do. There are four gates:
-
-- **Your board is safe.** A board this version cannot read. It gives the name,
-  the object count and the reason in words, and says nothing here will change
-  it. It offers Download a copy (the stored record, byte for byte). It cannot
-  be dismissed; there is no rail, and the bar reads Read-only.
-- **This board has a password.** The field is never disabled. After a wrong
-  password the keyboard goes back into the field, which reads as invalid and
-  is described by the reason. All boards is centred under the full-width
-  submit.
-- **This board was deleted.** Offers Keep a copy, which saves what was on
-  screen as "<title> (copy)" and opens it.
-- **This board did not open** / **OpenFrame stopped.** Start-up and fatal
-  failures. It names storage being refused (a private window, blocked site
-  data) and otherwise says the cause is not known. It says the boards on this
-  device are unchanged, and offers Reload and All boards. The splash is taken
-  away at once rather than held.
-
-An object from a newer version is named in words ("Kanban card") under "From a
-newer version of OpenFrame". Double-clicking it says why it does not open.
-
-## The Ruled Ground
-
-The board's background is painted on the canvas element rather than the world
-layer — a background that scaled with the transform would blur and would repaint
-an enormous area when zoomed out — and offset by the viewport modulo the cell.
-
-Three weights, because the zoom steps reach 5%:
-
-- **Fine rule** (`rule`, 10 world units) appears at **zoom ≥ 0.7**. At 100% it
-  lands every 10 screen pixels. That density is what quadrille _is_; the answer to
-  it being too busy was ink, not spacing, so every weight is faint.
-- **Decade rule** (`rule-decade`, 100 world units) appears at **zoom ≥ 0.12**. It
-  marks the line snapping actually lands on.
-- **Century rule** (`rule-decade`, 1000 world units) takes over **below zoom
-  0.12**, so the page is ruled at every reachable zoom.
-
-**The Never-Void Rule.** With only two weights both dropped out below 12% and the
-board became a flat, unruled void — the neutral canvas this design exists to
-refuse, appearing exactly when someone zooms out to survey the whole record. The
-ground must survive every step of the zoom ladder.
+**The Quiet At Rest Rule.** Chrome that can be hidden while the table is in use is hidden or closed by default (docks closed, tips on hover or focus). It must still be reachable by keyboard, and chrome that appears under the pointer must survive its own press.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** cut chrome from the page's own stock (`page`) with a 1px `panel-border`
-  margin rule and the contact shadow. Apparatus, never a floating card.
-- **Do** store token _names_ in documents and resolve them through
-  `scene/style-tokens.ts`. A restyle must never require touching a saved board.
-- **Do** keep the quadrille below the 3:1 floor, and keep the build test that
-  asserts that ceiling.
-- **Do** reserve `danger` for destructive and corrective meaning, and keep any new
-  content hue more than 30 sRGB units clear of it.
-- **Do** use mono only for records and measurement — counts, zoom, field values,
-  shortcuts.
-- **Do** hold functional text at 12px or above, and pointer targets at 30px or
-  above (50px for tools reached for constantly). The floors moved with the
-  scale; 11px and 24px were the old ones.
-- **Do** let new record-panel fields arrive through the registry's
-  `capabilities.styleProps`.
-- **Do** give every placed object the one shared slip shadow, so the board sits at
-  one height.
-- **Do** make tooltips reachable from keyboard focus as well as hover.
-- **Do** draw new icons on the 24×24 grid at 1.6 stroke weight with
-  `currentColor`.
+- **Do** take every colour, size, radius, space and layer from a `--of-*` or `--sc-*` token; `stylesheet-discipline.test.ts` holds the discipline.
+- **Do** keep new scene-facing colours in the `--sc-*` namespace, defined once in `tokens.css`, and never in a theme block.
+- **Do** make a boundary that has to be perceived to operate at least 3:1 (`control-border`), and text at least 4.5:1.
+- **Do** state status in a word or shape as well as colour; presence seats are never the only signal.
+- **Do** add a new surface as its own stylesheet part, imported above `motion.css` in `styles/index.css`.
+- **Do** reach for the quadrille: heights and offsets are multiples of 10px, with the 2/4/6/8/12/16 inner scale.
+- **Do** keep motion short and functional (140ms quick, 240ms settle, `cubic-bezier(0.16, 1, 0.3, 1)`) and honour `prefers-reduced-motion`.
 
 ### Don't:
 
-- **Don't** use cream, parchment, serif display faces, handwriting, paper texture
-  or torn edges. The register is the computation pad, not the diary.
-- **Don't** float white capsules with heavy blur over the board.
-- **Don't** add a webfont. Local-first forbids a font request.
-- **Don't** use pure black as ink, or a neutral near-black; ink carries a blue
-  cast.
-- **Don't** use `danger` or `guide` decoratively.
-- **Don't** ship a saturated filled slider track with a large round knob; sliders
-  are thin tracks with a square index.
-- **Don't** raise the quadrille toward the control floor in a contrast pass.
-- **Don't** add a standing panel that occupies board space when nothing is
-  selected.
-- **Don't** hardcode a colour value in a view; read it from the token map.
+- **Don't** recolour or theme the scene: ground, grid, authored colours and apparatus ignore the application theme.
+- **Don't** build a fantasy costume, enterprise admin software (dense grey panels, form-first screens) or a chat application with a map attached (owner, 2026-10-13).
+- **Don't** add glows, gradients (beyond a scroll fade that dissolves into the rail's own stock) or a second accent.
+- **Don't** invent a Tabletop logo, wordmark, mascot or brand colour; none exists.
+- **Don't** draw chrome for features that are not built.
+- **Don't** use a bare z-index integer, an odd spacing value, or a font size under 12px.
+
+## Open Decisions
+
+- **Light scene ground inside dark chrome.** The empty ground is a fixed light stock (ADR T010) around a dark application. Glare in a dim room and on the cast display is an open owner question; it is not settled. Changing the ground means re-checking every authored pair, which were chosen to read on it.
+- **Brand and name.** The working title is not a brand; the favicon is a placeholder.
+- **Not yet built, so not designed here:** player toolset, layers, initiative and turn strip, contextual selection bar, scene tabs, preview as player, prep thumbnails, a turn order on the display.

@@ -15,9 +15,9 @@ import { createDefaultViewRegistry } from './index.js'
  * A line in black or white is drawn in the token that stays visible.
  *
  * Black and white are the two colours that mean themselves, and each is the
- * page in one world: a white shape vanished in the notebook and a black line
- * After Hours. Strokes take `--sc-line-*`, which `a11y-floor.test` holds
- * at 3:1 on the page in both worlds; fills keep the colour that was chosen.
+ * ground in some world: a white shape vanishes on a light ground and a black line
+ * on a dark one. Strokes take `--sc-line-*`, which `a11y-floor.test` holds
+ * at 3:1 on the scene ground; fills keep the colour that was chosen.
  */
 describe('edges in black and white', () => {
   const types = createDefaultRegistry()

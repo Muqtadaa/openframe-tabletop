@@ -17,7 +17,7 @@ export interface GridStyle {
  * The ruled ground, as CSS background layers.
  *
  * The fine rule is 10 world units, so at 100% it lands every 10 screen pixels.
- * That density is correct — it is what quadrille IS — but only at the right
+ * That density is correct — it is what a ruled ground IS — but only at the right
  * weight: drawn as strongly as the decade it reads as noise, and dropping it
  * instead leaves 100px cells that read as tiles rather than as a ruled page.
  * The answer was ink, not spacing, so every weight is faint.

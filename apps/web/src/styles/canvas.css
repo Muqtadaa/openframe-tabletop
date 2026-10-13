@@ -204,7 +204,7 @@
   outline-offset: 0;
   /*
    * A HALO in the page's colour, just outside the line. The accent alone was
-   * 2.2:1 on a black note and 1.7:1 on a white one After Hours; with the halo
+   * 2.2:1 on a black note and 1.7:1 on a white one in the dark theme; with the halo
    * there is always one of the two against whatever the selection is over.
    * Measured in a11y-floor.test, both worlds, every slip and ink.
    */

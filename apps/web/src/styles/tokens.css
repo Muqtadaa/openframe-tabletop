@@ -132,7 +132,7 @@
   /*
    * THE INTERFACE SCALE, on the page's own rule.
    *
-   * `GRID_SIZE` is 10 world units and the quadrille draws it, so the chrome
+   * `GRID_SIZE` is 10 world units and the ruled ground draws it, so the chrome
    * measures itself in the same steps: every height and offset below is a
    * multiple of 10. That is not decoration — it means a control's edge lands
    * where a rule does, and the apparatus shares the rhythm of the thing it
@@ -190,7 +190,7 @@
   );
 
   /*
-   * THE SPACING SCALE, below the rule. The quadrille sets the big rhythm —
+   * THE SPACING SCALE, below the rule. The ruled ground sets the big rhythm —
    * `--of-step` between things on a line, `--of-gutter` from the edge — and
    * these are the small steps inside a control or a row. Even pixels only:
    * sixteen values were in use, and a 3, a 5, a 7 and a 9 beside the 2, 4, 6

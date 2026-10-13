@@ -96,7 +96,7 @@ membership and image storage; versioned, migratable documents; version history.
 
 **Not built yet:** everything that makes it a tabletop. There is no Game, no Scene,
 no Token, no grid, no map, no roles, no dice, no Actor and no game system today.
-The shell is being redesigned (Phase 0) before any of that is built.
+A shell exists over Board data (a library, a prep page, a dock rail and a shared-screen display; see `DESIGN.md`), designed in Phase 0 before any of that is built.
 
 **Settled constraints, load-bearing:**
 
@@ -150,8 +150,8 @@ link (an owner decision, see Brand Commitments).
   constraints in this file (two postures, minimal chrome in Play, chat not leading) bind it.
 - **No Tabletop identity exists yet:** no logo, wordmark, palette or type. OpenFrame's
   neon artwork and its two visual worlds belong to OpenFrame, are kept as history,
-  and are not the Tabletop identity. The replacement is decided in the Impeccable
-  design process, not by editing tokens.
+  and are not the Tabletop identity. The replacement was decided in the Impeccable
+  design process (see the standing preference below) and is recorded in `DESIGN.md`.
 
 ## Evidence on Hand
 
